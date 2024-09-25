@@ -3,6 +3,21 @@
 ## Overview
 This project is a web-based application designed for an e-commerce store. Users can view products, get detailed information, add items to a shopping cart, and complete purchases using vouchers or gift cards. The application features a product gallery with search functionality, individual product pages with descriptions, reviews, and pricing, as well as user account management for order history and wish lists. An administrative interface is also provided for managing products, orders, and users.
 
+## Prerequisites
+
+- Ensure you have [Git](https://git-scm.com/) installed on your machine.
+
+## Cloning the Repository
+
+To clone this repository, follow these steps:
+
+1. Open your terminal (or command prompt).
+2. Navigate to the directory where you want to clone the repository.
+3. Run the following command:
+
+   ```bash
+   git clone https://github.com/username/repository-name.git
+
 ## Features
 ### Priority List
 1. **User Authentication:**
