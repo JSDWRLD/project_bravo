@@ -16,7 +16,7 @@ To clone this repository, follow these steps:
 3. Run the following command:
 
    ```bash
-   git clone https://github.com/username/repository-name.git
+   git clone https://github.com/JSDWRLD/project_bravo.git
 
 ## Features
 ### Priority List
