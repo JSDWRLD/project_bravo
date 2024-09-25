@@ -53,3 +53,9 @@ To clone this repository, follow these steps:
 
 10. **Footer with Social Media Links:**
     - Include social media icons that link to the project's official accounts.
+
+11. **About page:**
+    - With respect to each team member, this webpage MUST include a chrono- logical list of the educational qualification(s), professional skill(s), technical skill(s), award- s/recognition, and work experience (volunteering activities, previous internships, previous job positions, etc.) obtained by each team member
+
+12. **Credits Page:**
+    - With respect to each team member, this webpage MUST include the task(s) assigned and completed by each team member alongside their respective headshot photo-graph.
