@@ -18,6 +18,26 @@ To clone this repository, follow these steps:
    ```bash
    git clone https://github.com/JSDWRLD/project_bravo.git
 
+4. Navigate to project_bravo directory
+   ```
+      cd project_bravo
+
+5. Install the dependencies
+   ```
+      npm install
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm start`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
+
 ## Features
 ### Priority List
 1. **User Authentication:**
