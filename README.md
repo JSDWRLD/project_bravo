@@ -6,6 +6,7 @@ This project is a web-based application designed for an e-commerce store. Users 
 ## Prerequisites
 
 - Ensure you have [Git](https://git-scm.com/) installed on your machine.
+- Ensure you have [Node](https://nodejs.org/en) installed on your machine.
 
 ## Cloning the Repository
 
