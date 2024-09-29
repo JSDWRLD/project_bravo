@@ -1,7 +1,19 @@
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import { Home, Retro, Board, Puzzle } from './pages';
+
 export default function App() {
   return (
-    <h1 className='text-3xl font-bold underline'>
-      Hello Team Bravo!
-    </h1>
+    <main className='bg-white'>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/retrogames" element={<Retro />} />
+          <Route path="/boardgames" element={<Board />} />
+          <Route path="/puzzles" element={<Puzzle />} />
+        </Routes>
+      </Router>
+    </main>
   )
 }

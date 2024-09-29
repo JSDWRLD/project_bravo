@@ -11,18 +11,18 @@
 
 body {
   font-family: "Work Sans", sans-serif;
-  background-color: black;
-  color: white;
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
 }
 
 input, textarea {
-  background-color: black;
-  color: white; /* Ensures the input text is visible */
-  border: 1px solid white; /* Optional: Adds a white border to input fields */
+  background-color: rgb(14, 14, 14);
+  color: rgb(0, 0, 0); /* Ensures the input text is visible */
+  border: 1px solid rgb(0, 0, 0); /* Optional: Adds a white border to input fields */
 }
 
 h1, label, button {
-  color: white; /* Ensures all headers, labels, and buttons have white text */
+  color: rgb(0, 0, 0); /* Ensures all headers, labels, and buttons have white text */
 }
 
 body:has(.card[data-color="blue"]:hover) {
