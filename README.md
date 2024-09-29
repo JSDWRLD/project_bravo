@@ -19,10 +19,12 @@ To clone this repository, follow these steps:
    git clone https://github.com/JSDWRLD/project_bravo.git
 
 4. Navigate to project_bravo directory
-   ```cd project_bravo
+   ```bash
+   cd project_bravo
 
 5. Install the dependencies
-   ```npm install
+   ```bash
+   npm install
 
 ## Available Scripts
 
