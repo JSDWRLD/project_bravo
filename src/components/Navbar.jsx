@@ -41,6 +41,11 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
+              <NavLink to="/shop/accessories" className="text-lg font-medium text-gray-800 hover:text-indigo-600 transition">
+                Accessories
+              </NavLink>
+            </li>
+            <li>
               <NavLink to="/login" className="bg-indigo-600 text-white py-2 px-6 rounded-lg hover:bg-indigo-500 transition">
                 Login
               </NavLink>
