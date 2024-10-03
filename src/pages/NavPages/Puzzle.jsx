@@ -2,7 +2,7 @@
 
 const Puzzle = () => {
   return (
-    <div>Puzzle</div>
+    <div></div>
   )
 }
 

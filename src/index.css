@@ -4,15 +4,31 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+ }
+
 :root {
-  --blue-rgb: 237 245 255;
-  --green-rgb: 125 161 35;
+  --header-height: 3.5rem;
+  --first-color: hsl(46, 88%, 62%);
+  --title-color: hsl(0, 0%, 9%);
+  --text-color: hsl(0, 0%, 6%);
+  --body-color: hsl(0, 0%, 95%);
+  --body-font: "Montserrat", sans-serif;
+  --second-font: "Dancing Script", cursive;
+  --h2-font-size: 1.25rem;
+  --small-font-size: 0.813rem;
+  --font-semi-bold: 600;
+  --z-tooltip: 10;
+  --z-fixed: 100;
 }
 
 body {
-  font-family: "Work Sans", sans-serif;
-  background-color: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
+  background-color: var(--body-color);
+  color: var(--text-color);
+  font-family: var(--body-font);
 }
 
 input, textarea {
@@ -31,6 +47,14 @@ body:has(.card[data-color="blue"]:hover) {
 
 body:has(.card[data-color="green"]:hover) {
   background-color: rgb(var(--green-rgb) / 25%);
+}
+
+ul {
+  list-style: none;
+}
+ 
+a {
+  text-decoration: none;
 }
 
 @layer utilities {

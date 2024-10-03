@@ -1,6 +1,8 @@
+
+
 const Board = () => {
   return (
-    <div>Board</div>
+    <div></div>
   )
 }
 
