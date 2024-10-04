@@ -1,15 +1,15 @@
 import { NavLink } from "react-router-dom";
 import { IoClose, IoMenu } from "react-icons/io5";
 import { useState } from "react";
-
+import logo from '/src/assets/full_logo.PNG';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header className="fixed w-full top-0 left-0 bg-transparent z-50">
       <nav className="container mx-auto flex justify-between items-center p-4">
-        <NavLink to="/" className="text-3xl font-bold text-indigo-600">
-          Retro Replay
+        <NavLink to="/" className="flex items-center -ml-20"> {/*adjust as needed*/}
+          <img src={logo} alt="Retro Replay Logo" className="h-12 md:h-20 lg:h-24 w-auto" /> {/*adjust as needed*/}
         </NavLink>
 
         {/* Toggle Menu */}
