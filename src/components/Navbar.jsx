@@ -6,7 +6,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="fixed w-full top-0 left-0 bg-transparent z-50">
+    <header className="fixed w-full top-0 left-0 bottom-40 bg-transparent z-50">
       <nav className="container mx-auto flex justify-between items-center p-4">
         <NavLink to="/" className="flex items-center -ml-20"> {/*adjust as needed*/}
           <img src={logo} alt="Retro Replay Logo" className="h-12 md:h-20 lg:h-24 w-auto" /> {/*adjust as needed*/}
