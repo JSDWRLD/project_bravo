@@ -39,7 +39,7 @@ const Home = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-          <div className="retrogames bg-gray-200 p-4 rounded-lg shadow hover:shadow-lg transition">
+          {/* <div className="retrogames bg-gray-200 p-4 rounded-lg shadow hover:shadow-lg transition">
             Retro Games
           </div>
           <div className="boardgames bg-gray-200 p-4 rounded-lg shadow hover:shadow-lg transition">
@@ -47,11 +47,11 @@ const Home = () => {
           </div>
           <div className="puzzles bg-gray-200 p-4 rounded-lg shadow hover:shadow-lg transition">
             Puzzles
-          </div>
+          </div> */}
         </div>
       </main>
 
-      <footer className="bg-gray-900 text-gray-400 py-4 text-center text-sm">
+      <footer className="bg-black text-gray-400 py-4 text-center text-sm">
         &copy; 2024 Your Shop. All rights reserved.
       </footer>
     </div>
