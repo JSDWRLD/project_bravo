@@ -1,35 +1,66 @@
+import Navbar from '/src/components/Navbar.jsx';  
 import wallpaper from '/src/assets/homepage.gif';
 
 const Home = () => {
   return (
-    <div>
-      <header>
-        Text Here
-      </header>
-      <main>
-        <div className="promotion relative">
-          <h1>IMAGE HERE FOR Promotional stuff</h1>
-          <div className="w-full h-0 pb-[56.25%] relative overflow-hidden">
-              <img src={wallpaper} className="absolute inset-0 w-full h-full object-cover" alt="Promotional" />
-              <div className="absolute inset-0 flex items-start justify-center z-10 top-1/2 mt-10">
-                <button className="bg-indigo-600 text-white py-2 px-6 rounded-lg hover:bg-indigo-500 cursor-pointer">
-                  Shop Now
-                </button>
-              </div>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <main className="pt-30 font-retro"> 
+        <div className="promotion relative text-center text-white">
+          <div className="w-full h-0 pb-[65.25%] relative overflow-hidden">
+            <img src={wallpaper} className="absolute inset-0 w-full h-full object-cover" alt="Promotional" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60 z-10"></div>
+            <div className="absolute inset-0 flex items-center justify-center z-20 top-1/4">
+              <button className="bg-indigo-700 text-black py-4 px-12 rounded-lg hover:bg-indigo-500 hover:scale-105 transform transition">
+                Shop Now
+              </button>
+            </div>
           </div>
         </div>
-        <div className="favorites">
-          Show clickable icons
+
+        {/* Favorites Section */}
+        <div className="favorites w-full text-center p-4 bg-gray-800 rounded-lg shadow-lg my-8">
+          <h2 className="mb-4">
+            <span className="text-lg font-semibold text-white">
+              A few of our
+            </span>
+            <br />
+            <span className="text-xl font-bold text-indigo-400">
+              Favorites
+            </span>
+          </h2>
+          
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="bg-gray-100 p-4 rounded-lg shadow hover:shadow-lg transition">
+              Favorite 1
+            </div>
+            <div className="bg-gray-100 p-4 rounded-lg shadow hover:shadow-lg transition">
+              Favorite 2
+            </div>
+            <div className="bg-gray-100 p-4 rounded-lg shadow hover:shadow-lg transition">
+              Favorite 3
+            </div>
+          </div>
         </div>
-        <div className="retrogames"></div>
-        <div className="boardgames"></div>
-        <div className="puzzles"></div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
+          <div className="retrogames bg-gray-200 p-4 rounded-lg shadow hover:shadow-lg transition">
+            Retro Games
+          </div>
+          <div className="boardgames bg-gray-200 p-4 rounded-lg shadow hover:shadow-lg transition">
+            Board Games
+          </div>
+          <div className="puzzles bg-gray-200 p-4 rounded-lg shadow hover:shadow-lg transition">
+            Puzzles
+          </div>
+        </div>
       </main>
-      <footer>
-        CREDITS AND CONTENT DOWN HERE
+
+      <footer className="bg-gray-900 text-gray-400 py-4 text-center text-sm">
+        &copy; 2024 Your Shop. All rights reserved.
       </footer>
     </div>
   );
-}
+};
 
 export default Home;

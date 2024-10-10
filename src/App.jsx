@@ -4,7 +4,7 @@ import { Home, Accessories, Cart, BestSellers, Board, Game, Puzzle, Login } from
 
 export default function App() {
   return (
-    <main className='bg-white'>
+    <main className='bg-black text-gray-400 min-h-screen'>
       <Router>
         <Navbar />
         <Routes>
