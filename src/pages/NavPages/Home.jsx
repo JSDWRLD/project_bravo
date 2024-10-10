@@ -1,4 +1,5 @@
 import Navbar from '/src/components/Navbar.jsx';  
+import Card from '/src/components/Card.jsx'; 
 import wallpaper from '/src/assets/homepage.gif';
 
 const Home = () => {
@@ -19,27 +20,21 @@ const Home = () => {
         </div>
 
         {/* Favorites Section */}
-        <div className="favorites w-full text-center p-4 bg-gray-800 rounded-lg shadow-lg my-8">
+        <div className="favorites w-full text-center p-4 bg-black rounded-lg shadow-lg my-8">
           <h2 className="mb-4">
-            <span className="text-lg font-semibold text-white">
+            <span className="text-3xl font-bold text-indigo-400">
               A few of our
             </span>
             <br />
-            <span className="text-xl font-bold text-indigo-400">
+            <span className="text-3xl font-bold text-indigo-400">
               Favorites
             </span>
           </h2>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            <div className="bg-gray-100 p-4 rounded-lg shadow hover:shadow-lg transition">
-              Favorite 1
-            </div>
-            <div className="bg-gray-100 p-4 rounded-lg shadow hover:shadow-lg transition">
-              Favorite 2
-            </div>
-            <div className="bg-gray-100 p-4 rounded-lg shadow hover:shadow-lg transition">
-              Favorite 3
-            </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6">
+            <Card/>
+            <Card/>
+            <Card/>
           </div>
         </div>
 
