@@ -32,10 +32,17 @@ const Home = () => {
           </h2>
           
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6">
-            <Card/>
-            <Card/>
-            <Card/>
+            <div className='grid w-full place-content-center px-4 py-12 text-slate-900'>
+              <Card/>
+            </div>
+            <div className='grid w-full place-content-center px-4 py-12 text-slate-900'>
+              <Card/>
+            </div>
+            <div className='grid w-full place-content-center px-4 py-12 text-slate-900'>
+              <Card/>
+            </div>
           </div>
+
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">

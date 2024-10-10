@@ -7,14 +7,6 @@ import {
 } from "framer-motion";
 import { FiMousePointer } from "react-icons/fi";
 
-const Card = () => {
-  return (
-    <div className="grid w-full place-content-center bg-gradient-to-br from-indigo-800 to-violet-800 px-4 py-12 text-slate-900">
-      <TiltCard />
-    </div>
-  );
-};
-
 const ROTATION_RANGE = 32.5;
 const HALF_ROTATION_RANGE = 32.5 / 2;
 
@@ -30,7 +22,7 @@ const TiltCard = () => {
   const transform = useMotionTemplate`rotateX(${xSpring}deg) rotateY(${ySpring}deg)`;
 
   const handleMouseMove = (e) => {
-    if (!ref.current) return [0, 0];
+    if (!ref.current) return;
 
     const rect = ref.current.getBoundingClientRect();
 
@@ -89,4 +81,4 @@ const TiltCard = () => {
   );
 };
 
-export default Card;
+export default TiltCard;
