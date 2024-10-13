@@ -26,7 +26,7 @@ const ProductListPage = ({ category }) => {
     return (
         <div className="pt-20 lg:pt-24 bg-black min-h-screen text-white">
             <div className="bg-gray-800 py-4 text-center text-gray-200">
-                <h1 className="text-4xl font-bold text-indigo-400 capitalize">{category}</h1>
+                <h1 className="text-2xl font-retro font-bold text-indigo-400 capitalize">{category}</h1>
             </div>
 
             <div className="container mx-auto px-4 py-8">
