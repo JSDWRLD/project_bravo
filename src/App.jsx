@@ -10,9 +10,9 @@ export default function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/shop/board-games" element={<ProductListPage category="boards" />} />
+          <Route path="/shop/board-games" element={<ProductListPage category="board games" />} />
           <Route path="/shop/puzzles" element={<ProductListPage category="puzzles" />} />
-          <Route path="/shop/retro-games" element={<ProductListPage category="retros" />} />
+          <Route path="/shop/retro-games" element={<ProductListPage category="retro games" />} />
           <Route path="/shop/accessories" element={<ProductListPage category="accessories" />} />
           <Route path="/shop/:category/product/:productId" element={<ProductDetailed />} />
           <Route path="/login" element={<Login />} />
