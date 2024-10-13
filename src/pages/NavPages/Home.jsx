@@ -5,6 +5,7 @@ import wallpaper from '/src/assets/homepage.gif';
 const Home = () => {
   return (
     <div className="min-h-screen flex flex-col">
+      <div className="bg-black py-10 text-center text-gray-200" />
       <Navbar />
       <main className="pt-30 font-retro"> 
         <div className="promotion relative text-center text-white">

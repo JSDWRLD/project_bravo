@@ -21,17 +21,12 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/shop/best-sellers" className="font-retro text-sm font-medium  text-indigo-500 hover:text-indigo-400 transition">
-                Best Sellers
-              </NavLink>
-            </li>
-            <li>
               <NavLink to="/shop/board-games" className="font-retro text-sm font-medium text-indigo-500 hover:text-indigo-400 transition">
                 Board Games
               </NavLink>
             </li>
             <li>
-              <NavLink to="/shop/games" className="font-retro text-sm font-medium text-indigo-500 hover:text-indigo-400 transition">
+              <NavLink to="/shop/retro-games" className="font-retro text-sm font-medium text-indigo-500 hover:text-indigo-400 transition">
                 Retro Games
               </NavLink>
             </li>
