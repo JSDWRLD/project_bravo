@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// eslint-disable-next-line react/prop-types
 const ProductListPage = ({ category }) => {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
