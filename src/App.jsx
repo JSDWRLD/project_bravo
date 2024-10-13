@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { Navbar, ProductDetailed, ProductListPage} from './components'
-import { Home, Cart, Login } from './pages';
+import { Navbar, ProductDetailed, ProductListPage } from './components'
+import { Home, Cart, Login, Contact } from './pages';
 
 
 export default function App() {
@@ -17,6 +17,7 @@ export default function App() {
           <Route path="/shop/:category/product/:productId" element={<ProductDetailed />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </Router>
     </main>

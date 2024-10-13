@@ -1,6 +1,8 @@
 import Navbar from '/src/components/Navbar.jsx';  
 import Card from '/src/components/Card.jsx'; 
+import Footer from '/src/components/Footer.jsx'; 
 import wallpaper from '/src/assets/homepage.gif';
+
 
 const Home = () => {
   return (
@@ -60,7 +62,7 @@ const Home = () => {
       </main>
 
       <footer className="bg-black text-gray-400 py-4 text-center text-sm">
-        &copy; 2024 Your Shop. All rights reserved.
+        <Footer />
       </footer>
     </div>
   );
