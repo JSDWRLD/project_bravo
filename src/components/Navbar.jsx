@@ -1,13 +1,35 @@
 import { NavLink } from "react-router-dom";
 import { IoClose, IoMenu } from "react-icons/io5";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from '/src/assets/full_logo.PNG';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  // Handle navbar visibility on scroll
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    if (currentScrollY > lastScrollY) {
+      // User is scrolling down
+      setIsVisible(false);
+    } else {
+      // User is scrolling up
+      setIsVisible(true);
+    }
+    setLastScrollY(currentScrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
 
   return (
-    <header className="fixed w-full top-0 left-0 bg-transparent z-50">
+    <header className={`fixed w-full top-0 left-0 bg-transparent z-50 transition-transform duration-300 ${isVisible ? 'transform translate-y-0' : 'transform -translate-y-full'}`}>
       <nav className="container mx-auto flex justify-between items-center px-4 py-2">
         <NavLink to="/" className="flex items-center">
           <img src={logo} alt="Retro Replay Logo" className="h-10 md:h-12 lg:h-16 w-auto" />
@@ -16,7 +38,7 @@ const Navbar = () => {
         <div className={`fixed top-0 right-0 h-full w-full bg-gray-900 shadow-lg p-5 transition-transform transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} overflow-y-auto lg:relative lg:translate-x-0 lg:bg-transparent lg:shadow-none lg:h-auto lg:w-auto lg:p-0 lg:flex`}>
           <ul className="flex flex-col space-y-4 lg:flex-row lg:space-y-0 lg:space-x-6">
             <li>
-              <NavLink to="/" className="font-retro text-sm font-sm text-indigo-500  hover:text-indigo-400 transition">
+              <NavLink to="/" className="font-retro text-sm font-medium text-indigo-500 hover:text-indigo-400 transition">
                 Home
               </NavLink>
             </li>
