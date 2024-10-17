@@ -1,0 +1,60 @@
+const products = [
+    {
+      id: "1",
+      productName: "Super Mario Bros.",
+      productImage: "https://example.com/images/super-mario-bros.jpg",
+      productDescription: "The classic platformer that started it all. Jump through worlds and rescue the princess!",
+      productPrice: 29.99,
+      stockQuantity: 20,
+      productRating: 4.9,
+      reviewCount: 100,
+    },
+    {
+      productName: "The Legend of Zelda",
+      productImage: "https://example.com/images/legend-of-zelda.jpg",
+      productDescription: "An epic action-adventure game where you explore the land of Hyrule and save Princess Zelda.",
+      productPrice: 34.99,
+      stockQuantity: 15,
+      productRating: 4.8,
+      reviewCount: 85,
+    },
+    {
+      productName: "Pac-Man",
+      productImage: "https://example.com/images/pac-man.jpg",
+      productDescription: "Navigate through the maze, eat pellets, and avoid ghosts in this iconic arcade game.",
+      productPrice: 19.99,
+      stockQuantity: 25,
+      productRating: 4.7,
+      reviewCount: 65,
+    },
+    {
+      productName: "Tetris",
+      productImage: "https://example.com/images/tetris.jpg",
+      productDescription: "The addictive puzzle game that challenges your spatial reasoning and reflexes.",
+      productPrice: 14.99,
+      stockQuantity: 30,
+      productRating: 4.9,
+      reviewCount: 150,
+    },
+    {
+      productName: "Sonic the Hedgehog",
+      productImage: "https://example.com/images/sonic-the-hedgehog.jpg",
+      productDescription: "Speed through levels as Sonic and collect rings while battling Dr. Robotnik.",
+      productPrice: 24.99,
+      stockQuantity: 10,
+      productRating: 4.6,
+      reviewCount: 70,
+    },
+    {
+      productName: "Street Fighter II",
+      productImage: "https://example.com/images/street-fighter-ii.jpg",
+      productDescription: "The legendary fighting game that pits players against each other in intense battles.",
+      productPrice: 29.99,
+      stockQuantity: 5,
+      productRating: 4.8,
+      reviewCount: 90,
+    },
+  ];
+  
+  module.exports = products;
+  
