@@ -15,6 +15,10 @@ mongoose.connect(process.env.MONGODB_URL).then(() => console.log("DB Connected!"
     err;
 })
 
+const databaseSeeder = require('./databaseSeeder')
+// Database
+app.use('/api/seed', databaseSeeder)
+
 app.listen(PORT || 5000, () => {
     console.log(`server listening on port ${PORT}`);
 });

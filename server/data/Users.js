@@ -14,4 +14,4 @@ const userAccounts = [
     },
 ]
 
-module.exports = users
+module.exports = userAccounts
