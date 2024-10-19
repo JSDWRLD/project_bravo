@@ -25,8 +25,9 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  category: { type: String, enum: ['retro-games', 'board-games', 'puzzles'] },
   productImage: {
-    type: String,
+    type: [String],
     required: true,
   },
   productDescription: {
