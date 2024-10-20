@@ -8,9 +8,9 @@ const ProductListPage = ({ category }) => {
 
     // Replace with mongo db call later on, just template for now
     const products = [
-        { id: 1, name: 'Chess Set', price: 29.99, category: 'board games', img: '/src/assets/games/chess.jpg' },
-        { id: 2, name: 'Jigsaw Puzzle', price: 15.99, category: 'puzzles', img: '/src/assets/games/puzzle.jpg' },
-        { id: 3, name: 'Super Mario Bros 3', price: 49.99, category: 'retro games', img: '/src/assets/games/smb3_1.jpg' },
+        { id: 1, name: 'Chess Set', price: 29.99, category: 'board games', img: '/src/assets/images/chess.jpg' },
+        { id: 2, name: 'Jigsaw Puzzle', price: 15.99, category: 'puzzles', img: '/src/assets/images/puzzle.jpg' },
+        { id: 3, name: 'Super Mario Bros 3', price: 49.99, category: 'retro games', img: '/src/assets/images/smb3_1.jpg' },
         
     ];
 
