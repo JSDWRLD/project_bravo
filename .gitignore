@@ -23,4 +23,3 @@ server/.env
 *.njsproj
 *.sln
 *.sw?
-package-lock.json
