@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 // Test images, will source from when user clicks on image, reusable component
-import smb3_1 from '/src/assets/games/smb3_1.jpg';
-import smb3_2 from '/src/assets/games/smb3_2.png';
-import smb3_3 from '/src/assets/games/smb3_3.png';
-import smb3_4 from '/src/assets/games/smb3_4.png';
+import smb3_1 from '/src/assets/images/smb3_1.jpg';
+import smb3_2 from '/src/assets/images/smb3_2.png';
+import smb3_3 from '/src/assets/images/smb3_3.png';
+import smb3_4 from '/src/assets/images/smb3_4.png';
 
 const ProductDetailed = () => {
     const images = [smb3_1, smb3_2, smb3_3, smb3_4];
