@@ -22,10 +22,23 @@ To clone this repository, follow these steps:
 4. Navigate to project_bravo directory
    ```bash
    cd project_bravo
+   cd client
 
 5. Install the dependencies
    ```bash
    npm install
+
+6. Backend server setup
+   ```bash
+   cd server
+
+7. Install the dependencies
+   ```bash
+   npm install
+
+8. Run the backend server
+   ```npm start
+
 
 ## Available Scripts
 
