@@ -2,9 +2,15 @@ import Navbar from '/src/components/Navbar.jsx';
 import Card from '/src/components/Card.jsx'; 
 import Footer from '/src/components/Footer.jsx'; 
 import wallpaper from '/src/assets/homepage.gif';
-
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleShopNowClick = () => {
+    navigate('/shop/retro-games');
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <div className="bg-black py-10 text-center text-gray-200" />
@@ -15,7 +21,10 @@ const Home = () => {
             <img src={wallpaper} className="absolute inset-0 w-full h-full object-cover" alt="Promotional" />
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60 z-10"></div>
             <div className="absolute inset-0 flex items-center justify-center z-20 top-1/4">
-              <button className="bg-indigo-700 text-black py-4 px-12 rounded-lg hover:bg-indigo-500 hover:scale-105 transform transition">
+              <button 
+                onClick={handleShopNowClick}
+                className="bg-indigo-700 text-black py-4 px-12 rounded-lg hover:bg-indigo-500 hover:scale-105 transform transition"
+              >
                 Shop Now
               </button>
             </div>

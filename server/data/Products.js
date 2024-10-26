@@ -2,7 +2,7 @@ const products = [
   {
     id: "1",
     productName: "Super Mario Bros.",
-    productCategory: "retro-games",
+    productCategory: "retro games",
     productImage: [
       "https://example.com/images/super-mario-bros1.jpg",
       "https://example.com/images/super-mario-bros2.jpg",
@@ -17,12 +17,12 @@ const products = [
   {
     id: "2",
     productName: "The Legend of Zelda",
-    productCategory: "retro-games",
+    productCategory: "retro games",
     productImage: [
       "https://example.com/images/legend-of-zelda1.jpg",
       "https://example.com/images/legend-of-zelda2.jpg",
     ],
-    productDescription: "An epic action-adventure retro-games where you explore the land of Hyrule and save Princess Zelda.",
+    productDescription: "An epic action-adventure retro games where you explore the land of Hyrule and save Princess Zelda.",
     productPrice: 34.99,
     stockQuantity: 15,
     productRating: 4.8,
@@ -31,12 +31,12 @@ const products = [
   {
     id: "3",
     productName: "Pac-Man",
-    productCategory: "retro-games",
+    productCategory: "retro games",
     productImage: [
       "https://example.com/images/pac-man1.jpg",
       "https://example.com/images/pac-man2.jpg",
     ],
-    productDescription: "Navigate through the maze, eat pellets, and avoid ghosts in this iconic arcade retro-games.",
+    productDescription: "Navigate through the maze, eat pellets, and avoid ghosts in this iconic arcade retro games.",
     productPrice: 19.99,
     stockQuantity: 25,
     productRating: 4.7,
@@ -45,12 +45,12 @@ const products = [
   {
     id: "4",
     productName: "Tetris",
-    productCategory: "retro-games",
+    productCategory: "retro games",
     productImage: [
       "https://example.com/images/tetris1.jpg",
       "https://example.com/images/tetris2.jpg",
     ],
-    productDescription: "The addictive puzzle retro-games that challenges your spatial reasoning and reflexes.",
+    productDescription: "The addictive puzzle retro games that challenges your spatial reasoning and reflexes.",
     productPrice: 14.99,
     stockQuantity: 30,
     productRating: 4.9,
@@ -59,7 +59,7 @@ const products = [
   {
     id: "5",
     productName: "Sonic the Hedgehog",
-    productCategory: "retro-games",
+    productCategory: "retro games",
     productImage: [
       "https://example.com/images/sonic-the-hedgehog1.jpg",
       "https://example.com/images/sonic-the-hedgehog2.jpg",
@@ -73,12 +73,12 @@ const products = [
   {
     id: "6",
     productName: "Street Fighter II",
-    productCategory: "retro-games",
+    productCategory: "retro games",
     productImage: [
       "https://example.com/images/street-fighter-ii1.jpg",
       "https://example.com/images/street-fighter-ii2.jpg",
     ],
-    productDescription: "The legendary fighting retro-games that pits players against each other in intense battles.",
+    productDescription: "The legendary fighting retro games that pits players against each other in intense battles.",
     productPrice: 29.99,
     stockQuantity: 5,
     productRating: 4.8,

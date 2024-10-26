@@ -25,7 +25,7 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  category: { type: String, enum: ['retro-games', 'board-games', 'puzzles'] },
+  productCategory: { type: String, enum: ['retro games', 'board games', 'puzzles', 'accessories'] }, // Added "accessories"
   productImage: {
     type: [String],
     required: true,
@@ -55,7 +55,7 @@ const productSchema = new mongoose.Schema({
     required: true,
     min: 0,
   },
-  reviews : [reviewSchema],
+  reviews: [reviewSchema],
 });
 
 module.exports = mongoose.model('Product', productSchema);

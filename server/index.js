@@ -8,6 +8,8 @@ dotenv.config();
 const PORT = process.env.PORT
 const products = require("./data/Products")
 
+const cors = require("cors");
+
 const mongoose = require("mongoose")
 
 // Connect with DB
@@ -22,6 +24,7 @@ const orderRoute = require("./routes/Order");
 
 // Let our express router know we are using json
 app.use(express.json());
+app.use(cors());
 // Database, which db
 app.use('/api/seed', databaseSeeder);
 // User Route, called using /login

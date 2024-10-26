@@ -1,27 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { productListAction } from '../redux/Actions/Product';
 import { useNavigate } from 'react-router-dom';
 
-// eslint-disable-next-line react/prop-types
 const ProductListPage = ({ category }) => {
+    const dispatch = useDispatch();
+    const productListReducer = useSelector((state) => state.productListReducer);
+    const { loading, error, products } = productListReducer;
+
+    useEffect(() => {
+        dispatch(productListAction());
+    }, [dispatch]);
+
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Replace with mongo db call later on, just template for now
-    const products = [
-        { id: 1, name: 'Chess Set', price: 29.99, category: 'board games', img: '/src/assets/images/chess.jpg' },
-        { id: 2, name: 'Jigsaw Puzzle', price: 15.99, category: 'puzzles', img: '/src/assets/images/puzzle.jpg' },
-        { id: 3, name: 'Super Mario Bros 3', price: 49.99, category: 'retro games', img: '/src/assets/images/smb3_1.jpg' },
-        
-    ];
-
-    const filteredProducts = products.filter((product) =>
-        product.category === category &&
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    // Filter products based on category and search term
+    const filteredProducts = Array.isArray(products)
+        ? products.filter(
+            (product) =>
+                product.productCategory === category && // Use productCategory here
+                product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        : [];
 
     const handleViewDetails = (productId) => {
         navigate(`/shop/${category}/product/${productId}`);
     };
+
+    if (loading) return <p>Loading...</p>; // Optional loading state
+    if (error) return <p>Error: {error}</p>; // Optional error handling
 
     return (
         <div className="pt-20 lg:pt-24 bg-black min-h-screen text-white">
@@ -44,18 +52,18 @@ const ProductListPage = ({ category }) => {
                     {filteredProducts.length > 0 ? (
                         filteredProducts.map((product) => (
                             <div 
-                                key={product.id} 
+                                key={product._id} 
                                 className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition cursor-pointer"
-                                onClick={() => handleViewDetails(product.id)}
+                                onClick={() => handleViewDetails(product._id)}
                             >
-                                <img src={product.img} alt={product.name} className="w-full h-48 object-cover rounded-md mb-4" />
-                                <h2 className="text-2xl font-semibold text-indigo-400 mb-2">{product.name}</h2>
-                                <p className="text-gray-300 mb-4">${product.price.toFixed(2)}</p>
+                                <img src={product.productImage[0]} alt={product.productName} className="w-full h-48 object-cover rounded-md mb-4" />
+                                <h2 className="text-2xl font-semibold text-indigo-400 mb-2">{product.productName}</h2>
+                                <p className="text-gray-300 mb-4">${product.productPrice.toFixed(2)}</p>
                                 <button 
                                     className="bg-indigo-600 text-black py-2 px-4 rounded-lg hover:bg-indigo-500 transition"
                                     onClick={(e) => {
                                         e.stopPropagation(); // Prevents parent click handler
-                                        handleViewDetails(product.id);
+                                        handleViewDetails(product._id);
                                     }}
                                 >
                                     View Details
