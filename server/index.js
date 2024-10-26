@@ -17,13 +17,19 @@ mongoose.connect(process.env.MONGODB_URL).then(() => console.log("DB Connected!"
 
 const databaseSeeder = require('./databaseSeeder');
 const userRoute = require("./routes/User");
+const productRoute = require("./routes/Product");
+const orderRoute = require("./routes/Order");
 
 // Let our express router know we are using json
 app.use(express.json());
 // Database, which db
-app.use('/api/seed', databaseSeeder)
+app.use('/api/seed', databaseSeeder);
 // User Route, called using /login
-app.use('/api/users', userRoute)
+app.use('/api/users', userRoute);
+// Product Route
+app.use('/api/products', productRoute);
+// Order Route
+app.use('/api/orders', orderRoute);
 
 app.listen(PORT || 5000, () => {
     console.log(`server listening on port ${PORT}`);
