@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 export default function App() {
   const userLoginReducer = useSelector((state) => state.userLoginReducer);
-  const { userInfo } = userLoginReducer
+  const { userInfo } = userLoginReducer;
 
   return (
     <main className='bg-black text-gray-400 min-h-screen'>
