@@ -1,6 +1,5 @@
 const products = [
   {
-    id: "1",
     productName: "Super Mario Bros.",
     productCategory: "retro-games",
     productImage: [
@@ -16,7 +15,6 @@ const products = [
     reviewCount: 100,
   },
   {
-    id: "2",
     productName: "The Legend of Zelda",
     productCategory: "retro-games",
     productImage: [
@@ -30,7 +28,6 @@ const products = [
     reviewCount: 85,
   },
   {
-    id: "3",
     productName: "Pac-Man",
     productCategory: "retro-games",
     productImage: [
@@ -44,7 +41,6 @@ const products = [
     reviewCount: 65,
   },
   {
-    id: "4",
     productName: "Tetris",
     productCategory: "retro-games",
     productImage: [
@@ -58,7 +54,6 @@ const products = [
     reviewCount: 150,
   },
   {
-    id: "5",
     productName: "Sonic the Hedgehog",
     productCategory: "retro-games",
     productImage: [
@@ -72,7 +67,6 @@ const products = [
     reviewCount: 70,
   },
   {
-    id: "6",
     productName: "Street Fighter II",
     productCategory: "retro-games",
     productImage: [
