@@ -8,7 +8,7 @@ const ProductDetailed = () => {
     const [amount, setAmount] = useState(1);
 
     const productList = useSelector((state) => state.productListReducer.products);
-    const product = productList.find((p) => p.id === id);
+    const product = productList.find((p) => p._id === id);
 
     useEffect(() => {
         if (product) {
