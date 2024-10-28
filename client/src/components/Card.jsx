@@ -25,7 +25,6 @@ const TiltCard = () => {
     if (!ref.current) return;
 
     const rect = ref.current.getBoundingClientRect();
-
     const width = rect.width;
     const height = rect.height;
 
@@ -53,26 +52,26 @@ const TiltCard = () => {
         transformStyle: "preserve-3d",
         transform,
       }}
-      className="relative h-96 w-72 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500"
+      className="relative h-96 w-72 rounded-xl bg-gradient-to-br from-gray-950 via-indigo-700 to-black shadow-xl"
     >
       <div
         style={{
           transform: "translateZ(75px)",
           transformStyle: "preserve-3d",
         }}
-        className="absolute inset-4 grid place-content-center rounded-xl bg-indigo-400 shadow-lg"
+        className="absolute inset-4 grid place-content-center rounded-xl bg-gradient-to-b from-indigo-500 to-indigo-700 shadow-lg"
       >
         <FiMousePointer
           style={{
             transform: "translateZ(75px)",
           }}
-          className="mx-auto text-4xl"
+          className="mx-auto text-4xl text-gray-200"
         />
         <p
           style={{
             transform: "translateZ(50px)",
           }}
-          className="text-center text-2xl font-bold"
+          className="text-center text-2xl font-bold text-gray-200"
         >
           FAVORITE 1-3
         </p>

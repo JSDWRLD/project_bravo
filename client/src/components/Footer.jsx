@@ -3,23 +3,23 @@ import logo from '/src/assets/full_logo.PNG';
 
 const Footer = () => {
     return (
-        <footer className="bg-gray-900 text-gray-300 py-8">
+        <footer className="bg-gray-950 text-gray-400 py-8 border-t border-gray-700">
             <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
                 {/* Footer Links */}
                 <nav className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 mb-4 md:mb-0">
-                    <NavLink to="/contact" className="text-sm font-retro text-indigo-600 hover:text-indigo-300 transition">
+                    <NavLink to="/contact" className="text-sm font-retro text-indigo-500 hover:text-indigo-300 transition">
                         Contact
                     </NavLink>
-                    <NavLink to="/credits" className="text-sm font-retro text-indigo-600 hover:text-indigo-300 transition">
+                    <NavLink to="/credits" className="text-sm font-retro text-indigo-500 hover:text-indigo-300 transition">
                         Credits
                     </NavLink>
-                    <NavLink to="/about" className="text-sm font-retro text-indigo-600 hover:text-indigo-300 transition">
+                    <NavLink to="/about" className="text-sm font-retro text-indigo-500 hover:text-indigo-300 transition">
                         About
                     </NavLink>
                 </nav>
 
                 {/* Branding / Logo */}
-                <div className="flex items-center justify-center text-indigo-600 font-semibold text-lg md:text-xl mb-4 md:mb-0">
+                <div className="flex items-center justify-center text-indigo-500 font-semibold text-lg md:text-xl mb-4 md:mb-0">
                     <img src={logo} alt="Retro Replay Logo" className="h-10 md:h-12 lg:h-16 w-auto mr-2" />
                     <span>© {new Date().getFullYear()}</span>
                 </div>

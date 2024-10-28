@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { Navbar, ProductDetailed, ProductListPage } from './components'
-import { Home, Cart, Login, Contact } from './pages';
+import { Home, Cart, Contact, AuthPage } from './pages';
 
 
 export default function App() {
@@ -15,7 +15,7 @@ export default function App() {
           <Route path="/shop/retro-games" element={<ProductListPage category="retro-games" />} />
           <Route path="/shop/accessories" element={<ProductListPage category="accessories" />} />
           <Route path="/shop/:category/product/:id" element={<ProductDetailed />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<AuthPage />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
