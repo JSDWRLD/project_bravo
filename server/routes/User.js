@@ -35,6 +35,7 @@ userRoute.post('/',
     AsyncHandler(async(req, res) => {
         const { name, email, password } = req.body;
         const existUser = await User.findOne({ email });
+        console.log(`Checking for existing user with email: ${email}`);
         if (existUser) {
             res.status(400);
             throw new Error("This User Account already exist, try a different email.");
