@@ -1,16 +1,22 @@
-import { useState } from 'react';
-
-// Test images, will source from when user clicks on image, reusable component
-import smb3_1 from '/src/assets/images/smb3_1.jpg';
-import smb3_2 from '/src/assets/images/smb3_2.png';
-import smb3_3 from '/src/assets/images/smb3_3.png';
-import smb3_4 from '/src/assets/images/smb3_4.png';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const ProductDetailed = () => {
-    const images = [smb3_1, smb3_2, smb3_3, smb3_4];
-
-    const [activeImg, setActiveImage] = useState(images[0]);
+    const { id } = useParams();
+    const [activeImg, setActiveImage] = useState('');
     const [amount, setAmount] = useState(1);
+
+    const productList = useSelector((state) => state.productListReducer.products);
+    const product = productList.find((p) => p.id === id);
+
+    useEffect(() => {
+        if (product) {
+            setActiveImage(product.productImage[0]);
+        }
+    }, [product]);
+
+    if (!product) return <p>Loading product...</p>;
 
     return (
         <div className="pt-20 lg:pt-24">
@@ -19,7 +25,7 @@ const ProductDetailed = () => {
                 <div className="flex flex-col gap-6 lg:w-2/4">
                     <img src={activeImg} alt="Product" className="w-full h-full aspect-square object-cover rounded-xl shadow-md" />
                     <div className="flex flex-row justify-between h-24">
-                        {Object.values(images).map((img, index) => (
+                        {product.productImage.map((img, index) => (
                             <img
                                 key={index}
                                 src={img}
@@ -32,13 +38,16 @@ const ProductDetailed = () => {
                 </div>
                 <div className="flex flex-col gap-4 lg:w-2/4">
                     <div>
-                        <span className="text-indigo-400 font-semibold text-xl">Retro Game</span>
-                        <h1 className="text-4xl font-bold text-white mt-2">Super Mario Bros 3</h1>
+                        <span className="text-indigo-400 font-semibold text-xl capitalize">{product.productCategory}</span>
+                        <h1 className="text-4xl font-bold text-white mt-2">{product.productName}</h1>
                     </div>
-                    <p className="text-gray-400">
-                        Super Mario Bros. 3 is a 2D action-adventure platform game for the Family Computer and Nintendo Entertainment System and is the fourth installment in the Super Mario series.
-                    </p>
-                    <h6 className="text-3xl font-semibold text-indigo-400">$ 49.00</h6>
+                    <p className="text-gray-400 mb-4">{product.productDescription}</p>
+                    <h6 className="text-3xl font-semibold text-indigo-400">${product.productPrice.toFixed(2)}</h6>
+                    <p className="text-gray-400">In stock: {product.stockQuantity}</p>
+                    <div className="flex items-center gap-2 text-yellow-400">
+                        <span className="text-lg font-bold">{product.productRating}</span>
+                        <span className="text-gray-400">({product.reviewCount} reviews)</span>
+                    </div>
                     <div className="flex flex-row items-center gap-12 mt-4">
                         <div className="flex flex-row items-center space-x-2">
                             <button
@@ -49,7 +58,7 @@ const ProductDetailed = () => {
                             </button>
                             <span className="py-4 px-6 rounded-lg bg-gray-800 text-xl font-bold text-white">{amount}</span>
                             <button
-                                className="bg-gray-800 paddin py-2 px-5 rounded-lg text-indigo-400 text-3xl hover:bg-indigo-600 transition"
+                                className="bg-gray-800 py-2 px-5 rounded-lg text-indigo-400 text-3xl hover:bg-indigo-600 transition"
                                 onClick={() => setAmount((prev) => prev + 1)}
                             >
                                 +

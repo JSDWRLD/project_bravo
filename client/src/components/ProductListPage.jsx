@@ -3,6 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { productListAction } from '../redux/Actions/Product';
 import { useNavigate } from 'react-router-dom';
 
+
+const Spinner = () => (
+    <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-500"></div>
+    </div>
+);
+
 const ProductListPage = ({ category }) => {
     const dispatch = useDispatch();
     const productListReducer = useSelector((state) => state.productListReducer);
@@ -24,17 +31,21 @@ const ProductListPage = ({ category }) => {
         )
         : [];
 
+        console.log('Category:', category);
+        console.log('Products:', products);
+        console.log('Filtered Products:', filteredProducts);
+
     const handleViewDetails = (productId) => {
         navigate(`/shop/${category}/product/${productId}`);
     };
 
-    if (loading) return <p>Loading...</p>; // Optional loading state
-    if (error) return <p>Error: {error}</p>; // Optional error handling
+    if (loading) return <Spinner />; // Show spinner during loading
+    if (error) return <p className="text-red-500 text-center">Error: {error}</p>; // Optional error handling
 
     return (
         <div className="pt-20 lg:pt-24 bg-black min-h-screen text-white">
             <div className="bg-gray-800 py-4 text-center text-gray-200">
-                <h1 className="text-2xl font-retro font-bold text-indigo-400 capitalize">{category}</h1>
+                <h1 className="text-2xl font-retro font-bold text-indigo-400 capitalize">{category.replace(/-/g, ' ')}</h1>
             </div>
 
             <div className="container mx-auto px-4 py-8">
