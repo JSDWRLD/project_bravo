@@ -1,4 +1,3 @@
-import Navbar from '/src/components/Navbar.jsx';  
 import Card from '/src/components/Card.jsx'; 
 import Footer from '/src/components/Footer.jsx'; 
 import wallpaper from '/src/assets/homepage.gif';
