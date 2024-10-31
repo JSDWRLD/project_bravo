@@ -3,6 +3,7 @@ import { combineReducers, createStore, applyMiddleware } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from 'redux-persist/lib/storage';
 import { productListReducer, productReducer } from "./Reducers/Product";
+import { userLoginReducer, userRegisterReducer } from "./Reducers/User";
 import {thunk} from 'redux-thunk'; // Correct import
 
 const persistConfig = {
@@ -13,7 +14,9 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     productListReducer,
-    productReducer
+    productReducer,
+    userLoginReducer,
+    userRegisterReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
