@@ -72,7 +72,7 @@ const Navbar = () => {
             <li><NavLink to="/shop/board-games" className="font-retro text-lg font-medium text-indigo-500 hover:text-indigo-400 transition lg:text-xs">Board Games</NavLink></li>
             <li><NavLink to="/shop/retro-games" className="font-retro text-lg font-medium text-indigo-500 hover:text-indigo-400 transition lg:text-xs">Retro Games</NavLink></li>
             <li><NavLink to="/shop/puzzles" className="font-retro text-lg font-medium text-indigo-500 hover:text-indigo-400 transition lg:text-xs">Puzzles</NavLink></li>
-            <li><NavLink to="/shop/accessories" className="font-retro text-lg font-medium text-indigo-500 hover:text-indigo-400 transition lg:text-xs">Accessories</NavLink></li>
+            <li><NavLink to="/shop/consoles" className="font-retro text-lg font-medium text-indigo-500 hover:text-indigo-400 transition lg:text-xs">Consoles</NavLink></li>
             <li className="relative" ref={dropdownRef}>
               {userInfo ? (
                 <>
