@@ -6,9 +6,10 @@ import {
     SAVE_PAYMENT_METHOD
 } from "../Constants/Cart"
 
-
+// Stores the current state of our cart,
+// array for items and json object for shipping info
 export const cartReducer = (
-    state = {cartItems:[], shippingAddress:{}}, action
+    state = { cartItems: [], shippingAddress: {} }, action
 ) => {
 
     switch (action.type) {
@@ -25,13 +26,15 @@ export const cartReducer = (
             } else {
                 return {
                     ...state,
-                    cartItems:[...state.cartItems, item]
+                    // append item at end if it exists
+                    cartItems: [...state.cartItems, item]
                 }
             }
         case REMOVE_ITEM_FROM_CART:
             return {
                 ...state,
-                cartItems: state.cartItems.filter((x)=>x.product !== action.payload)
+                // remove cart item from action payload data
+                cartItems: state.cartItems.filter((x) => x.product !== action.payload)
             }
         case CART_SAVE_SHIPPING_ADDRESS:
             return { ...state, shippingAddress: action.payload }
@@ -42,5 +45,5 @@ export const cartReducer = (
         default:
             return state;
     }
-    
+
 }

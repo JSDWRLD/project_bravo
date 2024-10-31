@@ -40,9 +40,8 @@ const ProductDetailed = () => {
             <div className="bg-black py-4 text-center" />
             <div className="flex flex-col justify-between lg:flex-row gap-16 lg:items-center bg-black text-white p-8 rounded-lg shadow-lg mt-4">
                 <div className="flex flex-col gap-6 lg:w-2/4">
-                    <div className="relative rounded-xl overflow-hidden shadow-lg">
+                    <div className="relative rounded-xl overflow-hidden shadow-lg border-4 border-indigo-600">
                         <img src={activeImg} alt="Product" className="w-full h-full aspect-square object-cover" />
-                        <div className="absolute inset-0 border-4 border-indigo-600 rounded-xl"></div>
                     </div>
                     <div className="flex flex-row justify-between h-24">
                         {product.productImage.map((img, index) => (
@@ -51,9 +50,12 @@ const ProductDetailed = () => {
                                     src={img}
                                     alt={`Thumbnail ${index + 1}`}
                                     className="w-24 h-24 rounded-md cursor-pointer transition-transform transform hover:scale-105"
-                                    onClick={() => setActiveImage(img)}
+                                    onClick={() => {
+                                        console.log('Thumbnail clicked:', img); // Check if the correct image is logged
+                                        setActiveImage(img); // Update active image
+                                    }}
                                 />
-                                <div className="absolute inset-0 border-2 border-indigo-500 rounded-md"></div>
+                                <div className="absolute inset-0 border-2 border-indigo-500 rounded-md pointer-events-none"></div>
                             </div>
                         ))}
                     </div>

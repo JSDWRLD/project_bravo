@@ -12,8 +12,11 @@ import { BASE_URL } from "../Constants/BASE_URL";
 export const addToCartAction = (id, qty) => async (dispatch, getState) => {
     try { 
         const { data } = await axios.get(`${BASE_URL}/api/products/${id}`)
+        // dispatch allows for our reducer to update state
         dispatch({
             type: ADD_ITEM_TO_CART,
+
+            // Pass our payload to our reducer to update the state
             payload: {
                 product: data._id,
                 name: data.name,
@@ -24,6 +27,8 @@ export const addToCartAction = (id, qty) => async (dispatch, getState) => {
             }
         })
 
+        // Get cart items from the reducer, and save the cartItems in
+        // browser local storage
         const cartItems = getState().cartReducer.cartItems;
         localStorage.setItem("cartItems", JSON.stringify(cartItems))
         
