@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-dom';
-import { Navbar, ProductDetailed, ProductListPage } from './components'
-import { Home, Cart, Contact, AuthPage } from './pages';
+import { Navbar, ProductDetailed, ProductListPage } from './components';
+import { Home, Cart, Contact, Login, Register } from './pages';
 import { useSelector } from 'react-redux';
 
 export default function App() {
@@ -8,7 +8,7 @@ export default function App() {
   const { userInfo } = userLoginReducer;
 
   return (
-    <main className='bg-black text-gray-400 min-h-screen'>
+    <main className="bg-black text-gray-400 min-h-screen">
       <Router>
         <Navbar />
         <Routes>
@@ -18,11 +18,13 @@ export default function App() {
           <Route path="/shop/retro-games" element={<ProductListPage category="retro-games" />} />
           <Route path="/shop/accessories" element={<ProductListPage category="accessories" />} />
           <Route path="/shop/:category/product/:id" element={<ProductDetailed />} />
-          <Route path="/login" element={userInfo ? <Navigate to="/"></Navigate> : <AuthPage />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={userInfo ? <Navigate to="/" /> : <Login />} />
+          <Route path="/register" element={userInfo ? <Navigate to="/" /> : <Register />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
     </main>
-  )
+  );
 }

@@ -14,7 +14,6 @@ const Home = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <div className="bg-gradient-to-br from-gray-950 to-black py-12 text-center text-gray-200" />
-      <Navbar />
       <main className="pt-30 font-retro"> 
         <div className="promotion relative text-center text-white">
           <div className="w-full h-0 pb-[65.25%] relative overflow-hidden">
