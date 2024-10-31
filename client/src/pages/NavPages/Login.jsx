@@ -8,6 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
 
+  // Watches for state changes
   const userLoginReducer = useSelector((state) => state.userLoginReducer);
   const { loading, error } = userLoginReducer;
 
