@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
+import { productAction } from "../redux/Actions/Product";
+import { addToCartAction } from "../redux/Actions/Cart";
 
 const ProductDetailed = () => {
     const { id } = useParams();
+
+    const dispatch = useDispatch();
+    const productReducer = useSelector((state) => state.productReducer);
+    const { loading, error, currProduct } = productReducer;
+
     const [activeImg, setActiveImage] = useState('');
     const [amount, setAmount] = useState(1);
 
@@ -12,10 +19,24 @@ const ProductDetailed = () => {
     const product = productList.find((p) => p._id === id);
 
     useEffect(() => {
+        dispatch(productAction(id));
+    }, [dispatch, id]);
+
+    useEffect(() => {
         if (product) {
             setActiveImage(product.productImage[0]);
+            // Reset amount if stock quantity is less than current amount
+            if (amount > product.stockQuantity) {
+                setAmount(product.stockQuantity);
+            }
         }
-    }, [product]);
+    }, [product, amount]);
+
+    const addToCartHandler = () => {
+        if (amount <= product.stockQuantity) {
+            dispatch(addToCartAction(id, amount));
+        }
+    };
 
     if (!product) return <p className="text-center text-white">Loading product...</p>;
 
@@ -51,8 +72,8 @@ const ProductDetailed = () => {
                                     alt={`Thumbnail ${index + 1}`}
                                     className="w-24 h-24 rounded-md cursor-pointer transition-transform transform hover:scale-105"
                                     onClick={() => {
-                                        console.log('Thumbnail clicked:', img); // Check if the correct image is logged
-                                        setActiveImage(img); // Update active image
+                                        console.log('Thumbnail clicked:', img);
+                                        setActiveImage(img);
                                     }}
                                 />
                                 <div className="absolute inset-0 border-2 border-indigo-500 rounded-md pointer-events-none"></div>
@@ -72,26 +93,39 @@ const ProductDetailed = () => {
                         <div className="flex">{renderStars()}</div>
                         <span className="text-gray-400 ml-2">({product.reviewCount} reviews)</span>
                     </div>
-                    <div className="flex flex-row items-center gap-12 mt-4">
-                        <div className="flex flex-row items-center space-x-2">
-                            <button
-                                className="bg-gray-800 py-2 px-5 rounded-lg text-indigo-400 text-3xl hover:bg-indigo-600 transition"
-                                onClick={() => setAmount((prev) => Math.max(1, prev - 1))}
+                    {product.stockQuantity > 0 ? (
+                        <div className="flex flex-row items-center gap-12 mt-4">
+                            <div className="flex flex-row items-center space-x-2">
+                                <button
+                                    className="bg-gray-800 py-2 px-5 rounded-lg text-indigo-400 text-3xl hover:bg-indigo-600 transition"
+                                    onClick={() => setAmount((prev) => Math.max(1, prev - 1))}
+                                >
+                                    -
+                                </button>
+                                <span className="py-4 px-6 rounded-lg bg-gray-800 text-xl font-bold text-white">{amount}</span>
+                                <button
+                                    className="bg-gray-800 py-2 px-5 rounded-lg text-indigo-400 text-3xl hover:bg-indigo-600 transition"
+                                    onClick={() => setAmount((prev) => Math.min(product.stockQuantity, prev + 1))}
+                                >
+                                    +
+                                </button>
+                            </div>
+                            <button 
+                                onClick={addToCartHandler} 
+                                className={`bg-indigo-600 text-black font-semibold py-3 px-16 rounded-xl hover:bg-indigo-500 transition ${amount > product.stockQuantity ? 'opacity-50 cursor-not-allowed' : ''}`} 
+                                disabled={amount > product.stockQuantity}
                             >
-                                -
-                            </button>
-                            <span className="py-4 px-6 rounded-lg bg-gray-800 text-xl font-bold text-white">{amount}</span>
-                            <button
-                                className="bg-gray-800 py-2 px-5 rounded-lg text-indigo-400 text-3xl hover:bg-indigo-600 transition"
-                                onClick={() => setAmount((prev) => prev + 1)}
-                            >
-                                +
+                                Add to Cart
                             </button>
                         </div>
-                        <button className="bg-indigo-600 text-black font-semibold py-3 px-16 rounded-xl hover:bg-indigo-500 transition">
-                            Add to Cart
+                    ) : (
+                        <button 
+                            className="bg-gray-500 text-white font-semibold py-3 px-16 rounded-xl cursor-not-allowed" 
+                            disabled
+                        >
+                            Unavailable
                         </button>
-                    </div>
+                    )}
                 </div>
             </div>
         </div>

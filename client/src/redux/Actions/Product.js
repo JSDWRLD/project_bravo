@@ -15,7 +15,6 @@ export const productListAction = () => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_LIST_REQ });
         const { data } = await axios.get(`${BASE_URL}/api/products`);
-        console.log(data);
         dispatch({ type: PRODUCT_LIST_REQ_SUCCESS, payload: data })
     } catch (error) {
         dispatch({

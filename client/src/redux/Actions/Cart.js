@@ -5,13 +5,14 @@ import {
   
     CART_SAVE_SHIPPING_ADDRESS,
     SAVE_PAYMENT_METHOD
-} from "../Constants/Cart"
+} from "../Constants/Cart";
 import { BASE_URL } from "../Constants/BASE_URL";
 
 // Get method to get product data, then add item state update
 export const addToCartAction = (id, qty) => async (dispatch, getState) => {
     try { 
         const { data } = await axios.get(`${BASE_URL}/api/products/${id}`)
+        console.log(data.productImage[0]);
         // dispatch allows for our reducer to update state
         dispatch({
             type: ADD_ITEM_TO_CART,
@@ -19,10 +20,10 @@ export const addToCartAction = (id, qty) => async (dispatch, getState) => {
             // Pass our payload to our reducer to update the state
             payload: {
                 product: data._id,
-                name: data.name,
-                image: data.image,
-                price: data.price,
-                countInStock: data.countInStock,
+                name: data.productName,
+                image: data.productImage[0],
+                price: data.productPrice,
+                countInStock: data.stockQuantity,
                 qty
             }
         })

@@ -10,7 +10,7 @@ const products = [
     ],
     productDescription: "The classic platformer that started it all. Jump through worlds and rescue the princess!",
     productPrice: 29.99,
-    stockQuantity: 20,
+    stockQuantity: 0,
     productRating: 4.9,
     reviewCount: 100,
   },
