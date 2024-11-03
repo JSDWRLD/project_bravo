@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-dom';
 import { Navbar, ProductDetailed, ProductListPage, Footer } from './components';
-import { Home, Cart, Contact, Login, Register, Account, OrderHistory, PlaceOrder, Credits, About } from './pages';
+import { Home, Cart, Contact, Login, Register, Account, OrderHistory, PlaceOrder, Credits, About, Admin } from './pages';
 import { useSelector } from 'react-redux';
 
 export default function App() {
@@ -28,6 +28,7 @@ export default function App() {
             <Route path="/register" element={userInfo ? <Navigate to="/" /> : <Register />} />
             <Route path="/account" element={<Account />} />
             <Route path="/order-history" element={<OrderHistory />} />
+            <Route path="/admin/dashboard" element={<Admin />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>

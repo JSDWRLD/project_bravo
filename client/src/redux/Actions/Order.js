@@ -28,7 +28,6 @@ export const orderAction = (order) => async (dispatch, getState) => {
     try {
         dispatch({ type: ORDER_REQ })
         const userInfo = getState().userLoginReducer.userInfo;
-        console.log(userInfo.token);
         const config = {
             headers: {
                 "Content-Type": "application/json",

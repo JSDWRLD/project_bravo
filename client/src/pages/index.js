@@ -9,3 +9,6 @@ export { default as PlaceOrder } from './Control/PlaceOrder';
 export { default as OrderHistory } from './Control/OrderHistory';
 export { default as Contact } from './Footer/Contact';
 export { default as Credits } from './Footer/Credits';
+
+export { default as Admin } from './Admin/Admin';
+export { default as AddProduct } from './Admin/AddProduct';

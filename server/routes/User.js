@@ -3,7 +3,7 @@ const userRoute = express.Router();
 const AsyncHandler = require('express-async-handler');
 const User = require('../models/User');
 const generateToken = require('../tokenGenerate');
-const protect = require('../middleware/Auth');
+const { protect } = require('../middleware/Auth');
 
 // Post methods 
 // Login Route

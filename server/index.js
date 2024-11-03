@@ -1,6 +1,9 @@
 // Store express in app
 const express = require("express");
+const path = require('path');
 const app = express();
+
+app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 
 // Allows for access of environment variables
 const dotenv = require("dotenv");

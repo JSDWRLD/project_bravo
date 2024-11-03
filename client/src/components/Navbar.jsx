@@ -71,7 +71,6 @@ const Navbar = () => {
 
         <div className={`fixed top-0 right-0 h-screen w-full bg-gray-900 shadow-lg p-5 transition-transform transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} lg:relative lg:translate-x-0 lg:bg-transparent lg:shadow-none lg:h-auto lg:w-auto lg:p-0 lg:flex`}>
           <ul className="flex flex-col space-y-4 lg:flex-row lg:space-y-0 lg:space-x-6">
-            {/* Your NavLink items */}
             <li><NavLink to="/" className="font-retro text-lg font-medium text-indigo-500 hover:text-indigo-400 transition lg:text-xs">Home</NavLink></li>
             <li><NavLink to="/shop/board-games" className="font-retro text-lg font-medium text-indigo-500 hover:text-indigo-400 transition lg:text-xs">Board Games</NavLink></li>
             <li><NavLink to="/shop/retro-games" className="font-retro text-lg font-medium text-indigo-500 hover:text-indigo-400 transition lg:text-xs">Retro Games</NavLink></li>
@@ -94,6 +93,15 @@ const Navbar = () => {
                           className="block px-4 py-2 hover:bg-indigo-500 hover:text-black transition"
                         >
                           Order History
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/admin/dashboard"
+                          onClick={() => setIsDropdownOpen(false)} // Close dropdown on click
+                          className="block px-4 py-2 hover:bg-indigo-500 hover:text-black transition"
+                        >
+                          Admin Portal
                         </NavLink>
                       </li>
                       <li>
