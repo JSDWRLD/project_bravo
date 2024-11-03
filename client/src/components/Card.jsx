@@ -1,16 +1,13 @@
 import { useRef } from "react";
-import {
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
+import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const ROTATION_RANGE = 32.5;
 const HALF_ROTATION_RANGE = 32.5 / 2;
 
-const TiltCard = ({ product }) => {
+const TiltCard = ({ product, category }) => {
   const ref = useRef(null);
+  const navigate = useNavigate();
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -45,11 +42,17 @@ const TiltCard = ({ product }) => {
     y.set(0);
   };
 
+  const handleOnClick = () => {
+    navigate(`/shop/${product.productCategory}/product/${product._id}`);
+  };
+
+
   return (
     <motion.div
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onClick={handleOnClick}
       style={{
         transformStyle: "preserve-3d",
         transform,

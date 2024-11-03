@@ -16,7 +16,6 @@ const Home = () => {
   const randomFavorites = products
     .sort(() => 0.5 - Math.random())
     .slice(0, 6);
-  console.log(randomFavorites)
 
   return (
     <div className="min-h-screen flex flex-col">

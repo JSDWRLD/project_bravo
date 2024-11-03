@@ -15,7 +15,6 @@ export const addToCartAction = (id, qty) => async (dispatch, getState) => {
         const firstImage = Array.isArray(data.productImage) && data.productImage.length > 0
             ? data.productImage[0]
             : '';
-
         // dispatch allows for our reducer to update state
         dispatch({
             type: ADD_ITEM_TO_CART,
