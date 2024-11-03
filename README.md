@@ -38,8 +38,7 @@ To clone this repository, follow these steps:
 
 8. Run the backend server
    ```bash
-      npm run server
-
+   npm run server
 
 ## Available Scripts
 
