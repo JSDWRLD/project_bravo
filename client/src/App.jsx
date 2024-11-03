@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-dom';
 import { Navbar, ProductDetailed, ProductListPage, Footer } from './components';
-import { Home, Cart, Contact, Login, Register, Account, OrderHistory } from './pages';
+import { Home, Cart, Contact, Login, Register, Account, OrderHistory, PlaceOrder} from './pages';
 import { useSelector } from 'react-redux';
 
 export default function App() {
@@ -20,6 +20,7 @@ export default function App() {
             <Route path="/shop/consoles" element={<ProductListPage category="consoles" />} />
             <Route path="/shop/:category/product/:id" element={<ProductDetailed />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/place-order" element={<PlaceOrder />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={userInfo ? <Navigate to="/" /> : <Login />} />
             <Route path="/register" element={userInfo ? <Navigate to="/" /> : <Register />} />
