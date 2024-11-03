@@ -22,7 +22,6 @@ const userRoute = require("./routes/User");
 const productRoute = require("./routes/Product");
 const orderRoute = require("./routes/Order");
 
-// Let our express router know we are using json
 app.use(express.json());
 app.use(cors());
 // Database, which db
@@ -38,8 +37,10 @@ app.listen(PORT || 5000, () => {
     console.log(`server listening on port ${PORT}`);
 });
 
-
-
+// Paypal Payment Client ID from ENV for frontend
+app.use("/api/config/paypal", (req, res) => {
+    res.send(process.env.PAYPAL_CLIENT_ID);
+})
 
 
 
