@@ -12,7 +12,10 @@ import { BASE_URL } from "../Constants/BASE_URL";
 export const addToCartAction = (id, qty) => async (dispatch, getState) => {
     try { 
         const { data } = await axios.get(`${BASE_URL}/api/products/${id}`)
-        console.log(data.productImage[0]);
+        const firstImage = Array.isArray(data.productImage) && data.productImage.length > 0
+            ? data.productImage[0]
+            : '';
+
         // dispatch allows for our reducer to update state
         dispatch({
             type: ADD_ITEM_TO_CART,
@@ -21,7 +24,7 @@ export const addToCartAction = (id, qty) => async (dispatch, getState) => {
             payload: {
                 product: data._id,
                 name: data.productName,
-                image: data.productImage[0],
+                image: firstImage,
                 price: data.productPrice,
                 countInStock: data.stockQuantity,
                 qty

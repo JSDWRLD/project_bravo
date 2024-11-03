@@ -1,14 +1,22 @@
 import Card from '/src/components/Card.jsx'; 
 import Footer from '/src/components/Footer.jsx'; 
 import wallpaper from '/src/assets/homepage.gif';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const navigate = useNavigate();
+  const products = useSelector((state) => state.productListReducer.products || []);
 
   const handleShopNowClick = () => {
     navigate('/shop/retro-games');
   };
+
+  // Get three random products for the "Favorites" section
+  const randomFavorites = products
+    .sort(() => 0.5 - Math.random())
+    .slice(0, 6);
+  console.log(randomFavorites)
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -42,35 +50,14 @@ const Home = () => {
           </h2>
           
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6">
-            <div className='grid w-full place-content-center px-4 py-12 text-slate-900'>
-              <Card/>
-            </div>
-            <div className='grid w-full place-content-center px-4 py-12 text-slate-900'>
-              <Card/>
-            </div>
-            <div className='grid w-full place-content-center px-4 py-12 text-slate-900'>
-              <Card/>
-            </div>
+            {randomFavorites.map((product) => (
+              <div key={product._id} className='grid w-full place-content-center px-4 py-12 text-slate-900'>
+                <Card product={product} />
+              </div>
+            ))}
           </div>
-
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-          {/* <div className="retrogames bg-gray-200 p-4 rounded-lg shadow hover:shadow-lg transition">
-            Retro Games
-          </div>
-          <div className="boardgames bg-gray-200 p-4 rounded-lg shadow hover:shadow-lg transition">
-            Board Games
-          </div>
-          <div className="puzzles bg-gray-200 p-4 rounded-lg shadow hover:shadow-lg transition">
-            Puzzles
-          </div> */}
         </div>
       </main>
-
-      <footer className="bg-black text-gray-400 py-4 text-center text-sm">
-        <Footer />
-      </footer>
     </div>
   );
 };
