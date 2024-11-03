@@ -3,6 +3,7 @@ import {
     REMOVE_ITEM_FROM_CART,
     CART_ITEM_CLEAR,
     CART_SAVE_SHIPPING_ADDRESS,
+    CART_RESET_SHIPPING_ADDRESS,
     SAVE_PAYMENT_METHOD
 } from "../Constants/Cart"
 
@@ -38,6 +39,11 @@ export const cartReducer = (
             }
         case CART_SAVE_SHIPPING_ADDRESS:
             return { ...state, shippingAddress: action.payload }
+        case CART_RESET_SHIPPING_ADDRESS:
+            return {
+                ...state,
+                shippingAddress: {}, // Clear the shipping address
+            }
         case SAVE_PAYMENT_METHOD:
             return { ...state, paymentMethod: action.payload }
         case CART_ITEM_CLEAR:

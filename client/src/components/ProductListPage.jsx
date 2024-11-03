@@ -42,10 +42,6 @@ const ProductListPage = ({ category }) => {
                 <h1 className="text-2xl font-retro font-bold text-indigo-600 capitalize">{category.replace(/-/g, ' ')}</h1>
             </div>
 
-
-
-
-
             <div className="container mx-auto px-4 py-8">
                 <div className="flex justify-center mb-8">
                     <input

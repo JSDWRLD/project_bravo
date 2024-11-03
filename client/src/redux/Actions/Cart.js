@@ -4,6 +4,7 @@ import {
     REMOVE_ITEM_FROM_CART,
   
     CART_SAVE_SHIPPING_ADDRESS,
+    CART_RESET_SHIPPING_ADDRESS,
     SAVE_PAYMENT_METHOD
 } from "../Constants/Cart";
 import { BASE_URL } from "../Constants/BASE_URL";
@@ -59,6 +60,13 @@ export const saveShippingAddressAction = (data) => (dispatch) => {
 
     localStorage.setItem("shippingAddress", JSON.stringify(data))
 }
+
+export const resetShippingAddressAction = () => (dispatch) => {
+    dispatch({
+        type: CART_RESET_SHIPPING_ADDRESS
+    })
+}
+
 
 // Update cart state to save payment method
 export const savePaymentMethodAction = (data) => (dispatch) => {

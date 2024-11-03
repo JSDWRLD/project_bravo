@@ -3,7 +3,7 @@ import { IoClose, IoMenu } from "react-icons/io5";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogoutAction } from "../redux/Actions/User";
-import Cart from "../pages/NavPages/Cart"; 
+import Cart from "../pages/NavPages/Cart";
 import logo from '/src/assets/full_logo.PNG';
 
 const Navbar = () => {
@@ -77,7 +77,6 @@ const Navbar = () => {
             <li><NavLink to="/shop/retro-games" className="font-retro text-lg font-medium text-indigo-500 hover:text-indigo-400 transition lg:text-xs">Retro Games</NavLink></li>
             <li><NavLink to="/shop/puzzles" className="font-retro text-lg font-medium text-indigo-500 hover:text-indigo-400 transition lg:text-xs">Puzzles</NavLink></li>
             <li><NavLink to="/shop/consoles" className="font-retro text-lg font-medium text-indigo-500 hover:text-indigo-400 transition lg:text-xs">Consoles</NavLink></li>
-            <li><NavLink to="/" className="font-retro text-lg font-medium text-indigo-500 hover:text-indigo-400 transition lg:text-xs">Home</NavLink></li>
             <li className="relative">
               {userInfo ? (
                 <>
@@ -90,22 +89,21 @@ const Navbar = () => {
                     <ul className="absolute left-0 mt-2 w-48 bg-gray-900 border border-indigo-500 rounded-lg shadow-lg text-indigo-400 z-50 flex flex-col">
                       <li>
                         <NavLink
-                          to="/account"
-                          className="block px-4 py-2 hover:bg-indigo-500 hover:text-black transition">
-                          View Account
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
                           to="/order-history"
-                          className="block px-4 py-2 hover:bg-indigo-500 hover:text-black transition">
+                          onClick={() => setIsDropdownOpen(false)} // Close dropdown on click
+                          className="block px-4 py-2 hover:bg-indigo-500 hover:text-black transition"
+                        >
                           Order History
                         </NavLink>
                       </li>
                       <li>
                         <button
-                          onClick={handleLogout}
-                          className="block w-full text-left px-4 py-2 text-indigo-400 bg-gray-900 hover:bg-indigo-500 hover:text-black transition rounded-lg">
+                          onClick={() => {
+                            handleLogout();
+                            setIsDropdownOpen(false); // Close dropdown on click
+                          }}
+                          className="block w-full text-left px-4 py-2 text-indigo-400 bg-gray-900 hover:bg-indigo-500 hover:text-black transition rounded-lg"
+                        >
                           Sign Out
                         </button>
                       </li>
@@ -127,7 +125,7 @@ const Navbar = () => {
                   </span>
                 )}
               </button>
-              <Cart open={open} setOpen={setOpen} /> 
+              <Cart open={open} setOpen={setOpen} />
             </li>
           </ul>
           <div className="absolute top-4 right-4 text-2xl text-indigo-500 cursor-pointer lg:hidden" onClick={() => setIsOpen(false)}>

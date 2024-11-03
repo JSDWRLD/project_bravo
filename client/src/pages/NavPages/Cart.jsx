@@ -3,15 +3,27 @@
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CartItems from '../../components/CartItems';
 
 export default function Cart({ open, setOpen }) {
+  const userLoginReducer = useSelector((state) => state.userLoginReducer);
+  const { userInfo } = userLoginReducer;
 
   const cart = useSelector((state) => state.cartReducer);
   const { cartItems } = cart;
 
   const total = cartItems.reduce((total, item) => total + item.qty * item.price, 0).toFixed(2);
+  const navigate = useNavigate();
+
+  const handleCheckoutClick = () => {
+    if (!userInfo) {
+      setOpen(false);
+      navigate('/login');
+    } else {
+      setOpen(false);
+    }
+  };
 
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-[60]">
@@ -53,12 +65,22 @@ export default function Cart({ open, setOpen }) {
                   </div>
                   <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                   <div className="mt-6">
-                    <Link
-                      to="/place-order"
-                      className="font-retro flex items-center justify-center rounded-md border border-transparent bg-indigo-700 px-6 py-3 text-base font-medium text-gray-200 shadow-sm hover:bg-indigo-600"
-                    >
-                      Checkout
-                    </Link>
+                    {userInfo ? (
+                      <Link
+                        to="/place-order"
+                        onClick={handleCheckoutClick}
+                        className="font-retro flex items-center justify-center w-full rounded-md border border-transparent bg-indigo-700 px-6 py-3 text-base font-medium text-gray-200 shadow-sm hover:bg-indigo-600"
+                      >
+                        Checkout
+                      </Link>
+                    ) : (
+                      <button
+                        onClick={handleCheckoutClick}
+                        className="font-retro flex items-center justify-center w-full rounded-md border border-transparent bg-indigo-700 px-6 py-3 text-base font-medium text-gray-200 shadow-sm hover:bg-indigo-600"
+                      >
+                        Login to Checkout
+                      </button>
+                    )}
                   </div>
                   <div className="mt-6 flex justify-center text-center text-sm text-gray-400">
                     <p>

@@ -23,7 +23,7 @@ const Home = () => {
       <main className="pt-30 font-retro"> 
         <div className="promotion relative text-center text-white">
           <div className="w-full h-0 pb-[65.25%] relative overflow-hidden">
-            <img src={wallpaper} className="absolute inset-0 w-full h-full object-cover" alt="Promotional" />
+            <img src={wallpaper} className="absolute inset-0 w-full h-full object-cover" alt="Animated Company Logo" />
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60 z-10"></div>
             <div className="absolute inset-0 flex items-center justify-center z-20 top-1/4">
               <button 

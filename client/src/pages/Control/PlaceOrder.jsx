@@ -1,17 +1,21 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import CartItems from "../../components/CartItems";
-import { saveShippingAddressAction } from "../../redux/Actions/Cart";
+import { saveShippingAddressAction, resetShippingAddressAction } from "../../redux/Actions/Cart";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { orderAction, orderPaymentAction } from "../../redux/Actions/Order";
 import { ORDER_RESET } from "../../redux/Constants/Order";
 import { BASE_URL } from "../../redux/Constants/BASE_URL";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const PlaceOrder = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const cart = useSelector((state) => state.cartReducer);
     const { cartItems, shippingAddress } = cart;
+
+    
 
     // Subtotal calculation
     const addDecimal = (num) => {
@@ -49,10 +53,19 @@ const PlaceOrder = () => {
 
     const [clientID, setClientID] = useState(null);
 
+    const orderReducer = useSelector((state) => state.orderReducer);
+    const { order, success } = orderReducer;
+    const [paymentResult, setPaymentResult] = useState({});
+
     // Fetch paypal cient id
     useEffect(() => {
         getPaypalClientID();
-    }, []);
+        if (success) {
+            dispatch({ type: ORDER_RESET });
+            dispatch(orderPaymentAction(order._id, paymentResult));
+            navigate(`/order/${order._id}`, {});
+        }
+    });
 
     const getPaypalClientID = async () => {
         try {
@@ -64,13 +77,15 @@ const PlaceOrder = () => {
         }
     };
 
-    const successPaymentHandler = async() => {
+    // On paypal success we can post the order
+    const successPaymentHandler = async () => {
         try {
+            setPaymentResult(paymentResult)
             dispatch(orderAction({
                 orderItems: cart.cartItems.map(item => ({
-                    itemName: item.name, 
+                    itemName: item.name,
                     itemQuantity: item.qty,
-                    displayImage: item.image, 
+                    displayImage: item.image,
                     itemPrice: item.price,
                     product: item.product
                 })),
@@ -80,13 +95,13 @@ const PlaceOrder = () => {
                 price: subtotal,
                 taxPrice: taxPrice,
                 shippingPrice: shippingPrice
-                
+
             }))
-        } catch(err) {
+        } catch (err) {
             console.log(err);
         }
     };
-    
+
     return (
         <>
             <section className="text-gray-300 body-font overflow-hidden bg-black">
@@ -177,7 +192,7 @@ const PlaceOrder = () => {
                                         // Create our order from our cart items
                                         createOrder={(data, actions) => {
                                             return actions.order.create({
-                                                purchase_units:[
+                                                purchase_units: [
                                                     {
                                                         amount: {
                                                             currency_code: "USD",
@@ -192,7 +207,7 @@ const PlaceOrder = () => {
                                                 successPaymentHandler(details);
                                             });
                                         }}
-                                     />
+                                    />
                                 </PayPalScriptProvider>
                             )}
 
