@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct } from '../../redux/Actions/Product'; 
+import { addProduct } from '../../redux/Actions/Product';
 
 const AddProduct = () => {
   const [productName, setProductName] = useState('');
@@ -9,18 +9,19 @@ const AddProduct = () => {
   const [productDescription, setProductDescription] = useState('');
   const [productPrice, setProductPrice] = useState('');
   const [stockQuantity, setStockQuantity] = useState('');
-  const [productRating, setProductRating] = useState(''); // New state for product rating
-  const [reviewCount, setReviewCount] = useState(''); // New state for review count
+  const [productRating, setProductRating] = useState('');
+  const [reviewCount, setReviewCount] = useState('');
   const [images, setImages] = useState([]);
-  
+  const [success, setSuccess] = useState(false); // New state for success message
+
   const dispatch = useDispatch();
-  
+
   // Selector to get the product creation state
   const productAdd = useSelector((state) => state.productListReducer);
   const { loading, error } = productAdd;
 
   const onDrop = (acceptedFiles) => {
-    const newImages = [...images, ...acceptedFiles].slice(0, 4); // Limit to 4 images
+    const newImages = [...images, ...acceptedFiles].slice(0, 4);
     setImages(newImages);
   };
 
@@ -35,16 +36,26 @@ const AddProduct = () => {
     formData.append('productDescription', productDescription);
     formData.append('productPrice', productPrice);
     formData.append('stockQuantity', stockQuantity);
-    formData.append('productRating', productRating); // Include product rating
-    formData.append('reviewCount', reviewCount); // Include review count
+    formData.append('productRating', productRating);
+    formData.append('reviewCount', reviewCount);
 
-    // Log FormData entries for debugging
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-  
-    // Dispatch addProduct action
-    dispatch(addProduct(formData));
+    dispatch(addProduct(formData))
+      .then(() => {
+        // Reset form fields after successful submission
+        setProductName('');
+        setProductCategory('');
+        setProductDescription('');
+        setProductPrice('');
+        setStockQuantity('');
+        setProductRating('');
+        setReviewCount('');
+        setImages([]);
+        setSuccess(true); // Show success message
+        setTimeout(() => setSuccess(false), 3000); // Hide message after 3 seconds
+      })
+      .catch(() => {
+        setSuccess(false); // Hide success message on error
+      });
   };
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -91,7 +102,7 @@ const AddProduct = () => {
           onChange={(e) => setProductPrice(e.target.value)}
           className="w-full p-2 bg-gray-800 text-gray-300 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
           required
-          min="0" // Minimum value to ensure a positive price
+          min="0"
         />
         <input
           type="number"
@@ -100,7 +111,7 @@ const AddProduct = () => {
           onChange={(e) => setStockQuantity(e.target.value)}
           className="w-full p-2 bg-gray-800 text-gray-300 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
           required
-          min="0" // Minimum value to ensure non-negative stock quantity
+          min="0"
         />
         <input
           type="number"
@@ -109,9 +120,9 @@ const AddProduct = () => {
           onChange={(e) => setProductRating(e.target.value)}
           className="w-full p-2 bg-gray-800 text-gray-300 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
           required
-          min="0" // Minimum value to ensure a non-negative rating
-          max="5" // Maximum value for rating
-          step="0.1" // Allow decimal values for rating
+          min="0"
+          max="5"
+          step="0.1"
         />
         <input
           type="number"
@@ -120,7 +131,7 @@ const AddProduct = () => {
           onChange={(e) => setReviewCount(e.target.value)}
           className="w-full p-2 bg-gray-800 text-gray-300 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
           required
-          min="0" // Minimum value to ensure non-negative review count
+          min="0"
         />
 
         <div {...getRootProps()} className="border-2 border-dashed border-gray-600 p-4 rounded cursor-pointer bg-gray-800">
@@ -142,12 +153,13 @@ const AddProduct = () => {
         <button
           type="submit"
           className="w-full bg-indigo-600 text-white p-2 rounded hover:bg-indigo-500 transition"
-          disabled={loading} // Disable the button while loading
+          disabled={loading}
         >
           {loading ? 'Adding...' : 'Add Product'}
         </button>
 
-        {error && <p className="text-red-500">{error}</p>} {/* Display error message */}
+        {success && <p className="text-green-500">Product added successfully!</p>}
+        
       </form>
     </div>
   );
