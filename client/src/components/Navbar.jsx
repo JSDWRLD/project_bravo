@@ -95,15 +95,17 @@ const Navbar = () => {
                           Order History
                         </NavLink>
                       </li>
-                      <li>
-                        <NavLink
-                          to="/admin/dashboard"
-                          onClick={() => setIsDropdownOpen(false)} // Close dropdown on click
-                          className="block px-4 py-2 hover:bg-indigo-500 hover:text-black transition"
-                        >
-                          Admin Portal
-                        </NavLink>
-                      </li>
+                      {userInfo.isAdmin && ( // Only show if user is admin
+                        <li>
+                          <NavLink
+                            to="/admin/dashboard"
+                            onClick={() => setIsDropdownOpen(false)}
+                            className="block px-4 py-2 hover:bg-indigo-500 hover:text-black transition"
+                          >
+                            Admin Portal
+                          </NavLink>
+                        </li>
+                      )}
                       <li>
                         <button
                           onClick={() => {
