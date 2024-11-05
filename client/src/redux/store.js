@@ -5,7 +5,7 @@ import storage from 'redux-persist/lib/storage';
 import { productListReducer, productReducer } from "./Reducers/Product";
 import { userLoginReducer, userRegisterReducer } from "./Reducers/User";
 import { cartReducer } from "./Reducers/Cart";
-import { orderReducer, orderDetailReducer, orderPaymentReducer, orderListReducer } from "./Reducers/Order";
+import { orderReducer, orderDetailReducer, orderPaymentReducer, orderListReducer, orderDeliveryReducer, adminOrderListReducer } from "./Reducers/Order";
 import {thunk} from 'redux-thunk'; // Correct import
 
 const persistConfig = {
@@ -24,6 +24,8 @@ const rootReducer = combineReducers({
     orderDetailReducer,
     orderPaymentReducer,
     orderListReducer,
+    orderDeliveryReducer,
+    adminOrderListReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

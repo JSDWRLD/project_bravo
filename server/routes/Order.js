@@ -1,9 +1,9 @@
 const express = require('express');
 const AsyncHandler = require('express-async-handler');
-const { protect } = require('../middleware/Auth');
 const Order = require('../models/Order');
 const { findById } = require('../models/User');
 const orderRoute = express.Router();
+const { protect, isAdmin } = require('../middleware/Auth');
 
 orderRoute.post(
     '/',
@@ -95,6 +95,45 @@ orderRoute.get(
         }
     })
 );
+
+// View All Orders for Admin
+orderRoute.get(
+    '/admin/vieworders',
+    protect,
+    isAdmin,
+    AsyncHandler(async (req, res) => {
+        // Retrieve all orders without filtering by user
+        const orders = await Order.find().sort({ createdAt: -1 });
+        
+        if (orders) {
+            res.status(200).json(orders);
+        } else {
+            res.status(404);
+            throw new Error("No orders found");
+        }
+    })
+);
+// Update Order Delivery Status
+orderRoute.put(
+    '/:id/delivery',
+    protect,
+    isAdmin,
+    AsyncHandler(async (req, res) => {
+        const order = await Order.findById(req.params.id);
+
+        if (order) {
+            order.isDelivered = req.body.isDelivered || false;
+            order.deliveredAt = order.isDelivered ? Date.now() : null;
+
+            const updatedOrder = await order.save();
+            res.status(200).json(updatedOrder);
+        } else {
+            res.status(404);
+            throw new Error("Order not found");
+        }
+    })
+);
+
 
 module.exports = orderRoute;
 

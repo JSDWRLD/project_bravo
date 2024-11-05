@@ -3,20 +3,25 @@ import {
     ORDER_REQ,
     ORDER_SUCCESS,
 
-
     ORDER_DETAIL_REQ,
     ORDER_DETAIL_REQ_FAIL,
     ORDER_DETAIL_REQ_SUCCESS,
-
 
     ORDER_PAYMENT_REQ,
     ORDER_PAYMENT_REQ_FAIL,
     ORDER_PAYMENT_REQ_SUCCESS,
 
-
     ORDER_LIST_REQ,
     ORDER_LIST_REQ_FAIL,
-    ORDER_LIST_REQ_SUCCESS
+    ORDER_LIST_REQ_SUCCESS,
+
+    ORDER_DELIVERY_REQ,
+    ORDER_DELIVERY_SUCCESS,
+    ORDER_DELIVERY_FAIL,
+
+    ADMIN_ORDER_LIST_REQ,
+    ADMIN_ORDER_LIST_SUCCESS,
+    ADMIN_ORDER_LIST_FAIL
 } from "../Constants/Order"
 import { BASE_URL } from "../Constants/BASE_URL";
 
@@ -149,5 +154,76 @@ export const orderListAction = () => async (dispatch, getState) => {
             type: ORDER_LIST_REQ_FAIL,
             payload: message,
         });
+    }
+};
+
+// Action to update the delivery status of an order
+export const orderDeliveryAction = (orderId) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: ORDER_DELIVERY_REQ });
+        const userInfo = getState().userLoginReducer.userInfo;
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
+
+        // Payload for the request body
+        const payload = {
+            isDelivered: true,
+        };
+
+        // Send the payload with the request
+        const { data } = await axios.put(
+            `${BASE_URL}/api/orders/${orderId}/delivery`,
+            payload,
+            config
+        );
+
+        dispatch({ type: ORDER_DELIVERY_SUCCESS, payload: data });
+        dispatch(adminOrderListAction());
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+
+        if (message === "Not authorized!") {
+            dispatch(userLogoutAction());
+        }
+        dispatch({
+            type: ORDER_DELIVERY_FAIL,
+            payload: message,
+        });
+    }
+};
+
+
+// Action to get all orders for admin view
+export const adminOrderListAction = () => async (dispatch, getState) => {
+    try {
+        dispatch({ type: ADMIN_ORDER_LIST_REQ });
+        const userInfo = getState().userLoginReducer.userInfo;
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
+
+        const { data } = await axios.get(`${BASE_URL}/api/orders/admin/vieworders`, config);
+        dispatch({ type: ADMIN_ORDER_LIST_SUCCESS, payload: data });
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message 
+            ? error.response.data.message 
+            : error.message;
+
+        if (message === "Not authorized!") {
+            dispatch(userLogoutAction());
+        }
+        dispatch({ type: ADMIN_ORDER_LIST_FAIL, payload: message });
     }
 };
