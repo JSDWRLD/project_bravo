@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AddProduct from './AddProduct';
 import RemoveProduct from './RemoveProduct';
 import Orders from './Orders';
+import GiftCardManager from './GiftCardManager';
 
 const Admin = () => {
   const [selectedComponent, setSelectedComponent] = useState('AddProduct');
@@ -14,6 +15,8 @@ const Admin = () => {
         return <RemoveProduct />;
       case 'Orders':
         return <Orders />;
+      case 'GiftCards':
+          return <GiftCardManager />;
       default:
         return null;
     }
@@ -52,6 +55,14 @@ const Admin = () => {
               } hover:bg-indigo-500 transition`}
             >
               Manage Orders
+            </button>
+            <button
+              onClick={() => setSelectedComponent('GiftCards')}
+              className={`w-full p-3 rounded ${
+                selectedComponent === 'GiftCards' ? 'bg-indigo-600' : 'bg-gray-700'
+              } hover:bg-indigo-500 transition`}
+            >
+              Manage Gift Cards
             </button>
           </nav>
         </aside>

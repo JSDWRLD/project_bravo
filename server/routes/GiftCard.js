@@ -33,7 +33,8 @@ giftCardRoute.delete(
     AsyncHandler(async (req, res) => {
         const giftCard = await GiftCard.findById(req.params.id);
         if (giftCard) {
-            await giftCard.remove();
+            // Replace remove() with deleteOne()
+            await giftCard.deleteOne();
             res.status(200).json({ message: "Gift card deleted successfully" });
         } else {
             res.status(404);
@@ -61,6 +62,17 @@ giftCardRoute.put(
         }
     })
 );
+
+// Admin - Get all gift cards
+giftCardRoute.get(
+    "/admin/getall",
+    protect,
+    isAdmin,
+    AsyncHandler(async (req, res) => {
+        const giftcards = await GiftCard.find({});
+        res.json(giftcards);
+    })
+)
 
 // User - Use gift card as payment method
 giftCardRoute.post(
