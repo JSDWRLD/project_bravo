@@ -6,8 +6,9 @@ import { productListReducer, productReducer } from "./Reducers/Product";
 import { userLoginReducer, userRegisterReducer } from "./Reducers/User";
 import { cartReducer } from "./Reducers/Cart";
 import { orderReducer, orderDetailReducer, orderPaymentReducer, orderListReducer, orderDeliveryReducer, adminOrderListReducer } from "./Reducers/Order";
-import { giftCardCheckReducer, giftCardUseReducer, adminGiftCardListReducer } from "./Reducers/GiftCards"
-import {thunk} from 'redux-thunk'; // Correct import
+import { giftCardCheckReducer, giftCardUseReducer, adminGiftCardListReducer } from "./Reducers/GiftCards";
+import { userDeleteReducer, userDetailReducer, userListReducer, userUpdateReducer, userAddReducer } from "./Reducers/AdminUsers";
+import {thunk} from 'redux-thunk'; 
 
 const persistConfig = {
     key: 'root',
@@ -30,6 +31,11 @@ const rootReducer = combineReducers({
     giftCardCheckReducer,
     giftCardUseReducer,
     adminGiftCardListReducer,
+    userDeleteReducer,
+    userDetailReducer,
+    userUpdateReducer,
+    userListReducer,
+    userAddReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

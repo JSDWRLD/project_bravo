@@ -61,7 +61,7 @@ orderRoute.put(
             res.status(200).json(updatedOrder);
         } else {
             res.status(404);
-            throw new Error("ORDER NOT FOUND")
+            throw new Error("ORDER NOT FOUND");
         }
     })
 );
@@ -113,6 +113,7 @@ orderRoute.get(
         }
     })
 );
+
 // Update Order Delivery Status
 orderRoute.put(
     '/:id/delivery',

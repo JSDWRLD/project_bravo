@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { adminOrderListAction, orderDeliveryAction } from '../../redux/Actions/Order';
+import { BASE_URL } from '../../redux/Constants/BASE_URL';
 
 const AdminOrders = () => {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState(''); // New search term state
+  
 
   useEffect(() => {
     dispatch(adminOrderListAction());
@@ -16,6 +18,8 @@ const AdminOrders = () => {
   const handleMarkAsDelivered = (orderId) => {
     dispatch(orderDeliveryAction(orderId));
   };
+
+  // you must also user ${BASE_URL} in the api request
 
   // Filter orders by ID based on the search term
   const filteredOrders = orders.filter((order) =>
@@ -43,14 +47,14 @@ const AdminOrders = () => {
               <div className="flex justify-between items-center">
                 <div>
                   <h3 className="text-lg font-semibold text-indigo-400">Order #{order._id}</h3>
-                  <p className="text-gray-300">Customer: {order.user?.name || 'N/A'}</p>
-                  <p className="text-gray-300">Total: ${order.totalPrice?.toFixed(2) || '0.00'}</p>
+                  <p className="text-gray-300">Customer ID: {order.user || 'N/A'}</p>
+                  <p className="text-gray-300">Total: $ {order.totalPrice?.toFixed(2) || '0.00'}</p>
                 </div>
                 <div className="space-x-2">
                   {!order.isDelivered && (
                     <button
                       onClick={() => handleMarkAsDelivered(order._id)}
-                      className="bg-green-600 px-3 py-1 text-sm rounded hover:bg-green-500 transition"
+                      className="bg-indigo-600 text-white px-3 py-1 text-sm rounded hover:bg-green-500 transition"
                     >
                       Mark as Delivered
                     </button>

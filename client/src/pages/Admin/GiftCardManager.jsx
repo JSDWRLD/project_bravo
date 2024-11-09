@@ -108,13 +108,13 @@ const GiftCardManager = () => {
                                     onChange={(e) => setBalanceAmounts({ ...balanceAmounts, [giftCard._id]: Number(e.target.value) })}
                                 />
                                 <button
-                                    className="bg-green-600 text-white px-4 py-2 rounded mb-2 hover:bg-green-500 transition"
+                                    className="bg-indigo-600 text-white px-4 py-2 rounded mb-2 hover:bg-green-500 transition"
                                     onClick={() => handleAddBalance(giftCard._id)}
                                 >
                                     Add Balance
                                 </button>
                                 <button
-                                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500 transition"
+                                    className="bg-red-900 text-white px-4 py-2 rounded hover:bg-red-500 transition"
                                     onClick={() => handleDeleteGiftCard(giftCard._id)}
                                 >
                                     Delete Gift Card

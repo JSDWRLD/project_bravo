@@ -3,7 +3,7 @@ const userRoute = express.Router();
 const AsyncHandler = require('express-async-handler');
 const User = require('../models/User');
 const generateToken = require('../tokenGenerate');
-const { protect } = require('../middleware/Auth');
+const { protect, isAdmin } = require('../middleware/Auth');
 
 // Post methods 
 // Login Route
@@ -113,6 +113,108 @@ userRoute.put(
             throw new Error("USER NOT FOUND")
         }
     })
-)
+);
+
+// Get All Users - Admin Only
+userRoute.get(
+    '/admin/users',
+    protect,
+    isAdmin,
+    AsyncHandler(async (req, res) => {
+        const users = await User.find({}).select('-password');
+        res.status(200).json(users);
+    })
+);
+
+// Get User by ID - Admin Only
+userRoute.get(
+    '/admin/user/:id',
+    protect,
+    isAdmin,
+    AsyncHandler(async (req, res) => {
+        const user = await User.findById(req.params.id).select('-password');
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404);
+            throw new Error("User not found");
+        }
+    })
+);
+
+// Update User by ID - Admin Only
+userRoute.put(
+    '/admin/user/:id',
+    protect,
+    isAdmin,
+    AsyncHandler(async (req, res) => {
+        const user = await User.findById(req.params.id);
+        if (user) {
+            user.name = req.body.name || user.name;
+            user.email = req.body.email || user.email;
+            user.isAdmin = req.body.isAdmin !== undefined ? req.body.isAdmin : user.isAdmin;
+
+            const updatedUser = await user.save();
+            res.status(200).json({
+                _id: updatedUser.id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                isAdmin: updatedUser.isAdmin,
+                createdAt: updatedUser.createdAt,
+            });
+        } else {
+            res.status(404);
+            throw new Error("User not found");
+        }
+    })
+);
+
+// Delete User by ID - Admin Only
+userRoute.delete(
+    '/admin/user/:id',
+    protect,
+    isAdmin,
+    AsyncHandler(async (req, res) => {
+        const user = await User.findById(req.params.id);
+        if (user) {
+            await user.deleteOne();
+            res.status(200).json({ message: "User removed successfully" });
+        } else {
+            res.status(404);
+            throw new Error("User not found");
+        }
+    })
+);
+
+// Add User Route - Admin Only
+userRoute.post(
+    '/admin/add',
+    protect,
+    isAdmin,
+    AsyncHandler(async (req, res) => {
+        const { name, email, password, isAdmin } = req.body;
+        const existUser = await User.findOne({ email });
+
+        if (existUser) {
+            res.status(400);
+            throw new Error("This User Account already exists. Try a different email.");
+        } else {
+            const user = await User.create({ name, email, password, isAdmin });
+
+            if (user) {
+                res.status(201).json({
+                    _id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                    createdAt: user.createdAt,
+                });
+            } else {
+                res.status(400);
+                throw new Error("Invalid User Data");
+            }
+        }
+    })
+);
 
 module.exports = userRoute;

@@ -3,6 +3,7 @@ import AddProduct from './AddProduct';
 import RemoveProduct from './RemoveProduct';
 import Orders from './Orders';
 import GiftCardManager from './GiftCardManager';
+import UserManager from './UserManager';
 
 const Admin = () => {
   const [selectedComponent, setSelectedComponent] = useState('AddProduct');
@@ -16,7 +17,9 @@ const Admin = () => {
       case 'Orders':
         return <Orders />;
       case 'GiftCards':
-          return <GiftCardManager />;
+        return <GiftCardManager />;
+      case 'UserManager':
+        return <UserManager />;
       default:
         return null;
     }
@@ -25,45 +28,28 @@ const Admin = () => {
   return (
     <div className="pt-12 flex items-center justify-center min-h-screen bg-black text-white p-6 lg:p-12">
       <div className="flex w-full max-w-6xl bg-gray-900 rounded-lg shadow-lg overflow-hidden">
-        
+
         {/* Sidebar */}
         <aside className="w-1/4 bg-gray-800 p-6">
           <h2 className="text-2xl font-retro font-bold text-indigo-600 mb-6 text-center">
             Admin Dashboard
           </h2>
           <nav className="space-y-4">
-            <button
-              onClick={() => setSelectedComponent('AddProduct')}
-              className={`w-full p-3 rounded ${
-                selectedComponent === 'AddProduct' ? 'bg-indigo-600' : 'bg-gray-700'
-              } hover:bg-indigo-500 transition`}
-            >
-              Add Product
-            </button>
-            <button
-              onClick={() => setSelectedComponent('RemoveProduct')}
-              className={`w-full p-3 rounded ${
-                selectedComponent === 'RemoveProduct' ? 'bg-indigo-600' : 'bg-gray-700'
-              } hover:bg-indigo-500 transition`}
-            >
-              Remove Product
-            </button>
-            <button
-              onClick={() => setSelectedComponent('Orders')}
-              className={`w-full p-3 rounded ${
-                selectedComponent === 'Orders' ? 'bg-indigo-600' : 'bg-gray-700'
-              } hover:bg-indigo-500 transition`}
-            >
-              Manage Orders
-            </button>
-            <button
-              onClick={() => setSelectedComponent('GiftCards')}
-              className={`w-full p-3 rounded ${
-                selectedComponent === 'GiftCards' ? 'bg-indigo-600' : 'bg-gray-700'
-              } hover:bg-indigo-500 transition`}
-            >
-              Manage Gift Cards
-            </button>
+            {['AddProduct', 'RemoveProduct', 'Orders', 'GiftCards', 'UserManager'].map((item) => (
+              <button
+                key={item}
+                onClick={() => setSelectedComponent(item)}
+                className={`w-full p-3 rounded ${
+                  selectedComponent === item ? 'bg-indigo-600 text-white' : 'bg-gray-700 text-gray-300'
+                } hover:bg-indigo-500 transition`}
+              >
+                {item === 'AddProduct' && 'Add Product'}
+                {item === 'RemoveProduct' && 'Remove Product'}
+                {item === 'Orders' && 'Manage Orders'}
+                {item === 'GiftCards' && 'Manage Gift Cards'}
+                {item === 'UserManager' && 'Manage Users'}
+              </button>
+            ))}
           </nav>
         </aside>
 
