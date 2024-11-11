@@ -52,7 +52,7 @@ const orderSchema = new mongoose.Schema({
     paymentMethod: {
         type: String,
         required: true,
-        default: "Paypal"
+        enum: [ 'paypal', 'gift' ]
     },
     paymentResult: {
         order_id: {

@@ -15,8 +15,6 @@ const PlaceOrder = () => {
     const cart = useSelector((state) => state.cartReducer);
     const { cartItems, shippingAddress } = cart;
 
-    
-
     // Subtotal calculation
     const addDecimal = (num) => {
         return (Math.round(num * 100) / 100).toFixed(2);
@@ -39,6 +37,8 @@ const PlaceOrder = () => {
     const [city, setCity] = useState(shippingAddress.city);
     const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
     const [country, setCountry] = useState(shippingAddress.country);
+
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("paypal");
 
     const saveShippingAddress = () => {
         dispatch(
@@ -77,10 +77,17 @@ const PlaceOrder = () => {
         }
     };
 
+    useEffect(() => {
+        console.log("Selected Payment Method:", selectedPaymentMethod);
+    }, [selectedPaymentMethod]);
+
     // On paypal success we can post the order
     const successPaymentHandler = async () => {
         try {
-            setPaymentResult(paymentResult)
+            console.log("Selected Payment Method:", selectedPaymentMethod); // Logs the current payment method
+            setPaymentResult(paymentResult);
+
+            // Dispatch the order with the current payment method
             dispatch(orderAction({
                 orderItems: cart.cartItems.map(item => ({
                     itemName: item.name,
@@ -91,16 +98,16 @@ const PlaceOrder = () => {
                 })),
                 shippingAddress: cart.shippingAddress,
                 totalPrice: total,
-                paymentMethod: 'paypal',
+                paymentMethod: selectedPaymentMethod, // Use current selectedPaymentMethod
                 price: subtotal,
                 taxPrice: taxPrice,
                 shippingPrice: shippingPrice
-
-            }))
+            }));
         } catch (err) {
-            console.log(err);
+            console.log("Error in successPaymentHandler:", err);
         }
     };
+
 
     return (
         <>
@@ -186,7 +193,52 @@ const PlaceOrder = () => {
                                 Save Shipping Address
                             </button>
 
-                            {clientID && (
+                            {/* Payment Method Selection */}
+                            <h2 className="text-gray-300 text-lg mb-1 font-medium title-font">Select Payment Method</h2>
+                            <div className="flex space-x-4 mb-6">
+                                <button
+                                    onClick={() => setSelectedPaymentMethod("gift")}
+                                    className={`py-2 px-4 rounded ${selectedPaymentMethod === "gift" ? "bg-indigo-600" : "bg-gray-600"} text-white`}>
+                                    Gift Card
+                                </button>
+                                <button
+                                    onClick={() => setSelectedPaymentMethod("paypal")}
+                                    className={`py-2 px-4 rounded ${selectedPaymentMethod === "paypal" ? "bg-indigo-600" : "bg-gray-600"} text-white`}>
+                                    PayPal
+                                </button>
+                            </div>
+
+                            {selectedPaymentMethod === "gift" ? (
+                                <div>
+                                    <h2 className="text-gray-300 text-lg mt-2 mb-2 font-medium title-font">Enter Gift Card Details</h2>
+
+                                    <input
+                                        type="text"
+                                        placeholder="Gift Card Code"
+                                        className="mb-2 w-full bg-gray-700 text-gray-300 py-4 px-4 rounded border border-gray-600"
+                                    />
+
+                                    <div className="flex space-x-2 mb-4">
+                                        <button
+                                            className="bg-gray-600 text-white py-2 px-4 rounded"
+                                        >
+                                            Check Balance
+                                        </button>
+
+                                        <button
+                                            className="bg-indigo-600 text-white py-2 px-4 rounded"
+                                        >
+                                            Apply Gift Card
+                                        </button>
+                                    </div>
+
+                                    {/* Display template balance */}
+                                    <div className="mt-2 text-gray-300">
+                                        Gift Card Balance: $0.00
+                                    </div>
+                                </div>
+
+                            ) : (clientID && (
                                 <PayPalScriptProvider options={{ clientId: clientID }}>
                                     <PayPalButtons
                                         // Create our order from our cart items
@@ -209,7 +261,7 @@ const PlaceOrder = () => {
                                         }}
                                     />
                                 </PayPalScriptProvider>
-                            )}
+                            ))}
 
                         </div>
                     </div>
