@@ -66,7 +66,13 @@ const orderSchema = new mongoose.Schema({
         },
         email_address: {
             type: String
-        }
+        },
+        payment_method: {
+            type: String
+        },
+        gift_card_code: {
+            type: String
+        },
     },
     taxPrice: {
         type: Number,

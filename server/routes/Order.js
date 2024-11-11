@@ -55,6 +55,8 @@ orderRoute.put(
                 status: req.body.status,
                 updated_time: req.body.updated_time,
                 email_address: req.body.email_address,
+                payment_method: req.body.payment_method,
+                gift_card_code: req.body.gift_card_code
             };
 
             const updatedOrder = await orderToUpdate.save();

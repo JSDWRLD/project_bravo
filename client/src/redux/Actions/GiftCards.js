@@ -3,6 +3,7 @@ import {
     GIFT_CARD_CHECK_BALANCE_REQUEST,
     GIFT_CARD_CHECK_BALANCE_SUCCESS,
     GIFT_CARD_CHECK_BALANCE_FAIL,
+    GIFT_CARD_RESET_BALANCE,
     GIFT_CARD_USE_REQUEST,
     GIFT_CARD_USE_SUCCESS,
     GIFT_CARD_USE_FAIL,
@@ -34,11 +35,11 @@ export const checkGiftCardBalance = (code) => async (dispatch, getState) => {
         const { userLoginReducer: { userInfo } } = getState();
 
         const { data } = await axios.post(
-            '/api/giftcards/check-balance',
+            `${BASE_URL}/api/giftcards/check-balance`,
             { code },
             { headers: { Authorization: `Bearer ${userInfo.token}` } }
         );
-
+        
         dispatch({ type: GIFT_CARD_CHECK_BALANCE_SUCCESS, payload: data });
     } catch (error) {
         dispatch({
@@ -47,6 +48,10 @@ export const checkGiftCardBalance = (code) => async (dispatch, getState) => {
         });
     }
 };
+
+export const resetGiftCardBalance = () => ({
+    type: GIFT_CARD_RESET_BALANCE,
+});
 
 // User - Use Gift Card
 export const useGiftCard = (code, amount) => async (dispatch, getState) => {
@@ -59,7 +64,6 @@ export const useGiftCard = (code, amount) => async (dispatch, getState) => {
             { code, amount },
             { headers: { Authorization: `Bearer ${userInfo.token}` } }
         );
-
         dispatch({ type: GIFT_CARD_USE_SUCCESS, payload: data });
     } catch (error) {
         dispatch({

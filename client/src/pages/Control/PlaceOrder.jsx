@@ -2,12 +2,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import CartItems from "../../components/CartItems";
 import { saveShippingAddressAction, resetShippingAddressAction } from "../../redux/Actions/Cart";
+import { useGiftCard, checkGiftCardBalance, resetGiftCardBalance } from "../../redux/Actions/GiftCards";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { orderAction, orderPaymentAction } from "../../redux/Actions/Order";
+import { orderAction, orderPaymentAction, orderGiftCardPaymentAction } from "../../redux/Actions/Order";
 import { ORDER_RESET } from "../../redux/Constants/Order";
 import { BASE_URL } from "../../redux/Constants/BASE_URL";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+let giftCardUsageAmount = 0;
 
 const PlaceOrder = () => {
     const dispatch = useDispatch();
@@ -15,6 +18,23 @@ const PlaceOrder = () => {
     const cart = useSelector((state) => state.cartReducer);
     const { cartItems, shippingAddress } = cart;
 
+    const [giftCardCode, setGiftCardCode] = useState('');
+    const [giftCardBalance, setGiftCardBalance] = useState(null);
+    const [isGiftCardApplied, setIsGiftCardApplied] = useState(false);
+
+    useEffect(() => {
+        dispatch(resetGiftCardBalance());
+    }, [dispatch]);
+
+    // Get gift card info from Redux
+    const giftCardReducer = useSelector((state) => state.giftCardCheckReducer);
+    const { balance } = giftCardReducer;
+    // Check gift card balance
+    const checkGiftCardBalanceHandler = () => {
+        if (giftCardCode) {
+            dispatch(checkGiftCardBalance(giftCardCode));
+        }
+    };
     // Subtotal calculation
     const addDecimal = (num) => {
         return (Math.round(num * 100) / 100).toFixed(2);
@@ -31,6 +51,19 @@ const PlaceOrder = () => {
         Number(taxPrice) +
         Number(shippingPrice)
     ).toFixed(2);
+
+    // Apply gift card
+    const applyGiftCardHandler = () => {
+        if (balance && !isGiftCardApplied) {
+            giftCardUsageAmount = Math.min(balance, total);
+            setGiftCardBalance(giftCardUsageAmount); // Store the used amount
+            setIsGiftCardApplied(true);
+        }
+    };
+
+    const adjustedTotalDisplay = isGiftCardApplied
+        ? addDecimal(total - giftCardBalance)
+        : addDecimal(total);
 
     // Shipping address form data
     const [address, setAddress] = useState(shippingAddress.address);
@@ -57,37 +90,41 @@ const PlaceOrder = () => {
     const { order, success } = orderReducer;
     const [paymentResult, setPaymentResult] = useState({});
 
-    // Fetch paypal cient id
     useEffect(() => {
         getPaypalClientID();
-        if (success) {
-            dispatch({ type: ORDER_RESET });
-            dispatch(orderPaymentAction(order._id, paymentResult));
-            navigate(`/order/${order._id}`, {});
-        }
-    });
+    }, []); // Fetch PayPal client ID only once
 
+    useEffect(() => {
+        if (success) {
+            // Order reset
+            dispatch({ type: ORDER_RESET });
+    
+            if (selectedPaymentMethod === "paypal") {
+                dispatch(orderPaymentAction(order._id, paymentResult));
+                navigate(`/order/${order._id}`, {});
+            } else if (selectedPaymentMethod === "gift" && giftCardCode) {
+                // Apply gift card payment first
+                dispatch(orderGiftCardPaymentAction(order._id, giftCardCode));
+                console.log(giftCardUsageAmount)
+                dispatch(useGiftCard(giftCardCode, giftCardUsageAmount));
+                navigate(`/order/${order._id}`, {});
+            }
+        }
+    }, [success, paymentResult, navigate, dispatch, selectedPaymentMethod, giftCardCode, total, giftCardBalance]);
+    
     const getPaypalClientID = async () => {
         try {
             const response = await axios.get(`${BASE_URL}/api/config/paypal`);
-            const fetchedClientID = response.data;
-            setClientID(fetchedClientID); // Set the client ID in state
+            setClientID(response.data); // Set the client ID in state
         } catch (error) {
             console.error("Error fetching PayPal Client ID:", error);
         }
     };
 
-    useEffect(() => {
-        console.log("Selected Payment Method:", selectedPaymentMethod);
-    }, [selectedPaymentMethod]);
-
-    // On paypal success we can post the order
-    const successPaymentHandler = async () => {
+    const successPaymentHandler =  (details) => {
         try {
-            console.log("Selected Payment Method:", selectedPaymentMethod); // Logs the current payment method
-            setPaymentResult(paymentResult);
+            setPaymentResult(details);
 
-            // Dispatch the order with the current payment method
             dispatch(orderAction({
                 orderItems: cart.cartItems.map(item => ({
                     itemName: item.name,
@@ -98,7 +135,7 @@ const PlaceOrder = () => {
                 })),
                 shippingAddress: cart.shippingAddress,
                 totalPrice: total,
-                paymentMethod: selectedPaymentMethod, // Use current selectedPaymentMethod
+                paymentMethod: selectedPaymentMethod,
                 price: subtotal,
                 taxPrice: taxPrice,
                 shippingPrice: shippingPrice
@@ -108,6 +145,28 @@ const PlaceOrder = () => {
         }
     };
 
+    // Gift cards
+    const placeOrderHandler = () => {
+        try {
+            dispatch(orderAction({
+                orderItems: cartItems.map(item => ({
+                    itemName: item.name,
+                    itemQuantity: item.qty,
+                    displayImage: item.image,
+                    itemPrice: item.price,
+                    product: item.product
+                })),
+                shippingAddress,
+                totalPrice: total,
+                paymentMethod: selectedPaymentMethod,
+                price: subtotal,
+                taxPrice: taxPrice,
+                shippingPrice: shippingPrice
+            }));
+        } catch (err) {
+            console.log("Error in placeOrderHandler:", err);
+        }
+    };
 
     return (
         <>
@@ -132,7 +191,7 @@ const PlaceOrder = () => {
                                 <span className="ml-auto text-gray-300">$ {shippingPrice}</span>
                             </div>
                             <div className="flex justify-between items-center">
-                                <span className="title-font font-medium text-2xl text-indigo-500">$ {total}</span>
+                                <span className="title-font font-medium text-2xl text-indigo-500">$ {adjustedTotalDisplay}</span>
                             </div>
                         </div>
                         <div className="lg:w-1/3 md:w-1/2 p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 relative z-10 bg-gray-800 rounded-lg shadow-lg">
@@ -214,30 +273,47 @@ const PlaceOrder = () => {
 
                                     <input
                                         type="text"
+                                        value={giftCardCode}
+                                        onChange={(e) => setGiftCardCode(e.target.value)}
                                         placeholder="Gift Card Code"
                                         className="mb-2 w-full bg-gray-700 text-gray-300 py-4 px-4 rounded border border-gray-600"
                                     />
 
                                     <div className="flex space-x-2 mb-4">
                                         <button
+                                            onClick={checkGiftCardBalanceHandler}
                                             className="bg-gray-600 text-white py-2 px-4 rounded"
                                         >
                                             Check Balance
                                         </button>
 
                                         <button
+                                            onClick={applyGiftCardHandler}
                                             className="bg-indigo-600 text-white py-2 px-4 rounded"
+                                            disabled={!balance || isGiftCardApplied}
                                         >
                                             Apply Gift Card
                                         </button>
                                     </div>
 
-                                    {/* Display template balance */}
                                     <div className="mt-2 text-gray-300">
-                                        Gift Card Balance: $0.00
+                                        Gift Card Balance: ${balance || "0.00"}
                                     </div>
-                                </div>
 
+                                    {isGiftCardApplied && (
+                                        <div className="mt-2 text-gray-300">
+                                            Applied Gift Card Balance: ${giftCardBalance}
+                                        </div>
+                                    )}
+
+                                    <button
+                                        onClick={placeOrderHandler}
+                                        className="mt-6 bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-500 transition duration-200"
+                                        disabled={!isGiftCardApplied}
+                                    >
+                                        Place Order
+                                    </button>
+                                </div>
                             ) : (clientID && (
                                 <PayPalScriptProvider options={{ clientId: clientID }}>
                                     <PayPalButtons

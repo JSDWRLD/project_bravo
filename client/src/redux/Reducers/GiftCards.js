@@ -2,6 +2,7 @@ import {
     GIFT_CARD_CHECK_BALANCE_REQUEST,
     GIFT_CARD_CHECK_BALANCE_SUCCESS,
     GIFT_CARD_CHECK_BALANCE_FAIL,
+    GIFT_CARD_RESET_BALANCE,
     GIFT_CARD_USE_REQUEST,
     GIFT_CARD_USE_SUCCESS,
     GIFT_CARD_USE_FAIL,
@@ -20,14 +21,16 @@ import {
 } from '../Constants/GiftCards';
 
 // User - Check Gift Card Balance
-export const giftCardCheckReducer = (state = { balanceInfo: {} }, action) => {
+export const giftCardCheckReducer = (state = { balance: 0 }, action) => {
     switch (action.type) {
         case GIFT_CARD_CHECK_BALANCE_REQUEST:
-            return { loading: true };
+            return { loading: true, balance: 0 };
         case GIFT_CARD_CHECK_BALANCE_SUCCESS:
-            return { loading: false, balanceInfo: action.payload };
+            return { loading: false, balance: action.payload.balance };
         case GIFT_CARD_CHECK_BALANCE_FAIL:
             return { loading: false, error: action.payload };
+        case GIFT_CARD_RESET_BALANCE: // New action to reset balance
+            return { balance: 0 }; 
         default:
             return state;
     }

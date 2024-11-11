@@ -13,7 +13,7 @@ const giftCardSchema = new mongoose.Schema({
     },
     lastUsed: {
         type: Date
-    }
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model("GiftCard", giftCardSchema);

@@ -102,4 +102,24 @@ giftCardRoute.post(
     })
 );
 
+// User - Check Gift Card Balance
+giftCardRoute.post(
+    "/check-balance",
+    protect,  // Assuming the user must be logged in to check the balance
+    AsyncHandler(async (req, res) => {
+        const { code } = req.body;
+        const giftCard = await GiftCard.findOne({ code });
+
+        if (giftCard) {
+            // Respond with the balance if the gift card is found
+            res.status(200).json({
+                balance: giftCard.balance
+            });
+        } else {
+            res.status(404);
+            throw new Error("Gift card not found");
+        }
+    })
+);
+
 module.exports = giftCardRoute;

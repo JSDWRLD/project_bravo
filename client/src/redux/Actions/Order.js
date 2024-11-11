@@ -44,7 +44,7 @@ export const orderAction = (order) => async (dispatch, getState) => {
             order,
             config
         );
-        
+
         dispatch({ type: ORDER_SUCCESS, payload: data });
         dispatch({ type: CART_ITEM_CLEAR, payload: data });
     } catch (error) {
@@ -54,7 +54,7 @@ export const orderAction = (order) => async (dispatch, getState) => {
 
 // Order payment action to update payment details and isPaid state
 export const orderPaymentAction =
-    (orderId, paymentResult) => async (dispatch, getState) => {
+    (orderId, details) => async (dispatch, getState) => {
         try {
             dispatch({ type: ORDER_PAYMENT_REQ });
             const userInfo = getState().userLoginReducer.userInfo;
@@ -64,6 +64,15 @@ export const orderPaymentAction =
                     Authorization: `Bearer ${userInfo.token}`,
                 },
             };
+
+            const paymentResult = {
+                order_id: details.id,
+                status: details.status,
+                updated_time: details.update_time,
+                email_address: details.payer.email_address,
+                payment_method: "paypal", // hardcoded to "paypal" for PayPal payments
+            };
+
             const { data } = await axios.put(
                 `${BASE_URL}/api/orders/${orderId}/payment`,
                 paymentResult,
@@ -79,7 +88,56 @@ export const orderPaymentAction =
                     ? error.response.data.message
                     : error.message;
 
-            if (message === "Not authroized!") {
+            if (message === "Not authorized!") {
+                dispatch(userLogoutAction());
+            }
+            dispatch({
+                type: ORDER_PAYMENT_REQ_FAIL,
+                payload: message,
+            });
+        }
+    };
+
+// Gift Card payment action
+export const orderGiftCardPaymentAction =
+    (orderId, giftCardCode) => async (dispatch, getState) => {
+        try {
+            dispatch({ type: ORDER_PAYMENT_REQ });
+
+            const userInfo = getState().userLoginReducer.userInfo;
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userInfo.token}`,
+                },
+            };
+
+            console.log(userInfo)
+
+            const paymentResult = {
+                order_id: orderId,
+                status: "COMPLETED", 
+                updated_time: Date.now(),
+                email_address: userInfo.email,
+                payment_method: "Gift Card",
+                gift_card_code: giftCardCode,
+            };
+
+            const { data } = await axios.put(
+                `${BASE_URL}/api/orders/${orderId}/payment`,
+                paymentResult,
+                config
+            );
+
+            dispatch({ type: ORDER_PAYMENT_REQ_SUCCESS, payload: data });
+            dispatch(orderDetailAction(orderId));
+
+        } catch (error) {
+            const message = error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+
+            if (message === "Not authorized!") {
                 dispatch(userLogoutAction());
             }
             dispatch({
@@ -216,10 +274,10 @@ export const adminOrderListAction = () => async (dispatch, getState) => {
         const { data } = await axios.get(`${BASE_URL}/api/orders/admin/vieworders`, config);
         dispatch({ type: ADMIN_ORDER_LIST_SUCCESS, payload: data });
     } catch (error) {
-        const message = 
-            error.response && error.response.data.message 
-            ? error.response.data.message 
-            : error.message;
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
 
         if (message === "Not authorized!") {
             dispatch(userLogoutAction());
