@@ -10,6 +10,8 @@ import { BASE_URL } from "../../redux/Constants/BASE_URL";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+
+
 let giftCardUsageAmount = 0;
 
 const PlaceOrder = () => {
@@ -17,6 +19,9 @@ const PlaceOrder = () => {
     const navigate = useNavigate();
     const cart = useSelector((state) => state.cartReducer);
     const { cartItems, shippingAddress } = cart;
+
+    const [isShippingAddressSaved, setIsShippingAddressSaved] = useState(false);
+    const [isPaymentOptionSelected, setIsPaymentOptionSelected] = useState(false);
 
     const [giftCardCode, setGiftCardCode] = useState('');
     const [giftCardBalance, setGiftCardBalance] = useState(null);
@@ -37,20 +42,18 @@ const PlaceOrder = () => {
     };
     // Subtotal calculation
     const addDecimal = (num) => {
-        return (Math.round(num * 100) / 100).toFixed(2);
+        return parseFloat(num.toFixed(2));  // Ensures two decimal places and avoids string representation errors
     };
+
     const subtotal = addDecimal(
-        cartItems.reduce((total, item) => total + item.qty * item.price, 0)
+        cartItems.reduce((total, item) => total + addDecimal(item.qty * item.price), 0)
     );
 
     // Actual Total
-    const taxPrice = addDecimal(Number(0.15 * subtotal).toFixed(2));
+    const taxPrice = addDecimal(0.15 * subtotal);
     const shippingPrice = addDecimal(subtotal > 100 ? 0 : 7.99);
-    const total = (
-        Number(subtotal) +
-        Number(taxPrice) +
-        Number(shippingPrice)
-    ).toFixed(2);
+    const total = addDecimal(Number(subtotal) + Number(taxPrice) + Number(shippingPrice));
+
 
     // Apply gift card
     const applyGiftCardHandler = () => {
@@ -62,7 +65,7 @@ const PlaceOrder = () => {
     };
 
     const adjustedTotalDisplay = isGiftCardApplied
-        ? addDecimal(total - giftCardBalance)
+        ? addDecimal(total - addDecimal(giftCardBalance))
         : addDecimal(total);
 
     // Shipping address form data
@@ -74,6 +77,11 @@ const PlaceOrder = () => {
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("paypal");
 
     const saveShippingAddress = () => {
+        if (!address || !city || !postalCode || !country) {
+            alert("Please fill out all the fields to continue.");
+            return; // Stop the function if any field is empty
+        }
+        
         dispatch(
             saveShippingAddressAction({
                 address,
@@ -82,6 +90,7 @@ const PlaceOrder = () => {
                 country,
             })
         );
+        setIsShippingAddressSaved(true);
     };
 
     const [clientID, setClientID] = useState(null);
@@ -98,20 +107,21 @@ const PlaceOrder = () => {
         if (success) {
             // Order reset
             dispatch({ type: ORDER_RESET });
-    
+
             if (selectedPaymentMethod === "paypal") {
                 dispatch(orderPaymentAction(order._id, paymentResult));
                 navigate(`/order/${order._id}`, {});
             } else if (selectedPaymentMethod === "gift" && giftCardCode) {
                 // Apply gift card payment first
                 dispatch(orderGiftCardPaymentAction(order._id, giftCardCode));
-                console.log(giftCardUsageAmount)
                 dispatch(useGiftCard(giftCardCode, giftCardUsageAmount));
                 navigate(`/order/${order._id}`, {});
             }
+
+            dispatch(resetShippingAddressAction());
         }
     }, [success, paymentResult, navigate, dispatch, selectedPaymentMethod, giftCardCode, total, giftCardBalance]);
-    
+
     const getPaypalClientID = async () => {
         try {
             const response = await axios.get(`${BASE_URL}/api/config/paypal`);
@@ -121,7 +131,7 @@ const PlaceOrder = () => {
         }
     };
 
-    const successPaymentHandler =  (details) => {
+    const successPaymentHandler = (details) => {
         try {
             setPaymentResult(details);
 
@@ -195,151 +205,163 @@ const PlaceOrder = () => {
                             </div>
                         </div>
                         <div className="lg:w-1/3 md:w-1/2 p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 relative z-10 bg-gray-800 rounded-lg shadow-lg">
-                            <h2 className="text-gray-300 text-lg mb-1 font-medium title-font">Shipping Address</h2>
+                            {!isShippingAddressSaved ? (
+                                <>
+                                    <h2 className="text-gray-300 text-lg mb-1 font-medium title-font">Shipping Address</h2>
 
-                            <div className="relative mb-4">
-                                <label htmlFor="address" className="leading-7 text-sm text-gray-400">Address</label>
-                                <input
-                                    type="text"
-                                    id="address"
-                                    name="address"
-                                    value={address}
-                                    onChange={(e) => setAddress(e.target.value)}
-                                    className="w-full bg-gray-700 rounded border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-base outline-none text-gray-300 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                                />
-                            </div>
+                                    <div className="relative mb-4">
+                                        <label htmlFor="address" className="leading-7 text-sm text-gray-400">Address</label>
+                                        <input
+                                            type="text"
+                                            id="address"
+                                            name="address"
+                                            value={address}
+                                            onChange={(e) => setAddress(e.target.value)}
+                                            className="w-full bg-gray-700 rounded border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-base outline-none text-gray-300 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                        />
+                                    </div>
 
-                            <div className="relative mb-4">
-                                <label htmlFor="city" className="leading-7 text-sm text-gray-400">City</label>
-                                <input
-                                    type="text"
-                                    id="city"
-                                    name="city"
-                                    value={city}
-                                    onChange={(e) => setCity(e.target.value)}
-                                    className="w-full bg-gray-700 rounded border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-base outline-none text-gray-300 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                                />
-                            </div>
+                                    <div className="relative mb-4">
+                                        <label htmlFor="city" className="leading-7 text-sm text-gray-400">City</label>
+                                        <input
+                                            type="text"
+                                            id="city"
+                                            name="city"
+                                            value={city}
+                                            onChange={(e) => setCity(e.target.value)}
+                                            className="w-full bg-gray-700 rounded border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-base outline-none text-gray-300 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                        />
+                                    </div>
 
-                            <div className="relative mb-4">
-                                <label htmlFor="postalcode" className="leading-7 text-sm text-gray-400">Postal Code</label>
-                                <input
-                                    type="text"
-                                    id="postalcode"
-                                    name="postalcode"
-                                    value={postalCode}
-                                    onChange={(e) => setPostalCode(e.target.value)}
-                                    className="w-full bg-gray-700 rounded border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-base outline-none text-gray-300 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                                />
-                            </div>
+                                    <div className="relative mb-4">
+                                        <label htmlFor="postalcode" className="leading-7 text-sm text-gray-400">Postal Code</label>
+                                        <input
+                                            type="text"
+                                            id="postalcode"
+                                            name="postalcode"
+                                            value={postalCode}
+                                            onChange={(e) => setPostalCode(e.target.value)}
+                                            className="w-full bg-gray-700 rounded border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-base outline-none text-gray-300 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                        />
+                                    </div>
 
-                            <div className="relative mb-4">
-                                <label htmlFor="country" className="leading-7 text-sm text-gray-400">Country</label>
-                                <input
-                                    type="text"
-                                    id="country"
-                                    name="country"
-                                    value={country}
-                                    onChange={(e) => setCountry(e.target.value)}
-                                    className="w-full bg-gray-700 rounded border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-base outline-none text-gray-300 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                                />
-                            </div>
+                                    <div className="relative mb-4">
+                                        <label htmlFor="country" className="leading-7 text-sm text-gray-400">Country</label>
+                                        <input
+                                            type="text"
+                                            id="country"
+                                            name="country"
+                                            value={country}
+                                            onChange={(e) => setCountry(e.target.value)}
+                                            className="w-full bg-gray-700 rounded border border-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 text-base outline-none text-gray-300 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                        />
+                                    </div>
 
-                            <button
-                                onClick={saveShippingAddress}
-                                className="mb-10 bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-500 transition duration-200"
-                            >
-                                Save Shipping Address
-                            </button>
-
-                            {/* Payment Method Selection */}
-                            <h2 className="text-gray-300 text-lg mb-1 font-medium title-font">Select Payment Method</h2>
-                            <div className="flex space-x-4 mb-6">
-                                <button
-                                    onClick={() => setSelectedPaymentMethod("gift")}
-                                    className={`py-2 px-4 rounded ${selectedPaymentMethod === "gift" ? "bg-indigo-600" : "bg-gray-600"} text-white`}>
-                                    Gift Card
-                                </button>
-                                <button
-                                    onClick={() => setSelectedPaymentMethod("paypal")}
-                                    className={`py-2 px-4 rounded ${selectedPaymentMethod === "paypal" ? "bg-indigo-600" : "bg-gray-600"} text-white`}>
-                                    PayPal
-                                </button>
-                            </div>
-
-                            {selectedPaymentMethod === "gift" ? (
-                                <div>
-                                    <h2 className="text-gray-300 text-lg mt-2 mb-2 font-medium title-font">Enter Gift Card Details</h2>
-
-                                    <input
-                                        type="text"
-                                        value={giftCardCode}
-                                        onChange={(e) => setGiftCardCode(e.target.value)}
-                                        placeholder="Gift Card Code"
-                                        className="mb-2 w-full bg-gray-700 text-gray-300 py-4 px-4 rounded border border-gray-600"
-                                    />
-
-                                    <div className="flex space-x-2 mb-4">
+                                    <button
+                                        onClick={saveShippingAddress}
+                                        className="mb-10 bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-500 transition duration-200"
+                                    >
+                                        Continue to Payment
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    {/* Payment Method Selection */}
+                                    <h2 className="text-gray-300 text-lg mb-1 font-medium title-font">Select Payment Method</h2>
+                                    <div className="flex space-x-4 mb-6">
                                         <button
-                                            onClick={checkGiftCardBalanceHandler}
-                                            className="bg-gray-600 text-white py-2 px-4 rounded"
-                                        >
-                                            Check Balance
+                                            onClick={() => setSelectedPaymentMethod("gift")}
+                                            className={`py-2 px-4 rounded ${selectedPaymentMethod === "gift" ? "bg-indigo-600" : "bg-gray-600"} text-white`}>
+                                            Gift Card
                                         </button>
-
                                         <button
-                                            onClick={applyGiftCardHandler}
-                                            className="bg-indigo-600 text-white py-2 px-4 rounded"
-                                            disabled={!balance || isGiftCardApplied}
-                                        >
-                                            Apply Gift Card
+                                            onClick={() => setSelectedPaymentMethod("paypal")}
+                                            className={`py-2 px-4 rounded ${selectedPaymentMethod === "paypal" ? "bg-indigo-600" : "bg-gray-600"} text-white`}>
+                                            PayPal
                                         </button>
                                     </div>
 
-                                    <div className="mt-2 text-gray-300">
-                                        Gift Card Balance: ${balance || "0.00"}
-                                    </div>
+                                    {selectedPaymentMethod === "gift" ? (
+                                        <div>
+                                            <h2 className="text-gray-300 text-lg mt-2 mb-2 font-medium title-font">Enter Gift Card Details</h2>
 
-                                    {isGiftCardApplied && (
-                                        <div className="mt-2 text-gray-300">
-                                            Applied Gift Card Balance: ${giftCardBalance}
+                                            <input
+                                                type="text"
+                                                value={giftCardCode}
+                                                onChange={(e) => setGiftCardCode(e.target.value)}
+                                                placeholder="Gift Card Code"
+                                                className="mb-2 w-full bg-gray-700 text-gray-300 py-4 px-4 rounded border border-gray-600"
+                                            />
+
+                                            <div className="flex space-x-2 mb-4">
+                                                <button
+                                                    onClick={checkGiftCardBalanceHandler}
+                                                    className="bg-gray-600 text-white py-2 px-4 rounded"
+                                                >
+                                                    Check Balance
+                                                </button>
+
+                                                <button
+                                                    onClick={applyGiftCardHandler}
+                                                    className="bg-indigo-600 text-white py-2 px-4 rounded"
+                                                    disabled={!balance || isGiftCardApplied}
+                                                >
+                                                    Apply Gift Card
+                                                </button>
+                                            </div>
+
+                                            <div className="mt-2 text-gray-300">
+                                                Gift Card Balance: ${balance || "0.00"}
+                                            </div>
+
+                                            {isGiftCardApplied && (
+                                                <div className="mt-2 text-gray-300">
+                                                    Applied Gift Card Balance: ${giftCardBalance}
+                                                </div>
+                                            )}
+
+                                            <button
+                                                onClick={placeOrderHandler}
+                                                className="mt-6 w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-500 transition duration-200"
+                                                disabled={!isGiftCardApplied}
+                                            >
+                                                Place Order
+                                            </button>
                                         </div>
+                                    ) : clientID && (
+                                        <PayPalScriptProvider options={{ clientId: clientID }}>
+                                            <PayPalButtons
+                                                createOrder={(data, actions) => {
+                                                    return actions.order.create({
+                                                        purchase_units: [
+                                                            {
+                                                                amount: {
+                                                                    currency_code: "USD",
+                                                                    value: total
+                                                                },
+                                                            }
+                                                        ]
+                                                    });
+                                                }}
+                                                onApprove={(data, actions) => {
+                                                    return actions.order.capture().then(function (details) {
+                                                        successPaymentHandler(details);
+                                                    });
+                                                }}
+                                            />
+                                        </PayPalScriptProvider>
                                     )}
 
                                     <button
-                                        onClick={placeOrderHandler}
-                                        className="mt-6 bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-500 transition duration-200"
-                                        disabled={!isGiftCardApplied}
+                                        onClick={() => setIsShippingAddressSaved(false)}
+                                        className="mt-6 bg-indigo-600 text-white py-2 px-4 rounded hover:bg-gray-500 transition duration-200"
                                     >
-                                        Place Order
+                                        Back to Shipping Address
                                     </button>
-                                </div>
-                            ) : (clientID && (
-                                <PayPalScriptProvider options={{ clientId: clientID }}>
-                                    <PayPalButtons
-                                        // Create our order from our cart items
-                                        createOrder={(data, actions) => {
-                                            return actions.order.create({
-                                                purchase_units: [
-                                                    {
-                                                        amount: {
-                                                            currency_code: "USD",
-                                                            value: total
-                                                        },
-                                                    }
-                                                ]
-                                            });
-                                        }}
-                                        onApprove={(data, actions) => {
-                                            return actions.order.capture().then(function (details) {
-                                                successPaymentHandler(details);
-                                            });
-                                        }}
-                                    />
-                                </PayPalScriptProvider>
-                            ))}
-
+                                </>
+                            )}
                         </div>
+
                     </div>
                 </div>
             </section>
