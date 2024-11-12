@@ -19,11 +19,6 @@
             "key": "x-vercel-deployment",
             "value": "true"
           }
-        ],
-        "exclude": [
-          "/public/*",
-          "/static/*",
-          "/assets/*"
         ]
       }
     ],
