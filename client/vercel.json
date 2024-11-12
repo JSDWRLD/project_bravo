@@ -3,6 +3,13 @@
       {
         "source": "/:path*",
         "destination": "/",
+        "has": [
+          {
+            "type": "header",
+            "key": "x-vercel-deployment",
+            "value": "true"
+          }
+        ],
         "permanent": false
       }
     ]
