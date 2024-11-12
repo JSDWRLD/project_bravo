@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-dom';
 import { Navbar, ProductDetailed, ProductListPage, Footer } from './components';
-import { Home, Cart, Contact, Login, Register, Account, OrderHistory, PlaceOrder, Credits, About, Admin } from './pages';
+import { Home, Cart, Contact, Login, Register, OrderHistory, PlaceOrder, Credits, About, Admin } from './pages';
 import { useSelector } from 'react-redux';
 
 export default function App() {
