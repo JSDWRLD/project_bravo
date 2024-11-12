@@ -1,8 +1,18 @@
 {
+    "builds": [
+      {
+        "src": "client/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "client/build"
+        }
+      }
+    ],
     "redirects": [
       {
         "source": "/:path*",
         "destination": "/",
+        "permanent": false,
         "has": [
           {
             "type": "header",
@@ -10,8 +20,14 @@
             "value": "true"
           }
         ],
-        "permanent": false
+        "exclude": [
+          "/public/*",
+          "/static/*",
+          "/assets/*"
+        ]
       }
-    ]
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false
   }
   
