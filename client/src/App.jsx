@@ -26,7 +26,6 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path="/login" element={userInfo ? <Navigate to="/" /> : <Login />} />
             <Route path="/register" element={userInfo ? <Navigate to="/" /> : <Register />} />
-            <Route path="/account" element={<Account />} />
             <Route path="/order-history" element={<OrderHistory />} />
             <Route path="/admin/dashboard" element={<Admin />} />
             <Route path="*" element={<Navigate to="/" />} />
