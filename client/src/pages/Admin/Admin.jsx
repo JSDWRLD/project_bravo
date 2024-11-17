@@ -8,6 +8,7 @@ import UpdateProduct from './UpdateProduct';
 
 const Admin = () => {
   const [selectedComponent, setSelectedComponent] = useState('AddProduct');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const renderComponent = () => {
     switch (selectedComponent) {
@@ -29,19 +30,40 @@ const Admin = () => {
   };
 
   return (
-    <div className="pt-12 flex items-center justify-center min-h-screen bg-black text-white p-6 lg:p-12">
-      <div className="flex w-full max-w-6xl bg-gray-900 rounded-lg shadow-lg overflow-hidden">
+    <div
+      className="min-h-screen bg-black text-white"
+      style={{ paddingTop: '6rem' }} // Adjust this value based on your navbar height
+    >
+      <div className="flex flex-col lg:flex-row w-full max-w-6xl mx-auto bg-gray-900 rounded-lg shadow-lg overflow-hidden">
 
         {/* Sidebar */}
-        <aside className="w-1/4 bg-gray-800 p-6">
-          <h2 className="text-2xl font-retro font-bold text-indigo-600 mb-6 text-center">
-            Admin Dashboard
-          </h2>
-          <nav className="space-y-4">
+        <aside className="bg-gray-800 w-full lg:w-1/4 lg:flex lg:flex-col">
+          <div className="p-4 border-b border-gray-700 lg:border-none">
+            <h2 className="text-2xl font-retro font-bold text-indigo-600 mb-4 text-center lg:text-left">
+              Admin Dashboard
+            </h2>
+
+            {/* Dropdown Toggle for Small Screens */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="block lg:hidden w-full p-3 bg-indigo-600 rounded hover:bg-indigo-500 transition"
+            >
+              {isMenuOpen ? 'Close Menu' : 'Open Menu'}
+            </button>
+          </div>
+
+          <nav
+            className={`lg:flex lg:flex-col space-y-4 p-6 transition-all duration-300 ${
+              isMenuOpen ? 'block' : 'hidden'
+            } lg:block`}
+          >
             {['AddProduct', 'RemoveProduct', 'UpdateProduct', 'Orders', 'GiftCards', 'UserManager'].map((item) => (
               <button
                 key={item}
-                onClick={() => setSelectedComponent(item)}
+                onClick={() => {
+                  setSelectedComponent(item);
+                  setIsMenuOpen(false); // Close menu on selection for small screens
+                }}
                 className={`w-full p-3 rounded ${
                   selectedComponent === item ? 'bg-indigo-600 text-white' : 'bg-gray-700 text-gray-300'
                 } hover:bg-indigo-500 transition`}
@@ -58,8 +80,8 @@ const Admin = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-8">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-inner h-[900px] overflow-y-auto">
+        <main className="flex-1 p-4 sm:p-6">
+          <div className="bg-gray-800 p-4 sm:p-6 rounded-lg shadow-inner h-[calc(100vh-160px)] lg:h-[900px] overflow-y-auto">
             {renderComponent()}
           </div>
         </main>

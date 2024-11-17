@@ -38,45 +38,50 @@ const ProductListPage = ({ category }) => {
 
     return (
         <div className="pt-20 lg:pt-24 bg-black min-h-screen text-white">
-            <div className="py-4 text-center border-b-2 border-indigo-600 transform hover:-translate-y-1 hover:shadow-xl transition duration-300 ease-in-out bg-gray-900 rounded-md mx-4">
-                <h1 className="text-2xl font-retro font-bold text-indigo-600 capitalize">{category.replace(/-/g, ' ')}</h1>
+            <div className="py-4 text-center border-b-2 border-indigo-600 bg-gray-900 rounded-md mx-4">
+                <h1 className="text-lg sm:text-xl font-retro font-bold text-indigo-600 capitalize break-words">
+                    {category.replace(/-/g, ' ')}
+                </h1>
             </div>
 
-            <div className="container mx-auto px-4 py-8">
-                <div className="flex justify-center mb-8">
+            <div className="container mx-auto px-4 py-6">
+                {/* Search Bar */}
+                <div className="flex justify-center mb-6">
                     <input
                         type="text"
                         placeholder={`Search ${category}`}
-                        className="w-full max-w-md p-3 rounded-lg bg-gray-800 text-gray-300 placeholder-gray-500 border border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 transition"
+                        className="w-full max-w-sm p-3 rounded-lg bg-gray-800 text-gray-300 placeholder-gray-500 border border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 transition"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                {/* Products Grid */}
+                <div className="grid grid-cols-3 gap-4 sm:gap-6">
                     {filteredProducts.length > 0 ? (
                         filteredProducts.map((product) => (
                             <div
                                 key={product._id}
-                                className="bg-gray-900 p-6 rounded-lg shadow-md hover:shadow-lg transition cursor-pointer"
+                                className="bg-gray-900 p-4 rounded-lg shadow-md hover:shadow-lg transition cursor-pointer"
                                 onClick={() => handleViewDetails(product._id)}
                             >
-                                <img src={product.productImage[0]} alt={product.productName} className="w-full h-48 object-cover rounded-md mb-4" />
-                                <h2 className="text-2xl font-semibold text-indigo-400 mb-2">{product.productName}</h2>
-                                <p className="text-gray-300 mb-4">${product.productPrice.toFixed(2)}</p>
-                                <button
-                                    className="bg-indigo-600 text-black py-2 px-4 rounded-lg hover:bg-indigo-500 transition"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleViewDetails(product._id);
-                                    }}
-                                >
-                                    View Details
-                                </button>
+                                <img
+                                    src={product.productImage[0]}
+                                    alt={product.productName}
+                                    className="w-full h-32 object-cover rounded-md mb-3"
+                                />
+                                <h2 className="text-base sm:text-lg font-semibold text-indigo-400 mb-1 break-words line-clamp-2">
+                                    {product.productName}
+                                </h2>
+                                <p className="text-sm text-gray-300 mb-2">
+                                    ${product.productPrice.toFixed(2)}
+                                </p>
                             </div>
                         ))
                     ) : (
-                        <p className="text-gray-500 text-center col-span-full">No products found</p>
+                        <p className="text-gray-500 text-center col-span-3">
+                            No products found
+                        </p>
                     )}
                 </div>
             </div>
