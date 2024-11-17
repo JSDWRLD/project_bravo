@@ -12,6 +12,12 @@ import {
     DELETE_PRODUCT_REQUEST,
     DELETE_PRODUCT_SUCCESS,
     DELETE_PRODUCT_FAIL,
+    UPDATE_PRODUCT_FAIL,
+    UPDATE_PRODUCT_REQUEST,
+    UPDATE_PRODUCT_SUCCESS,
+    PRODUCT_STOCK_UPDATE_REQUEST,
+    PRODUCT_STOCK_UPDATE_SUCCESS,
+    PRODUCT_STOCK_UPDATE_FAIL,
 } from "../Constants/Product";
 import { BASE_URL } from "../Constants/BASE_URL";
 
@@ -82,6 +88,57 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
         dispatch({
             type: DELETE_PRODUCT_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        });
+    }
+};
+
+export const updateProduct = (id, updatedProductData) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: UPDATE_PRODUCT_REQUEST });
+        const userInfo = getState().userLoginReducer.userInfo;
+        const config = {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
+        const { data } = await axios.put(`${BASE_URL}/api/products/update/${id}`, updatedProductData, config);
+        dispatch({ type: UPDATE_PRODUCT_SUCCESS, payload: data });
+        return data;  // Return data for chaining
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PRODUCT_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        });
+        throw error;  // Throw error to catch in the component
+    }
+};
+
+export const updateStockAction = (productId, newStock) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: PRODUCT_STOCK_UPDATE_REQUEST });
+
+        const userInfo = getState().userLoginReducer.userInfo;
+        const config = {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
+
+        const { data } = await axios.put(
+            `${BASE_URL}/api/products/update/${productId}`,
+            { stockQuantity: newStock },
+            config
+        );
+
+        dispatch({ type: PRODUCT_STOCK_UPDATE_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({
+            type: PRODUCT_STOCK_UPDATE_FAIL,
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message,
         });
     }
 };

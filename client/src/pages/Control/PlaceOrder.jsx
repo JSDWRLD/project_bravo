@@ -1,14 +1,15 @@
+import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import CartItems from "../../components/CartItems";
 import { saveShippingAddressAction, resetShippingAddressAction } from "../../redux/Actions/Cart";
 import { useGiftCard, checkGiftCardBalance, resetGiftCardBalance } from "../../redux/Actions/GiftCards";
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { orderAction, orderPaymentAction, orderGiftCardPaymentAction } from "../../redux/Actions/Order";
+import { updateStockAction } from "../../redux/Actions/Product";
 import { ORDER_RESET } from "../../redux/Constants/Order";
 import { BASE_URL } from "../../redux/Constants/BASE_URL";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 
 
@@ -81,7 +82,7 @@ const PlaceOrder = () => {
             alert("Please fill out all the fields to continue.");
             return; // Stop the function if any field is empty
         }
-        
+
         dispatch(
             saveShippingAddressAction({
                 address,
@@ -158,25 +159,38 @@ const PlaceOrder = () => {
     // Gift cards
     const placeOrderHandler = () => {
         try {
-            dispatch(orderAction({
-                orderItems: cartItems.map(item => ({
-                    itemName: item.name,
-                    itemQuantity: item.qty,
-                    displayImage: item.image,
-                    itemPrice: item.price,
-                    product: item.product
-                })),
+            // Precompute total prices
+            const orderItems = cartItems.map(item => ({
+                itemName: item.name,
+                itemQuantity: item.qty,
+                displayImage: item.image,
+                itemPrice: item.price,
+                product: item.product
+            }));
+    
+            const orderData = {
+                orderItems,
                 shippingAddress,
-                totalPrice: total,
+                totalPrice: total, // Precomputed total
                 paymentMethod: selectedPaymentMethod,
                 price: subtotal,
                 taxPrice: taxPrice,
                 shippingPrice: shippingPrice
-            }));
+            };
+    
+            dispatch(orderAction(orderData)); // Pass all data in one action
+    
+            // Update stock after order placement
+            cartItems.forEach(item => {
+                const updatedStock = item.countInStock - item.qty;
+                dispatch(updateStockAction(item.product, updatedStock));
+            });
+    
         } catch (err) {
-            console.log("Error in placeOrderHandler:", err);
+            console.error("Error in placeOrderHandler:", err);
         }
     };
+    
 
     return (
         <>

@@ -11,6 +11,12 @@ import {
     DELETE_PRODUCT_REQUEST,
     DELETE_PRODUCT_SUCCESS,
     DELETE_PRODUCT_FAIL,
+    UPDATE_PRODUCT_FAIL,
+    UPDATE_PRODUCT_REQUEST,
+    UPDATE_PRODUCT_SUCCESS,
+    PRODUCT_STOCK_UPDATE_REQUEST,
+    PRODUCT_STOCK_UPDATE_SUCCESS,
+    PRODUCT_STOCK_UPDATE_FAIL,
 } from "../Constants/Product";
 
 // Initial state for product list
@@ -53,6 +59,18 @@ export const productListReducer = (state = { products: [] }, action) => {
             };
         case DELETE_PRODUCT_FAIL:
             return { loading: false, error: action.payload };
+        case UPDATE_PRODUCT_REQUEST:
+            return { ...state, loading: true }
+        case UPDATE_PRODUCT_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                products: state.products.map((product) =>
+                    product._id === action.payload._id ? action.payload : product
+                ),
+            };
+        case UPDATE_PRODUCT_FAIL:
+            return { loading: false, error: action.payload };
         default:
             return state;
     }
@@ -71,3 +89,17 @@ export const productReducer = (state = { product: { reviews: [] } }, action) => 
             return state;
     }
 };
+
+export const productStockUpdateReducer = (state = {}, action) => {
+    switch (action.type) {
+        case PRODUCT_STOCK_UPDATE_REQUEST:
+            return { loading: true };
+        case PRODUCT_STOCK_UPDATE_SUCCESS:
+            return { loading: false, success: true, product: action.payload };
+        case PRODUCT_STOCK_UPDATE_FAIL:
+            return { loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};
+

@@ -107,6 +107,62 @@ productRoute.delete(
     })
 );
 
+// Update Product Route
+productRoute.put(
+    '/update/:id',
+    protect,
+    isAdmin,
+    upload.array('images', 4), 
+    AsyncHandler(async (req, res) => {
+        const {
+            productName,
+            productCategory,
+            productDescription,
+            productPrice,
+            stockQuantity,
+            productRating,
+            reviewCount,
+        } = req.body;
+
+        const product = await Product.findById(req.params.id);
+
+        if (!product) {
+            res.status(404);
+            throw new Error("PRODUCT NOT FOUND");
+        }
+
+        // If new images are provided, upload them to Imgur
+        let productImage = product.productImage;
+        if (req.files && req.files.length > 0) {
+            productImage = await Promise.all(req.files.map(async (file) => {
+                const imageBuffer = file.buffer.toString('base64');
+                try {
+                    const response = await imgur.uploadBase64(imageBuffer);
+                    return response.link;
+                } catch (error) {
+                    console.error('Error uploading to Imgur:', error);
+                    throw new Error('Image upload failed');
+                }
+            }));
+        }
+
+        // Update product fields
+        product.productName = productName || product.productName;
+        product.productCategory = productCategory || product.productCategory;
+        product.productDescription = productDescription || product.productDescription;
+        product.productPrice = productPrice || product.productPrice;
+        product.stockQuantity = stockQuantity || product.stockQuantity;
+        product.productRating = productRating || product.productRating;
+        product.reviewCount = reviewCount || product.reviewCount;
+        product.productImage = productImage;
+
+        // Save updated product
+        const updatedProduct = await product.save();
+        res.json(updatedProduct);
+    })
+);
+
+
 // Helper function to convert category to folder name
 const convertCategoryToFolderName = (category) => {
     switch (category) {

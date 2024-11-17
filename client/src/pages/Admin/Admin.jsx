@@ -4,6 +4,7 @@ import RemoveProduct from './RemoveProduct';
 import Orders from './Orders';
 import GiftCardManager from './GiftCardManager';
 import UserManager from './UserManager';
+import UpdateProduct from './UpdateProduct';
 
 const Admin = () => {
   const [selectedComponent, setSelectedComponent] = useState('AddProduct');
@@ -14,6 +15,8 @@ const Admin = () => {
         return <AddProduct />;
       case 'RemoveProduct':
         return <RemoveProduct />;
+      case 'UpdateProduct':
+        return <UpdateProduct />;
       case 'Orders':
         return <Orders />;
       case 'GiftCards':
@@ -35,7 +38,7 @@ const Admin = () => {
             Admin Dashboard
           </h2>
           <nav className="space-y-4">
-            {['AddProduct', 'RemoveProduct', 'Orders', 'GiftCards', 'UserManager'].map((item) => (
+            {['AddProduct', 'RemoveProduct', 'UpdateProduct', 'Orders', 'GiftCards', 'UserManager'].map((item) => (
               <button
                 key={item}
                 onClick={() => setSelectedComponent(item)}
@@ -45,6 +48,7 @@ const Admin = () => {
               >
                 {item === 'AddProduct' && 'Add Product'}
                 {item === 'RemoveProduct' && 'Remove Product'}
+                {item === 'UpdateProduct' && 'Update Product'}
                 {item === 'Orders' && 'Manage Orders'}
                 {item === 'GiftCards' && 'Manage Gift Cards'}
                 {item === 'UserManager' && 'Manage Users'}
