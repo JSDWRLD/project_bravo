@@ -32,7 +32,7 @@ const Admin = () => {
   return (
     <div
       className="min-h-screen bg-black text-white"
-      style={{ paddingTop: '6rem' }} // Adjust this value based on your navbar height
+      style={{ paddingTop: '6rem', paddingBottom:'6rem' }} 
     >
       <div className="flex flex-col lg:flex-row w-full max-w-6xl mx-auto bg-gray-900 rounded-lg shadow-lg overflow-hidden">
 
