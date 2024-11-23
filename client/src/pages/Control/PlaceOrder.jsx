@@ -343,9 +343,6 @@ const PlaceOrder = () => {
 
                                             {isGiftCardApplied && adjustedTotalDisplay > 0 ? (
                                                 <div className="mt-6">
-                                                    <p className="text-gray-400 mb-4">
-                                                        Remaining balance (${adjustedTotalDisplay}) must be paid with PayPal.
-                                                    </p>
                                                     {clientID && (
                                                         <PayPalScriptProvider options={{ clientId: clientID }}>
                                                             <PayPalButtons
