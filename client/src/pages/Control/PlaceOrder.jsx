@@ -334,15 +334,12 @@ const PlaceOrder = () => {
                                                 </div>
                                             )}
 
-                                            {isGiftCardApplied && adjustedTotalDisplay > 0 ? (
-                                                <p className="text-gray-400 mb-4">
-                                                    Remaining balance (${adjustedTotalDisplay.toFixed(2)}) must be paid with PayPal.
-                                                </p>
-                                            ) : null}
-
 
                                             {isGiftCardApplied && adjustedTotalDisplay > 0 ? (
                                                 <div className="mt-6">
+                                                    <p className="text-gray-400 mb-4">
+                                                        Remaining balance (${adjustedTotalDisplay.toFixed(2)}) must be paid with PayPal.
+                                                    </p>
                                                     {clientID && (
                                                         <PayPalScriptProvider options={{ clientId: clientID }}>
                                                             <PayPalButtons
