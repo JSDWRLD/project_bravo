@@ -52,7 +52,7 @@ const PlaceOrder = () => {
 
     // Actual Total
     const taxPrice = addDecimal(0.15 * subtotal);
-    const shippingPrice = addDecimal(subtotal > 100 ? 0 : 7.99);
+    const shippingPrice = addDecimal(cartItems.length === 0 ? 0 : subtotal > 100 ? 0 : 7.99);
     const total = addDecimal(Number(subtotal) + Number(taxPrice) + Number(shippingPrice));
 
 
@@ -167,7 +167,7 @@ const PlaceOrder = () => {
                 itemPrice: item.price,
                 product: item.product
             }));
-    
+
             const orderData = {
                 orderItems,
                 shippingAddress,
@@ -177,20 +177,20 @@ const PlaceOrder = () => {
                 taxPrice: taxPrice,
                 shippingPrice: shippingPrice
             };
-    
+
             dispatch(orderAction(orderData)); // Pass all data in one action
-    
+
             // Update stock after order placement
             cartItems.forEach(item => {
                 const updatedStock = item.countInStock - item.qty;
                 dispatch(updateStockAction(item.product, updatedStock));
             });
-    
+
         } catch (err) {
             console.error("Error in placeOrderHandler:", err);
         }
     };
-    
+
 
     return (
         <>
@@ -325,22 +325,60 @@ const PlaceOrder = () => {
                                             </div>
 
                                             <div className="mt-2 text-gray-300">
-                                                Gift Card Balance: ${balance || "0.00"}
+                                                Gift Card Balance: ${balance ? balance.toFixed(2) : "0.00"}
                                             </div>
 
                                             {isGiftCardApplied && (
                                                 <div className="mt-2 text-gray-300">
-                                                    Applied Gift Card Balance: ${giftCardBalance}
+                                                    Applied Gift Card Balance: ${giftCardBalance?.toFixed(2)}
                                                 </div>
                                             )}
 
-                                            <button
-                                                onClick={placeOrderHandler}
-                                                className="mt-6 w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-500 transition duration-200"
-                                                disabled={!isGiftCardApplied}
-                                            >
-                                                Place Order
-                                            </button>
+                                            {isGiftCardApplied && adjustedTotalDisplay > 0 ? (
+                                                <p className="text-gray-400 mb-4">
+                                                    Remaining balance (${adjustedTotalDisplay.toFixed(2)}) must be paid with PayPal.
+                                                </p>
+                                            ) : null}
+
+
+                                            {isGiftCardApplied && adjustedTotalDisplay > 0 ? (
+                                                <div className="mt-6">
+                                                    <p className="text-gray-400 mb-4">
+                                                        Remaining balance (${adjustedTotalDisplay}) must be paid with PayPal.
+                                                    </p>
+                                                    {clientID && (
+                                                        <PayPalScriptProvider options={{ clientId: clientID }}>
+                                                            <PayPalButtons
+                                                                createOrder={(data, actions) => {
+                                                                    return actions.order.create({
+                                                                        purchase_units: [
+                                                                            {
+                                                                                amount: {
+                                                                                    currency_code: "USD",
+                                                                                    value: adjustedTotalDisplay,
+                                                                                },
+                                                                            },
+                                                                        ],
+                                                                    });
+                                                                }}
+                                                                onApprove={(data, actions) => {
+                                                                    return actions.order.capture().then(function (details) {
+                                                                        successPaymentHandler(details);
+                                                                    });
+                                                                }}
+                                                            />
+                                                        </PayPalScriptProvider>
+                                                    )}
+                                                </div>
+                                            ) : (
+                                                <button
+                                                    onClick={placeOrderHandler}
+                                                    className="mt-6 w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-500 transition duration-200"
+                                                    disabled={!isGiftCardApplied}
+                                                >
+                                                    Place Order
+                                                </button>
+                                            )}
                                         </div>
                                     ) : clientID && (
                                         <PayPalScriptProvider options={{ clientId: clientID }}>
@@ -351,10 +389,10 @@ const PlaceOrder = () => {
                                                             {
                                                                 amount: {
                                                                     currency_code: "USD",
-                                                                    value: total
+                                                                    value: total,
                                                                 },
-                                                            }
-                                                        ]
+                                                            },
+                                                        ],
                                                     });
                                                 }}
                                                 onApprove={(data, actions) => {
@@ -365,6 +403,7 @@ const PlaceOrder = () => {
                                             />
                                         </PayPalScriptProvider>
                                     )}
+
 
                                     <button
                                         onClick={() => setIsShippingAddressSaved(false)}
