@@ -1,12 +1,21 @@
-import Card from '/src/components/Card.jsx';
-import Footer from '/src/components/Footer.jsx';
-import wallpaper from '/src/assets/homepage.gif';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { productListAction } from '../../redux/Actions/Product';
 import { useNavigate } from 'react-router-dom';
+import Card from '/src/components/Card.jsx';
+import wallpaper from '/src/assets/homepage.gif';
 
 const Home = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const products = useSelector((state) => state.productListReducer.products || []);
+  const loading = useSelector((state) => state.productListReducer.loading);
+  const error = useSelector((state) => state.productListReducer.error);
+
+  useEffect(() => {
+    dispatch(productListAction());
+  }, [dispatch]);
 
   const handleShopNowClick = () => {
     navigate('/shop/retro-games');
