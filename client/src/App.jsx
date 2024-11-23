@@ -1,5 +1,5 @@
 import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-dom';
-import { Navbar, ProductDetailed, ProductListPage, Footer } from './components';
+import { Navbar, ProductDetailed, ProductListPage, Footer, OrderDetailed, OrderConfirmation, OrderDetailedAdmin } from './components';
 import { Home, Cart, Contact, Login, Register, OrderHistory, PlaceOrder, Credits, About, Admin } from './pages';
 import { useSelector } from 'react-redux';
 
@@ -21,12 +21,15 @@ export default function App() {
             <Route path="/shop/:category/product/:id" element={<ProductDetailed />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/place-order" element={<PlaceOrder />} />
+            <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/credits" element={<Credits />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={userInfo ? <Navigate to="/" /> : <Login />} />
             <Route path="/register" element={userInfo ? <Navigate to="/" /> : <Register />} />
             <Route path="/order-history" element={<OrderHistory />} />
+            <Route path="/order/:orderId" element={<OrderDetailed />} />
+            <Route path="/admin/order/:orderId" element={<OrderDetailedAdmin />} />
             <Route path="/admin/dashboard" element={<Admin />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

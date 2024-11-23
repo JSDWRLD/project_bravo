@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { orderListAction } from "../../redux/Actions/Order";
 import moment from 'moment';
 
@@ -66,7 +67,12 @@ const OrderHistory = () => {
                       </dl>
 
                       <div className="w-full grid sm:grid-cols-2 lg:flex lg:w-64 lg:items-center lg:justify-end gap-4">
-                        <a href="#" className="w-full inline-flex justify-center rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm font-medium text-gray-200 hover:bg-gray-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-700">View details</a>
+                        <Link
+                          to={`/order/${order._id}`}
+                          className="w-full inline-flex justify-center rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm font-medium text-gray-200 hover:bg-gray-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-700"
+                        >
+                          View details
+                        </Link>
                       </div>
                     </div>
                   ))
@@ -76,7 +82,7 @@ const OrderHistory = () => {
           </div>
         </div>
       </section>
-      
+
     </>
   );
 }

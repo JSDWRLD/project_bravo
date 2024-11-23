@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { adminOrderListAction, orderDeliveryAction } from '../../redux/Actions/Order';
 import { BASE_URL } from '../../redux/Constants/BASE_URL';
+import { Link } from 'react-router-dom';
 
 const AdminOrders = () => {
   const dispatch = useDispatch();
@@ -51,6 +52,12 @@ const AdminOrders = () => {
                   <p className="text-gray-300">Total: $ {order.totalPrice?.toFixed(2) || '0.00'}</p>
                 </div>
                 <div className="space-x-2">
+                <Link
+                    to={`/admin/order/${order._id}`}
+                    className="bg-blue-600 text-white px-3 py-1 text-sm rounded hover:bg-blue-500 transition"
+                  >
+                    View Details
+                  </Link>
                   {!order.isDelivered && (
                     <button
                       onClick={() => handleMarkAsDelivered(order._id)}

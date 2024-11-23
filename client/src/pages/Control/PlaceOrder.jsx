@@ -111,12 +111,12 @@ const PlaceOrder = () => {
 
             if (selectedPaymentMethod === "paypal") {
                 dispatch(orderPaymentAction(order._id, paymentResult));
-                navigate(`/order/${order._id}`, {});
+                navigate(`/order-confirmation/${order._id}`, {});
             } else if (selectedPaymentMethod === "gift" && giftCardCode) {
                 // Apply gift card payment first
                 dispatch(orderGiftCardPaymentAction(order._id, giftCardCode));
                 dispatch(useGiftCard(giftCardCode, giftCardUsageAmount));
-                navigate(`/order/${order._id}`, {});
+                navigate(`/order-confirmation/${order._id}`, {});
             }
 
             dispatch(resetShippingAddressAction());
