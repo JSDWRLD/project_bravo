@@ -17,7 +17,7 @@ const teamMembers = [
   },
   {
     name: "Tadashi Headley",
-    role: "Documentation Specialist and Project Managment ",
+    role: "Documentation Specialist & Project Managment ",
     imgSrc: "/headshots/tadashi.png",
     description: "Tadashi facilitated meetings with the Documentation team to ensure project progress and provided support throughout the project.\
                   He also reviewed the teams diagrams as part of his quality assurance efforts, helping to refine their accuracy and consistency."
