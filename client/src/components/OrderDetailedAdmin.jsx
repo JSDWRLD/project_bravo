@@ -111,9 +111,8 @@ const OrderDetailedAdmin = () => {
             <div className="flex justify-between items-center">
               <span className="font-medium text-gray-400">Payment Status:</span>
               <span
-                className={`font-semibold ${
-                  order?.isPaid ? "text-green-400" : "text-red-500"
-                }`}
+                className={`font-semibold ${order?.isPaid ? "text-green-400" : "text-red-500"
+                  }`}
               >
                 {order?.isPaid ? "Paid" : "Not Paid"}
               </span>
@@ -121,9 +120,8 @@ const OrderDetailedAdmin = () => {
             <div className="flex justify-between items-center">
               <span className="font-medium text-gray-400">Delivery Status:</span>
               <span
-                className={`font-semibold ${
-                  order?.isDelivered ? "text-green-400" : "text-red-500"
-                }`}
+                className={`font-semibold ${order?.isDelivered ? "text-green-400" : "text-red-500"
+                  }`}
               >
                 {order?.isDelivered ? "Delivered" : "Pending"}
               </span>
