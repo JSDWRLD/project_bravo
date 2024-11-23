@@ -1,39 +1,47 @@
 const teamMembers = [
   {
     name: "John Dong",
-    role: "Sheesh",
-    imgSrc: "https://dummyimage.com/200x200",
-    description: "Sheesh"
+    role: "Full Stack Developer & Team Lead",
+    imgSrc: "/src/assets/headshots/john.png",
+    description: "John was a key developer who handled frontend and backend development, database setup, user authentication, payment integration, and more.\
+                  He ensured seamless connectivity between all components of the application.\
+                  He is also the project lead and created and divided the work between all members."
+  },
+  {//John put himself on top, so i put the rest in order that the project brief list 
+    name: "Rose Arias-Aceves",
+    role: "Brand and Product Manager & Beta/QA Tester",
+    imgSrc: "/src/assets/headshots/rose.png",
+    description: "Rose helped define the website's brand by researching similar brands, picking color scheme and created the logo.\
+                  She also worked on various parts of the website, like integrating social media, adding products, about us and credits page, and worked with John on QA."
+   
   },
   {
-    name: "Untitled",
-    role: "Untilted",
-    imgSrc: "https://dummyimage.com/201x201",
-    description: "Untitled"
+    name: "Tadashi Headley",
+    role: "Documentation Specialist and Project Managment ",
+    imgSrc: "/src/assets/headshots/tadashi.png",
+    description: "Tadashi facilitated meetings with the Documentation team to ensure project progress and provided support throughout the project.\
+                  He also reviewed the teams diagrams as part of his quality assurance efforts, helping to refine their accuracy and consistency."
   },
   {
-    name: "Untitled",
-    role: "Untilted",
-    imgSrc: "https://dummyimage.com/201x201",
-    description: "Untitled"
+    name: "Ritchie Martinez",
+    role: "UML Diagram & System Modeling Specialist",
+    imgSrc: "/src/assets/headshots/ritchie.png",
+    description: "Ritchie refined and updated the UML diagrams by adding classes, attributes, methods, and relationships.\
+                  He also contributed to system modeling and algorithm work for accurate representation in the system architecture."
   },
   {
-    name: "Untitled",
-    role: "Untilted",
-    imgSrc: "https://dummyimage.com/201x201",
-    description: "Untitled"
+    name: "Yeremi Navarrete",
+    role: "Documentation & UML Quality Reviewer",
+    imgSrc: "/src/assets/headshots/remi.png",
+    description: "Remy collaborated with Ritchie on refining relationships, attributes, and directions in the UML diagram.\
+                  He also reviewed visual quality consistency of the diagrams and created the flow chart as part of his documentation work."
   },
   {
-    name: "Untitled",
-    role: "Untilted",
-    imgSrc: "https://dummyimage.com/201x201",
-    description: "Untitled"
-  },
-  {
-    name: "Untitled",
-    role: "Untilted",
-    imgSrc: "https://dummyimage.com/201x201",
-    description: "Untitled"
+    name: "Mamon Poian",
+    role: "UML diagram & Use Case Specialist",
+    imgSrc: "/src/assets/headshots/mamon.png",
+    description: "Mamon created the detailed use case diagram which represented the project's requirements.\
+                  He also worked on enhancing the login page to improve user experience. Additionally, he contributed input to several other diagrams, helping to ensure consistency throughout the project."
   },
 ];
 
