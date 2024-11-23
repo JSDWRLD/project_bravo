@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const AdminOrders = () => {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState(''); // New search term state
-  
+
 
   useEffect(() => {
     dispatch(adminOrderListAction());
@@ -52,7 +52,7 @@ const AdminOrders = () => {
                   <p className="text-gray-300">Total: $ {order.totalPrice?.toFixed(2) || '0.00'}</p>
                 </div>
                 <div className="space-x-2">
-                <Link
+                  <Link
                     to={`/admin/order/${order._id}`}
                     className="bg-blue-600 text-white px-3 py-1 text-sm rounded hover:bg-blue-500 transition"
                   >
