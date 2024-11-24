@@ -115,13 +115,13 @@ const generateOrderEmailHtml = (orderDetails) => {
 export const sendOrderEmail = (orderDetails, recipientEmail) => { 
     emailjs
       .send(
-        "service_9po3hmk", // Replace with your EmailJS service ID
-        "template_3zie45c", // Replace with your EmailJS template ID
+        "service_9po3hmk", 
+        "template_3zie45c", 
         {
-          to_email: recipientEmail, // Email recipient
+          to_email: recipientEmail, 
           html_content: generateOrderEmailHtml(orderDetails),
         },
-        "UymiSTXl29v4v1VbV" // Replace with your EmailJS user ID
+        "UymiSTXl29v4v1VbV" 
       )
       .then(
         (result) => {
