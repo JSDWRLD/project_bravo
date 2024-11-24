@@ -102,7 +102,7 @@ const generateOrderEmailHtml = (orderDetails) => {
             </table>
             <p style="margin-top: 20px;">
               If you have any questions or need further assistance, please feel free to contact us at
-              <a href="mailto:customer.support@example.com" style="color: #4f46e5; text-decoration: none;">customer.support@example.com</a>.
+              <a href="mailto:retroreplayme@gmail.com" style="color: #4f46e5; text-decoration: none;">retroreplayme@gmail.com</a>.
             </p>
             <p>Thank you for choosing us!</p>
           </td>
@@ -115,13 +115,13 @@ const generateOrderEmailHtml = (orderDetails) => {
 export const sendOrderEmail = (orderDetails, recipientEmail) => { 
     emailjs
       .send(
-        "service_9po3hmk", 
-        "template_3zie45c", 
+        "service_blto3a2", 
+        "template_if5jdc3", 
         {
           to_email: recipientEmail, 
           html_content: generateOrderEmailHtml(orderDetails),
         },
-        "UymiSTXl29v4v1VbV" 
+        "HyUnnjQrnbm99UILs" 
       )
       .then(
         (result) => {

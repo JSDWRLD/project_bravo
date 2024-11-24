@@ -10,10 +10,10 @@ const Contact = () => {
 
     emailjs
       .sendForm(
-        "service_9po3hmk", 
-        "template_mmnk5op", 
+        "service_blto3a2", 
+        "template_993js7s", 
         e.target, 
-        "UymiSTXl29v4v1VbV" 
+        "HyUnnjQrnbm99UILs" 
       )
       .then(
         () => {
@@ -99,7 +99,7 @@ const Contact = () => {
               <i className="fab fa-pinterest"></i>
             </a>
           </div>
-          <p className="leading-normal my-5">retroreplay@email.com</p>
+          <p className="leading-normal my-5">retroreplayme@gmail.com</p>
           <p className="leading-normal my-5">6000 J Street, Sacramento, CA 95819, United States</p>
         </div>
       </section>
