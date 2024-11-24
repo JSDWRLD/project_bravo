@@ -81,7 +81,7 @@ const About = () => {
                   <div>
                     <h4 className="text-indigo-400 font-semibold text-lg">Experience:</h4>
                     {member.experience.length > 0 ? (
-                      <div className="space-y-2">
+                      <div className="space">
                         {member.experience.map((exp, idx) => (
                           <p key={idx} className="text-base text-gray-300">
                             {exp}
