@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { orderDetailAction } from "../redux/Actions/Order";
+import { sendOrderEmail } from "./OrderEmail"
 
 const Spinner = () => (
   <div className="flex justify-center items-center min-h-screen">
@@ -13,6 +14,8 @@ const OrderConfirmation = () => {
   const { orderId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [emailSent, setEmailSent] = useState(false); // Manage email sent state
+
 
   useEffect(() => {
     if (orderId) {
@@ -20,9 +23,20 @@ const OrderConfirmation = () => {
     }
   }, [dispatch, orderId]);
 
+  
+
   const { order, loading, error } = useSelector(
     (state) => state.orderDetailReducer
   );
+
+  useEffect(() => {
+    if (order && !emailSent) {
+      // Send email if order is loaded and email has not been sent
+      sendOrderEmail(orderDetails, order?.user?.email);
+      setEmailSent(true); // Set the flag to true
+    }
+  }, [order, emailSent]); // Watch for order updates
+
 
   const calculateTotalPrice = (items) => {
     if (!Array.isArray(items)) return 0;
@@ -33,10 +47,9 @@ const OrderConfirmation = () => {
   };
 
   if (loading) return <Spinner />;
-  if (error)
-    return <p className="text-red-500 text-center">Error: {error}</p>;
-  if (!order)
-    return <p className="text-yellow-500 text-center">No order details available.</p>;
+  if (error) return <p className="text-red-500 text-center">Error: {error}</p>;
+  if (!order) return <p className="text-yellow-500 text-center">No order details available.</p>;
+
 
   const itemsTotal = calculateTotalPrice(order?.orderItems);
   const totalPrice = (
@@ -44,6 +57,26 @@ const OrderConfirmation = () => {
     (order?.shippingPrice || 0) +
     (order?.taxPrice || 0)
   ).toFixed(2);
+
+  // Prepare orderDetails 
+  const orderDetails = {
+    _id: order?._id,
+    createdAt: order?.createdAt,
+    user: {
+      name: order?.user?.name,
+      email: order?.user?.email,
+    },
+    shippingAddress: order?.shippingAddress,
+    orderItems: order?.orderItems.map((item) => ({
+      itemName: item.itemName,
+      itemQuantity: item.itemQuantity,
+      itemPrice: item.itemPrice,
+      displayImage: item.displayImage,
+    })),
+    shippingPrice: order?.shippingPrice,
+    taxPrice: order?.taxPrice,
+    totalPrice,
+  };
 
   return (
     <div className="pt-20 lg:pt-24 min-h-screen bg-gradient-to-br from-gray-950 to-black text-white">

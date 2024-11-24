@@ -65,12 +65,12 @@ const About = () => {
           We are a diverse team of six passionate students, each bringing unique skills and experiences. Our shared love
           for retro gaming drives us to deliver an exceptional experience for enthusiasts like you!
         </p>
-        <div className="max-w-9xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="max-w-9xl mx-auto px-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14">
             {teamMembers.map((member, index) => (
               <div
                 key={index}
-                className="bg-gray-800 bg-opacity-75 rounded-lg p-6 shadow-lg text-center flex flex-col items-center border-2 border-indigo-500 animate-glow transition-all hover:scale-105"
+                className="animate-pulseGlow bg-gray-800 bg-opacity-75 rounded-lg p-8 shadow-lg text-center flex flex-col items-center border-2 border-indigo-500 animate-glow transition-all hover:scale-105"
               >
                 <h2 className="text-2xl font-bold text-indigo-300">{member.name}</h2>
                 <div className="text-gray-300 mt-4 text-base space-y-4">
