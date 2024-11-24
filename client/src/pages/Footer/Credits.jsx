@@ -52,7 +52,7 @@ const Credits = () => {
         <div className="flex flex-col text-center w-full mb-12">
           <h2 className="sm:text-3xl text-2xl font-bold font-retro title-font mb-4 text-indigo-400">Meet the Team</h2>
           <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-            A brief introduction to our talented team members.
+            A brief introduction to our talented team members and their respective roles for this project.
           </p>
         </div>
         <div className="flex flex-wrap -m-4">
