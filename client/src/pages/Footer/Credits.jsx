@@ -50,7 +50,7 @@ const Credits = () => {
     <div className="flex flex-col bg-black py-12 min-h-full">
       <section className="text-gray-200 body-font relative container mx-auto my-10 p-6 rounded-lg shadow-lg">
         <div className="flex flex-col text-center w-full mb-12">
-          <h2 className="sm:text-3xl text-2xl font-bold font-retro title-font mb-4 text-indigo-400">Meet the Team</h2>
+          <h2 className="sm:text-3xl text-2xl font-bold font-retro title-font mb-4 text-indigo-400">Project Credits</h2>
           <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
             A brief introduction to our talented team members and their respective roles for this project.
           </p>
