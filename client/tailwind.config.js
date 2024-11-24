@@ -18,6 +18,12 @@ export default {
           500: "#d12c2c"
         }
       },
+      maxWidth: {
+        '7xl': '80rem', // Default max-w-7xl
+        '8xl': '88rem', // New custom size
+        '9xl': '96rem', // New custom size
+        '10xl': '104rem', // Extra-large size
+      },
       fontFamily: {
         worksans: ["Work Sans", "sans-serif"],
         poppins: ['Poppins', "sans-serif"],
