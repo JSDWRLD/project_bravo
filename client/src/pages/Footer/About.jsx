@@ -1,41 +1,149 @@
 import Navbar from '/src/components/Navbar.jsx';
 
+const teamMembers = [
+  {
+    name: "John Dong",
+    education: ["Bachelors in Computer Science - CSUS (In progress)"],
+    skills: ["Java", "Kotlin", "Android Development", "Distributed Systems", "Go", "Hardware API Development", "Python", "C"],
+    awards: ["7x Dean's List, AI Hackathon 1st Place, CSUS Pitch Competition 2nd Place, CSU-WIDE Competition (4x Awards)"],
+    experience: [
+      "Junior Software Engineer @Revecorp, Inc.",
+      "Computer Science ISA @CSUS",
+      "Software Engineer Intern @eUnity",
+    ],
+  },
+  {
+    name: "Rose Arias-Aceves",
+    education: [
+      "Bachelors in Computer Science - CSUS (In progress)",
+      "Associates in Computer Science - SLCC 2021",
+    ],
+    skills: ["Linux", "Networking", "C++"],
+    experience: ["Linux System Administrator @Franchise Tax Board"],
+    awards: ["Security+ (2021)", "RHCSA (2024)"],
+  },
+  {
+    name: "Tadashi Headley",
+    education: ["Bachelors in Computer Science - CSUS (In progress)"],
+    skills: ["Java", "Client Acquisition"],
+    awards: ["California Seal of Biliteracy"],
+    experience: [],
+  },
+  {
+    name: "Ritchie Martinez",
+    education: ["Bachelors in Computer Science - CSUS (In progress)"],
+    skills: ["Java", "R Studio", "Python", "C"],
+    awards: ["AI Hackathon 1st Place", "CSUS Pitch Competition 2nd Place", "CSU-WIDE Competition (4x Awards)"],
+    experience: ["Medical Lab Tech lll @IDEXX Laboratory", "StartUp Company SentrySight"],
+  },
+  {
+    name: "Yeremi Navarrete",
+    education: ["Bachelors in Computer Science - CSUS (In progress)"],
+    skills: ["Java", "Window Sheet", "C++"],
+    awards: [],
+    experience: ["Library Student Assistant @CSUS"],
+  },
+  {
+    name: "Mamon Poian",
+    education: [
+      "Bachelors in Computer Science - CSUS (In progress)",
+      "Minor in Mathematics - CSUS (In progress)",
+    ],
+    skills: ["Java", "C"],
+    awards: [],
+    experience: ["IT & Digital Navigator Intern @Asian Resources Inc"],
+  },
+];
+
 const About = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-black">
+    <div className="pt-8 pb-8 min-h-screen flex flex-col bg-gradient-to-br from-gray-950 to-black text-gray-200">
       <Navbar />
-      <div className="py-10 text-center text-gray-200" />
-      <section className="text-gray-200 body-font relative container mx-auto my-10 p-6 rounded-lg shadow-lg">
-        <div className="flex flex-col text-center w-full mb-12">
-          <h2 className="sm:text-3xl text-2xl font-bold font-retro title-font mb-4 text-indigo-400">About Us</h2>
-          <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-            Welcome to Retro Replay, your one-stop shop for all things vintage gaming! We are a group of passionate students dedicated to bringing the nostalgia of classic video games, board games, puzzles, and retro consoles right to your doorstep.
-          </p>
+
+      <section className="text-center py-12">
+        <h1 className="text-4xl font-bold text-indigo-600 font-retro mb-6">Meet the Team</h1>
+        <p className="text-lg max-w-2xl mx-auto leading-relaxed mb-12">
+          We are a diverse team of six passionate students, each bringing unique skills and experiences. Our shared love
+          for retro gaming drives us to deliver an exceptional experience for enthusiasts like you!
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-6">
+          {teamMembers.map((member, index) => (
+            <div
+              key={index}
+              className="bg-gray-800 bg-opacity-75 rounded-lg p-6 shadow-lg text-center flex flex-col items-center border-2 border-indigo-500 animate-glow transition-all hover:scale-105"
+            >
+              <h2 className="text-xl font-bold text-indigo-300">{member.name}</h2>
+              <div className="text-gray-300 mt-4 text-sm space-y-2">
+                <div>
+                  <h4 className="text-indigo-400 font-semibold">Education:</h4>
+                  <p>{member.education.join(", ")}</p>
+                </div>
+                <div>
+                  <h4 className="text-indigo-400 font-semibold">Experience:</h4>
+                  {member.experience.length > 0 ? (
+                    <div className="space-y-1">
+                      {member.experience.map((exp, idx) => (
+                        <p key={idx} className="text-gray-300">
+                          {exp}
+                        </p>
+                      ))}
+                    </div>
+                  ) : (
+                    <p>None</p>
+                  )}
+                </div>
+                <div>
+                  <h4 className="text-indigo-400 font-semibold">Skills:</h4>
+                  <p>{member.skills.join(", ")}</p>
+                </div>
+                <div>
+                  <h4 className="text-indigo-400 font-semibold">Awards:</h4>
+                  <p>{member.awards.length > 0 ? member.awards.join(", ") : "None"}</p>
+                </div>
+
+              </div>
+            </div>
+
+          ))}
         </div>
-        <div className="flex flex-wrap">
-          <div className="p-4 lg:w-1/2 w-full">
-            <h3 className="text-indigo-500 text-lg font-bold mb-2">Our Mission</h3>
-            <p className="leading-relaxed text-base mb-4">
-              Our mission is to celebrate the golden era of gaming and provide a platform for enthusiasts to rediscover their favorite titles. Whether you're searching for iconic classics or hidden gems, we have something for everyone!
-            </p>
-            <h3 className="text-indigo-500 text-lg font-bold mb-2">Why Choose Us?</h3>
-            <p className="leading-relaxed text-base mb-4">
-              As students, we understand the value of quality and affordability. Our curated selection is designed to meet the needs of every gamer, ensuring you get the best products without breaking the bank.
+      </section>
+
+      <section className="container mx-auto my-10 p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-gray-800 bg-opacity-75 rounded-lg p-6 shadow-lg">
+            <h3 className="text-indigo-400 text-2xl font-bold mb-4">Our Mission</h3>
+            <p className="leading-relaxed text-base text-gray-300">
+              Our mission is to celebrate the golden era of gaming and provide a platform for enthusiasts to rediscover their
+              favorite titles. Whether you're searching for iconic classics or hidden gems, we have something for everyone!
             </p>
           </div>
-          <div className="p-4 lg:w-1/2 w-full">
-            <h3 className="text-indigo-500 text-lg font-bold mb-2">Our Team</h3>
-            <p className="leading-relaxed text-base mb-4">
-              We are a diverse team of six students, each bringing our unique skills and experiences to the table. Together, we share a love for retro games and a commitment to excellent customer service. Join us on this exciting journey through the world of vintage gaming!
+          <div className="bg-gray-800 bg-opacity-75 rounded-lg p-6 shadow-lg">
+            <h3 className="text-indigo-400 text-2xl font-bold mb-4">Why Choose Us?</h3>
+            <p className="leading-relaxed text-base text-gray-300">
+              As students, we understand the value of quality and affordability. Our curated selection is designed to meet the
+              needs of every gamer, ensuring you get the best products without breaking the bank.
             </p>
-            <h3 className="text-indigo-500 text-lg font-bold mb-2">Get in Touch!</h3>
-            <p className="leading-relaxed text-base mb-4">
-              Have questions or suggestions? Feel free to reach out to us! We’d love to hear from fellow gamers and help you find the perfect game.
+          </div>
+          <div className="bg-gray-800 bg-opacity-75 rounded-lg p-6 shadow-lg">
+            <h3 className="text-indigo-400 text-2xl font-bold mb-4">Our Team</h3>
+            <p className="leading-relaxed text-base text-gray-300">
+              We are a diverse team of six students, each bringing our unique skills and experiences to the table. Together,
+              we share a love for retro games and a commitment to excellent customer service.
+            </p>
+          </div>
+          <div className="bg-gray-800 bg-opacity-75 rounded-lg p-6 shadow-lg">
+            <h3 className="text-indigo-400 text-2xl font-bold mb-4">Get in Touch!</h3>
+            <p className="leading-relaxed text-base text-gray-300">
+              Have questions or suggestions? Feel free to reach out to us! We’d love to hear from fellow gamers and help you
+              find the perfect game.
             </p>
           </div>
         </div>
       </section>
-      <footer className="bg-black text-gray-400 py-4 text-center text-sm">
+
+
+
+      <footer className="text-gray-400 py-4 text-center">
         Retro Replay &copy; 2024 All rights reserved.
       </footer>
     </div>

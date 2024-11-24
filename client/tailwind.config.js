@@ -1,5 +1,3 @@
-// tailwind.config.js
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -33,7 +31,9 @@ export default {
       },
       animation: {
         sparkles: 'sparkles 5s infinite alternate',
-        pulseGlow: 'pulseGlow 3s infinite alternate'
+        pulseGlow: 'pulseGlow 3s infinite alternate',
+        borderGlow: 'borderGlow 3s linear infinite',
+        textGlow: 'textGlow 1.5s ease-in-out infinite alternate',
       },
       keyframes: {
         sparkles: {
@@ -41,8 +41,17 @@ export default {
           '50%': { opacity: '1', transform: 'scale(1.1)' },
         },
         pulseGlow: {
-          '0%, 100%': { opacity: '0.7' },
-          '50%': { opacity: '1' },
+          '0%, 100%': { boxShadow: '0 0 15px #6366f1, 0 0 30px #6366f1' },
+          '50%': { boxShadow: '0 0 25px #6366f1, 0 0 50px #6366f1' },
+        },
+        borderGlow: {
+          '0%': { boxShadow: '0 0 10px rgba(99, 102, 241, 0.8)' },
+          '50%': { boxShadow: '0 0 20px rgba(99, 102, 241, 1)' },
+          '100%': { boxShadow: '0 0 10px rgba(99, 102, 241, 0.8)' },
+        },
+        textGlow: {
+          '0%': { textShadow: '0 0 5px rgba(99, 102, 241, 0.8), 0 0 10px rgba(99, 102, 241, 0.6)' },
+          '100%': { textShadow: '0 0 10px rgba(99, 102, 241, 1), 0 0 20px rgba(99, 102, 241, 0.8)' },
         },
       }
     },
