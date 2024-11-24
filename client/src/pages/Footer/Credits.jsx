@@ -47,7 +47,7 @@ const teamMembers = [
 
 const Credits = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-black py-12">
+    <div className="flex flex-col bg-black py-12 min-h-full">
       <section className="text-gray-200 body-font relative container mx-auto my-10 p-6 rounded-lg shadow-lg">
         <div className="flex flex-col text-center w-full mb-12">
           <h2 className="sm:text-3xl text-2xl font-bold font-retro title-font mb-4 text-indigo-400">Meet the Team</h2>

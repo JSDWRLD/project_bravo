@@ -109,12 +109,12 @@ const About = () => {
       </section>
 
       <section className="container mx-auto my-10 p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-gray-800 bg-opacity-75 rounded-lg p-6 shadow-lg">
             <h3 className="text-indigo-400 text-2xl font-bold mb-4">Our Mission</h3>
             <p className="leading-relaxed text-base text-gray-300">
               Our mission is to celebrate the golden era of gaming and provide a platform for enthusiasts to rediscover their
-              favorite titles. Whether you're searching for iconic classics or hidden gems, we have something for everyone!
+              favorite titles. Whether you&apos;re searching for iconic classics or hidden gems, we have something for everyone!
             </p>
           </div>
           <div className="bg-gray-800 bg-opacity-75 rounded-lg p-6 shadow-lg">
@@ -131,21 +131,9 @@ const About = () => {
               we share a love for retro games and a commitment to excellent customer service.
             </p>
           </div>
-          <div className="bg-gray-800 bg-opacity-75 rounded-lg p-6 shadow-lg">
-            <h3 className="text-indigo-400 text-2xl font-bold mb-4">Get in Touch!</h3>
-            <p className="leading-relaxed text-base text-gray-300">
-              Have questions or suggestions? Feel free to reach out to us! We’d love to hear from fellow gamers and help you
-              find the perfect game.
-            </p>
-          </div>
         </div>
       </section>
 
-
-
-      <footer className="text-gray-400 py-4 text-center">
-        Retro Replay &copy; 2024 All rights reserved.
-      </footer>
     </div>
   );
 };
