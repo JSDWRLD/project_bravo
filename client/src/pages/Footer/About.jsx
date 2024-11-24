@@ -27,7 +27,7 @@ const teamMembers = [
     education: ["Bachelors in Computer Science - CSUS (In progress)"],
     skills: ["Java", "Client Acquisition"],
     awards: ["California Seal of Biliteracy"],
-    experience: [],
+    experience: ["Pest Control Technician @Animal Damage Management", "Plumbing Technician @Preferred Plumbing & Drain"],
   },
   {
     name: "Ritchie Martinez",
