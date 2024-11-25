@@ -18,25 +18,54 @@ const OrderConfirmation = () => {
 
 
   useEffect(() => {
-    if (orderId) {
-      dispatch(orderDetailAction(orderId));
-    }
-  }, [dispatch, orderId]);
-
+    const fetchOrderDetails = async () => {
+      if (orderId) {
+        try {
+          await dispatch(orderDetailAction(orderId)); // Fetch order details
+          const orderState = await store.getState().orderDetailReducer;
+          const { order } = orderState;
+  
+          if (order && !emailSent) {
+            const orderDetails = {
+              _id: order._id,
+              createdAt: order.createdAt,
+              user: {
+                name: order.user?.name,
+                email: order.user?.email,
+              },
+              shippingAddress: order.shippingAddress,
+              orderItems: order.orderItems.map((item) => ({
+                itemName: item.itemName,
+                itemQuantity: item.itemQuantity,
+                itemPrice: item.itemPrice,
+                displayImage: item.displayImage,
+              })),
+              shippingPrice: order.shippingPrice,
+              taxPrice: order.taxPrice,
+              totalPrice: (
+                parseFloat(calculateTotalPrice(order.orderItems)) +
+                (order.shippingPrice || 0) +
+                (order.taxPrice || 0)
+              ).toFixed(2),
+            };
+  
+            // Send email after successful fetch
+            await sendOrderEmail(orderDetails, order.user?.email);
+            setEmailSent(true);
+          }
+        } catch (error) {
+          console.error("Failed to fetch order details or send email:", error);
+        }
+      }
+    };
+  
+    fetchOrderDetails();
+  }, [dispatch, orderId, emailSent]);
   
 
   const { order, loading, error } = useSelector(
     (state) => state.orderDetailReducer
   );
-
-  useEffect(() => {
-    if (order && !emailSent) {
-      // Send email if order is loaded and email has not been sent
-      sendOrderEmail(orderDetails, order?.user?.email);
-      setEmailSent(true); // Set the flag to true
-    }
-  }, [order, emailSent]); // Watch for order updates
-
 
   const calculateTotalPrice = (items) => {
     if (!Array.isArray(items)) return 0;
@@ -57,26 +86,6 @@ const OrderConfirmation = () => {
     (order?.shippingPrice || 0) +
     (order?.taxPrice || 0)
   ).toFixed(2);
-
-  // Prepare orderDetails 
-  const orderDetails = {
-    _id: order?._id,
-    createdAt: order?.createdAt,
-    user: {
-      name: order?.user?.name,
-      email: order?.user?.email,
-    },
-    shippingAddress: order?.shippingAddress,
-    orderItems: order?.orderItems.map((item) => ({
-      itemName: item.itemName,
-      itemQuantity: item.itemQuantity,
-      itemPrice: item.itemPrice,
-      displayImage: item.displayImage,
-    })),
-    shippingPrice: order?.shippingPrice,
-    taxPrice: order?.taxPrice,
-    totalPrice,
-  };
 
   return (
     <div className="pt-20 lg:pt-24 min-h-screen bg-gradient-to-br from-gray-950 to-black text-white">
