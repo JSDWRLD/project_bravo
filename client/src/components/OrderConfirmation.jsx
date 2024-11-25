@@ -27,15 +27,23 @@ const OrderConfirmation = () => {
     (state) => state.orderDetailReducer
   );
 
+  const [orderLoaded, setOrderLoaded] = useState(false);
+
   useEffect(() => {
-    if (!loading && order && !emailSent) {
+    if (!loading && order && order._id) {
+      setOrderLoaded(true); // Set the flag only when `order` is fully loaded
+    }
+  }, [loading, order]);
+
+  useEffect(() => {
+    if (orderLoaded && !emailSent && order && order._id) { // Explicitly check `order`
       const itemsTotal = calculateTotalPrice(order.orderItems);
       const totalPrice = (
         parseFloat(itemsTotal) +
         (order.shippingPrice || 0) +
         (order.taxPrice || 0)
       ).toFixed(2);
-  
+
       const orderDetails = {
         _id: order._id,
         createdAt: order.createdAt,
@@ -52,14 +60,13 @@ const OrderConfirmation = () => {
         })),
         shippingPrice: order.shippingPrice,
         taxPrice: order.taxPrice,
-        totalPrice, // Pass calculated totalPrice
+        totalPrice,
       };
-  
+      
       sendOrderEmail(orderDetails, order.user?.email);
-      setEmailSent(true);
+      setEmailSent(true); // Prevent duplicate email sends
     }
-  }, [order, emailSent, loading]); // Removed totalPrice from dependencies
-  
+  }, [orderLoaded, emailSent, order]); // Include `order` explicitly in dependencies
 
   const calculateTotalPrice = (items) => {
     if (!Array.isArray(items)) return 0;
@@ -81,25 +88,6 @@ const OrderConfirmation = () => {
     (order?.taxPrice || 0)
   ).toFixed(2);
 
-  // Prepare orderDetails 
-  const orderDetails = {
-    _id: order?._id,
-    createdAt: order?.createdAt,
-    user: {
-      name: order?.user?.name,
-      email: order?.user?.email,
-    },
-    shippingAddress: order?.shippingAddress,
-    orderItems: order?.orderItems.map((item) => ({
-      itemName: item.itemName,
-      itemQuantity: item.itemQuantity,
-      itemPrice: item.itemPrice,
-      displayImage: item.displayImage,
-    })),
-    shippingPrice: order?.shippingPrice,
-    taxPrice: order?.taxPrice,
-    totalPrice,
-  };
 
   return (
     <div className="pt-20 lg:pt-24 min-h-screen bg-gradient-to-br from-gray-950 to-black text-white">
