@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import AddProduct from './AddProduct';
 import RemoveProduct from './RemoveProduct';
 import Orders from './Orders';
@@ -7,8 +9,19 @@ import UserManager from './UserManager';
 import UpdateProduct from './UpdateProduct';
 
 const Admin = () => {
-  const [selectedComponent, setSelectedComponent] = useState('AddProduct');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedComponent, setSelectedComponent] = React.useState('AddProduct');
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+  const navigate = useNavigate();
+
+  const { userInfo } = useSelector((state) => state.userLoginReducer);
+
+  // Check if user is logged in and is admin
+  useEffect(() => {
+    if (!userInfo || !userInfo.isAdmin) {
+      navigate('/'); // Redirect to home or login page if not authorized
+    }
+  }, [userInfo, navigate]);
 
   const renderComponent = () => {
     switch (selectedComponent) {
@@ -29,21 +42,17 @@ const Admin = () => {
     }
   };
 
-  return (
+  return userInfo?.isAdmin ? ( // Render only if user is admin
     <div
       className="min-h-screen bg-black text-white"
-      style={{ paddingTop: '6rem', paddingBottom:'6rem' }} 
+      style={{ paddingTop: '6rem', paddingBottom: '6rem' }}
     >
       <div className="flex flex-col lg:flex-row w-full max-w-6xl mx-auto bg-gray-900 rounded-lg shadow-lg overflow-hidden">
-
-        {/* Sidebar */}
         <aside className="bg-gray-800 w-full lg:w-1/4 lg:flex lg:flex-col">
           <div className="p-4 border-b border-gray-700 lg:border-none">
             <h2 className="text-2xl font-retro font-bold text-indigo-600 mb-4 text-center lg:text-left">
               Admin Dashboard
             </h2>
-
-            {/* Dropdown Toggle for Small Screens */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="block lg:hidden w-full p-3 bg-indigo-600 rounded hover:bg-indigo-500 transition"
@@ -51,7 +60,6 @@ const Admin = () => {
               {isMenuOpen ? 'Close Menu' : 'Open Menu'}
             </button>
           </div>
-
           <nav
             className={`lg:flex lg:flex-col space-y-4 p-6 transition-all duration-300 ${
               isMenuOpen ? 'block' : 'hidden'
@@ -62,7 +70,7 @@ const Admin = () => {
                 key={item}
                 onClick={() => {
                   setSelectedComponent(item);
-                  setIsMenuOpen(false); // Close menu on selection for small screens
+                  setIsMenuOpen(false);
                 }}
                 className={`w-full p-3 rounded ${
                   selectedComponent === item ? 'bg-indigo-600 text-white' : 'bg-gray-700 text-gray-300'
@@ -78,8 +86,6 @@ const Admin = () => {
             ))}
           </nav>
         </aside>
-
-        {/* Main Content */}
         <main className="flex-1 p-4 sm:p-6">
           <div className="bg-gray-800 p-4 sm:p-6 rounded-lg shadow-inner h-[calc(100vh-160px)] lg:h-[900px] overflow-y-auto">
             {renderComponent()}
@@ -87,7 +93,7 @@ const Admin = () => {
         </main>
       </div>
     </div>
-  );
+  ) : null; // Render nothing if not authorized
 };
 
 export default Admin;
