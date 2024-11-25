@@ -113,6 +113,7 @@ const generateOrderEmailHtml = (orderDetails) => {
   
 
 export const sendOrderEmail = (orderDetails, recipientEmail) => { 
+    console.log("Hello, Easter Egg")
     emailjs
       .send(
         "service_blto3a2", 
