@@ -11,8 +11,6 @@ import { BASE_URL } from "../../redux/Constants/BASE_URL";
 import { useNavigate } from "react-router-dom";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-
-
 let giftCardUsageAmount = 0;
 
 const PlaceOrder = () => {

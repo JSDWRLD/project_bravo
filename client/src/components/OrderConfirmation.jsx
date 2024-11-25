@@ -19,7 +19,7 @@ const OrderConfirmation = () => {
 
   useEffect(() => {
     if (orderId) {
-      dispatch(orderDetailAction(orderId));
+      dispatch(orderDetailAction(orderId)); // Fetch order details when the component mounts
     }
   }, [dispatch, orderId]);
 
@@ -28,17 +28,46 @@ const OrderConfirmation = () => {
   );
 
   useEffect(() => {
+    // Check if order is loaded and email has not been sent yet
     if (order && !emailSent) {
+      const orderDetails = {
+        _id: order?._id,
+        createdAt: order?.createdAt,
+        user: {
+          name: order?.user?.name,
+          email: order?.user?.email,
+        },
+        shippingAddress: order?.shippingAddress,
+        orderItems: order?.orderItems.map((item) => ({
+          itemName: item.itemName,
+          itemQuantity: item.itemQuantity,
+          itemPrice: item.itemPrice,
+          displayImage: item.displayImage,
+        })),
+        shippingPrice: order?.shippingPrice,
+        taxPrice: order?.taxPrice,
+        totalPrice: (
+          parseFloat(
+            order?.orderItems?.reduce(
+              (total, item) => total + (item.itemPrice || 0) * (item.itemQuantity || 1),
+              0
+            ) || 0
+          ).toFixed(2) +
+          (order?.shippingPrice || 0) +
+          (order?.taxPrice || 0)
+        ).toFixed(2),
+      };
+
+      // Send email and update the emailSent flag to prevent re-sending
       sendOrderEmail(orderDetails, order?.user?.email)
         .then(() => {
-          setEmailSent(true); // Set the flag to true after email is sent
+          setEmailSent(true); // Email has been sent successfully
         })
         .catch((error) => {
-          console.error("Failed to send email:", error); // Log errors for debugging
+          console.error("Failed to send email:", error); // Handle email sending error
         });
     }
-  }, [order]); // Remove emailSent dependency
-
+  }, [order, emailSent]); // Trigger email sending only when order data is available
 
   const calculateTotalPrice = (items) => {
     if (!Array.isArray(items)) return 0;
@@ -52,33 +81,12 @@ const OrderConfirmation = () => {
   if (error) return <p className="text-red-500 text-center">Error: {error}</p>;
   if (!order) return <p className="text-yellow-500 text-center">No order details available.</p>;
 
-
   const itemsTotal = calculateTotalPrice(order?.orderItems);
   const totalPrice = (
     parseFloat(itemsTotal) +
     (order?.shippingPrice || 0) +
     (order?.taxPrice || 0)
   ).toFixed(2);
-
-  // Prepare orderDetails 
-  const orderDetails = {
-    _id: order?._id,
-    createdAt: order?.createdAt,
-    user: {
-      name: order?.user?.name,
-      email: order?.user?.email,
-    },
-    shippingAddress: order?.shippingAddress,
-    orderItems: order?.orderItems.map((item) => ({
-      itemName: item.itemName,
-      itemQuantity: item.itemQuantity,
-      itemPrice: item.itemPrice,
-      displayImage: item.displayImage,
-    })),
-    shippingPrice: order?.shippingPrice,
-    taxPrice: order?.taxPrice,
-    totalPrice,
-  };
 
   return (
     <div className="pt-20 lg:pt-24 min-h-screen bg-gradient-to-br from-gray-950 to-black text-white">
