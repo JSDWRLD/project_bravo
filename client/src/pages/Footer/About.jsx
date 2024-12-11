@@ -7,7 +7,7 @@ const teamMembers = [
     skills: ["Java", "Kotlin", "Android Development", "Distributed Systems", "Go", "Hardware API Development", "Python", "C"],
     awards: ["7x Dean's List, AI Hackathon 1st Place, CSUS Pitch Competition 2nd Place, CSU-WIDE Competition (4x Awards)"],
     experience: [
-      "Junior Software Engineer @Revecorp, Inc.",
+      "Current Junior Software Engineer",
       "Computer Science ISA @CSUS",
       "Software Engineer Intern @eUnity",
     ],
