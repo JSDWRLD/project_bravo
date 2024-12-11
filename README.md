@@ -3,6 +3,9 @@
 ## Overview
 This project is a web-based application designed for an e-commerce store. Users can view products, get detailed information, add items to a shopping cart, and complete purchases using vouchers or gift cards. The application features a product gallery with search functionality, individual product pages with descriptions, reviews, and pricing, as well as user account management for order history and wish lists. An administrative interface is also provided for managing products, orders, and users.
 
+## Live Website/Demo   
+- [https://retroreplay.vercel.app/](https://retroreplay.vercel.app/)
+
 ## Prerequisites
 
 - Ensure you have [Git](https://git-scm.com/) installed on your machine.
@@ -24,36 +27,38 @@ To clone this repository, follow these steps:
    cd project_bravo
    cd client
 
-5. Install the dependencies
+5. Install the frontend dependencies
    ```bash
    npm install
 
-6. Backend server setup
+6. Run the front end client
+   ```bash
+   npm run dev
+
+7. Backend server setup
+
+   Open a new terminal window and navigate back to the root folder then cd into the server folder
    ```bash
    cd server
 
-7. Install the dependencies
+8. Install the backend dependencies
    ```bash
    npm install
 
-8. Run the backend server
+9. Run the backend server
    ```bash
    npm run server
+   ```
+10. Open the web project on browser
+   Navigate to the terminal window that you ran npm run dev on. That would be the front end of the app. 
+   If you haven't started the frontend of the app, please make sure you are in, /project_bravo/client then run
+   ```bash
+   npm run server
+   ```
+   Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm run dev`
-
-Runs the app in the development mode.\
-Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
 ## Features
-### Priority List
 1. **User Authentication:**
    - Implement user registration and login functionality.
    - Manage user sessions and account settings.
