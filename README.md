@@ -1,4 +1,4 @@
-# Project Bravo - E-Commerce Web Application
+# Project Bravo - RetroReplay 
 
 ## Overview
 Project Bravo is a single-page e-commerce web application built with React, Node.js, Express, and MongoDB. It features a product gallery, individual product pages, shopping cart, checkout system with PayPal and gift card payments, user authentication, and an administrative dashboard for managing products, orders, and users.
